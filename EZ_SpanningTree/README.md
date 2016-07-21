@@ -1,14 +1,17 @@
 # EXOS ezspantree.py Application
 ## ezspantree.py 1.0.0.1
-ezspantree.py is an optional EXOS application which will automatically manage EXOS `STP s0`.
+ezspantree.py is an optional EXOS application which will automatically manage the EXOS default spanning tree `s0`.
 
-If ezspantree.py is installed and running newly created VLANs are automatically added to EXOS `s0`. If the STP MSTP/CIST is the desired spanning tree behavior for VLANs, no additional user configuration for a VLAN is required.
+For Extreme customers migrating from EOS to EXOS, ezspantree.py emulates the EOS behavior of spanning tree by automating the addition/deletion of VLANs/ports for a single MSTP/CIST spanning tree `s0`. (The EOS default behavior)
 
-For Extreme customers migrating from EOS to EXOS, ezspantree.py emulates the EOS behavior of spanning tree by automating the addition/deletion of VLANs/ports from a single MSTP/CIST spanning tree. (The EOS default behavior)
+If ezspantree.py is installed and running, 
+- EXOS default spanning tree `s0` is configured to MSTP/CIST mode.
+- newly created VLANs are automatically added to EXOS `s0`. 
+- If MSTP/CIST is the desired spanning tree behavior for VLANs, no additional user configuration for a VLAN is required.
 
 When first started, ezspantree.py:
-- removes the connection of any VLANs associated with stpd s0
-- disables auto-bind of any VLANs associated with stpd s0 
+- removes the connection of any VLANs associated with EXOS stpd s0
+- disables auto-bind of any VLANs associated with EXOS stpd s0 
 - reconfigures stpd s0 mode to MSTP/CIST
 - scans all VLANs not connected to any stpd
 - adds the VLANs to stpd s0
@@ -20,16 +23,17 @@ As VLANs are created, the VLAN:
 - is automatically connected to stpd `s0`
 - is enabled for auto-bind 
 
-### Requirements
+## Requirements
 - ExtremeXOS 21.1.1.4 or any 21.1.1.4 patch
 
-### Files
-* [summitX-21.1.1.4-ezspantree-1.0.0.1.xmod](summitX-21.1.1.4-ezspantree-1.0.0.1.xmod)
+## Files
+* [EXOS Switch summitX-21.1.1.4-ezspantree-1.0.0.1.xmod](summitX-21.1.1.4-ezspantree-1.0.0.1.xmod)
+* [EXOS VM vm-21.1.1.4-ezspantree-1.0.0.1.xmod](vm-21.1.1.4-ezspantree-1.0.0.1.xmod)
 * [README.md](README.md)
 
-### Download
+## Download
 EXOS offers a variety of download methods.
-#### Download over tftp
+### Download over tftp
 To download summitX-21.1.1.4-ezspantree-1.0.0.1.xmod to an EXOS switch, place the file in a server tftp directory.
 
 Enter the EXOS CLI command:
@@ -38,8 +42,9 @@ Enter the EXOS CLI command:
 E.g.
 `download image 10.10.10.1 summitX-21.1.1.4-ezspantree-1.0.0.1.xmod`
 
-#### Download over http
-To download summitX-21.1.1.4-ezspantree-1.0.0.1.xmod directly from github, EXOS must be able to resolve the github domain name into an IP address.
+### Download over http
+#### Download http over managment port
+To download summitX-21.1.1.4-ezspantree-1.0.0.1.xmod directly from github over the switch management port, EXOS must be able to resolve the github domain name into an IP address.
 
 Enter the EXOS command:
 
@@ -50,14 +55,26 @@ Then copy the link for summitX-21.1.1.4-ezspantree-1.0.0.1.xmod from the github 
 Enter the EXOS CLI command, pasting the github URL:
 
 `download url https://github.com/extremenetworks/EXOS_Apps/blob/master/EZ_SpanningTree/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod`
+#### Download http over front panel port
+To download summitX-21.1.1.4-ezspantree-1.0.0.1.xmod directly from github over a front panel port, EXOS must be able to resolve the github domain name into an IP address.
 
-#### Download using EXOS web (Chalet)
+Enter the EXOS command:
+
+`config dns-client add name-server 8.8.8.8 vr VR-Default`
+
+Then copy the link for summitX-21.1.1.4-ezspantree-1.0.0.1.xmod from the github web page.
+
+Enter the EXOS CLI command, pasting the github URL:
+
+`download url https://github.com/extremenetworks/EXOS_Apps/blob/master/EZ_SpanningTree/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default`
+
+### Download using EXOS web (Chalet)
 - Using your browser, download summitX-21.1.1.4-ezspantree-1.0.0.1.xmod from github to your PC. 
 - Then using the EXOS web interface (Chalet), navigate to Apps->File Manager.
 - Use: `Upload files from Local Drive:` to upload and install the file to the EXOS switch
 
 ## ezspantree.py Usage
-In the usage examples below, lets assume the command below was used to create VLANs VID 10-15
+In the usage examples, lets assume the command below was used to create VLANs VID 10-15
 ```
 create vlan 10-15
 ```
@@ -69,7 +86,7 @@ EXOS automatically names the VLANs:
 - VLAN_0014
 - VLAN_0015
 
-#### ezspantree.py Getting help
+### ezspantree.py Getting help
 ```
 # run script ezspantree.py -h
 ```
@@ -85,7 +102,7 @@ optional arguments:
   -h, --help         show this help message and exit
   -d, --debug        Enable debug
 ```
-#### ezspantree.py Start
+### ezspantree.py Start
 ezspantree.py only needs to be started once. It will become part of the EXOS environment and continue to run in the background. If the EXOS switch is rebooted, ezspantree.py will restart automatically.
 
 ```
@@ -161,7 +178,7 @@ New Root Trap             : On          Topology Change Trap   : Off
 Tx Hold Count             : 6
 ```
 
-#### ezspantree.py Status
+### ezspantree.py Status
 To check the running status of ezspantree.py
 ```
 # run script ezspantree.py show
@@ -171,7 +188,7 @@ ezspantree      Version: 1.0.0.1        process is running
 VLANs are automatically added to spanning tree s0
 ```
 
-#### Stopping ezspantree.py
+### Stopping ezspantree.py
 Stopping ezspantree does not change any existing configurations that have already happened. ezspantree.py will no longer automatically add newly created VLANs to STP s0.
 ```
 # run script ezspantree.py stop
