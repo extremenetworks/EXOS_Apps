@@ -38,14 +38,14 @@ To download summitX-21.1.1.4-ezspantree-1.0.0.1.xmod to an EXOS switch, place th
 
 #### Download tftp over management port
 Enter the EXOS CLI command:
-- download image <serverIP> summitX-21.1.1.4-ezspantree-1.0.0.1.xmod
+- download image _serverIP_ summitX-21.1.1.4-ezspantree-1.0.0.1.xmod
 
 E.g.
 `download image 10.10.10.1 summitX-21.1.1.4-ezspantree-1.0.0.1.xmod`
 
 #### Download tftp over front panel port
 Enter the EXOS CLI command:
-- download image <serverIP> summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default
+- download image _serverIP_ summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default
 
 E.g.
 `download image 10.10.10.1 summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default`
@@ -56,19 +56,19 @@ If your server does not have a web server and Python is installed, Python offers
 
 Example starting a simple python web server on port 8000
 ```
-cd <directory>
+cd _directory_
 python -m SimpleHTTPServer 8000
 ```
-Copy summitX-21.1.1.4-ezspantree-1.0.0.1.xmod to <directory> used in the example above.
+Copy summitX-21.1.1.4-ezspantree-1.0.0.1.xmod to _directory_ used in the example above.
 #### Download http over management port
 Enter the EXOS CLI command:
-- download url http://<serverIP>/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod
+- download url http://_serverIP_/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod
 
 E.g. `download url http://10.10.10.1/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod`
 
 #### Download http over front panel port
 Enter the EXOS CLI command:
-- download url http://<serverIP>/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default
+- download url http://_serverIP_/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default
 
 E.g. `download url http://10.10.10.1/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default`
 
