@@ -32,41 +32,45 @@ As VLANs are created, the VLAN:
 * [README.md](README.md)
 
 ## Download
-EXOS offers a variety of download methods.
+EXOS offers a variety of download methods. All of the methods below assume the EXOS switch has been configured with an IP address either on the `mgmt` VLAN (for the management port) or `default` VLAN (for the front panel ports).
 ### Download over tftp
 To download summitX-21.1.1.4-ezspantree-1.0.0.1.xmod to an EXOS switch, place the file in a server tftp directory.
 
+#### Download tftp over management port
 Enter the EXOS CLI command:
 - download image <serverIP> summitX-21.1.1.4-ezspantree-1.0.0.1.xmod
 
 E.g.
 `download image 10.10.10.1 summitX-21.1.1.4-ezspantree-1.0.0.1.xmod`
 
+#### Download tftp over front panel port
+Enter the EXOS CLI command:
+- download image <serverIP> summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default
+
+E.g.
+`download image 10.10.10.1 summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default`
+
 ### Download over http
-#### Download http over managment port
-To download summitX-21.1.1.4-ezspantree-1.0.0.1.xmod directly from github over the switch management port, EXOS must be able to resolve the github domain name into an IP address.
+EXOS can download files from a web site using http. 
+If your server does not have a web server and Python is installed, Python offers a simple HTTP web server. [Python Simple Web Server](https://docs.python.org/2/library/simplehttpserver.html)
 
-Enter the EXOS command:
+Example starting a simple python web server on port 8000
+```
+cd <directory>
+python -m SimpleHTTPServer 8000
+```
+Copy summitX-21.1.1.4-ezspantree-1.0.0.1.xmod to <directory> used in the example above.
+#### Download http over management port
+Enter the EXOS CLI command:
+- download url http://<serverIP>/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod
 
-`config dns-client add name-server 8.8.8.8 vr VR-Mgmt`
+E.g. `download url http://10.10.10.1/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod`
 
-Then copy the link for summitX-21.1.1.4-ezspantree-1.0.0.1.xmod from the github web page.
-
-Enter the EXOS CLI command, pasting the github URL:
-
-`download url https://github.com/extremenetworks/EXOS_Apps/blob/master/EZ_SpanningTree/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod`
 #### Download http over front panel port
-To download summitX-21.1.1.4-ezspantree-1.0.0.1.xmod directly from github over a front panel port, EXOS must be able to resolve the github domain name into an IP address.
+Enter the EXOS CLI command:
+- download url http://<serverIP>/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default
 
-Enter the EXOS command:
-
-`config dns-client add name-server 8.8.8.8 vr VR-Default`
-
-Then copy the link for summitX-21.1.1.4-ezspantree-1.0.0.1.xmod from the github web page.
-
-Enter the EXOS CLI command, pasting the github URL:
-
-`download url https://github.com/extremenetworks/EXOS_Apps/blob/master/EZ_SpanningTree/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default`
+E.g. `download url http://10.10.10.1/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default`
 
 ### Download using EXOS web (Chalet)
 - Using your browser, download summitX-21.1.1.4-ezspantree-1.0.0.1.xmod from github to your PC. 
