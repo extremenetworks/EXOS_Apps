@@ -7,18 +7,18 @@ __The CloudConnector should be installed on the ExtremeManagement server using I
 Let **ExtremeManagement** take care of that for you.
 
 
-### EXOS CloudConnector v1.1.9.22
+### EXOS CloudConnector v1.1.14.29
 #### Compatibility
 The EXOS CloudConnector application is used together with:
-* ExtremeManagement 7.0.3 GA release
+* ExtremeManagement 7.0.4 GA release
 * EXOS 21.1.1.4-patch1-2, or later
 
-For a complete description of installation instructions and ExtremeManagement ZTP+ capabilities, see the ExtremeManagement 7.0.3 documentation.
+For a complete description of installation instructions and ExtremeManagement ZTP+ capabilities, see the ExtremeManagement 7.0.4 documentation.
 
 #### Release Notes and Files
-* [EXOS CloudConnector v1.1.9.22 Release Notes](https://github.com/extremenetworks/EXOS_Apps/blob/master/CloudConnector/summitX-21.1.1.4-cloud_connector-1.1.9.22_xmod-ReleaseNotes.pdf?raw=true)
-* [EXOS ExtremeSwitch CloudConnector v1.1.9.22 xmod](https://github.com/extremenetworks/EXOS_Apps/blob/master/CloudConnector/summitX-21.1.1.4-cloud_connector-1.1.9.22.xmod?raw=true)
-* [EXOS VirtualMachine CloudConnector v1.1.9.22 xmod](https://github.com/extremenetworks/EXOS_Apps/blob/master/CloudConnector/vm-21.1.1.4-cloud_connector-1.1.9.22.xmod?raw=true)
+* [EXOS CloudConnector v1.1.14.29 Release Notes](https://github.com/extremenetworks/EXOS_Apps/blob/master/CloudConnector/summitX-21.1.1.4-cloud_connector-1.1.14.29_xmod-ReleaseNotes.pdf?raw=true)
+* [EXOS ExtremeSwitch CloudConnector v1.1.14.29 xmod](https://github.com/extremenetworks/EXOS_Apps/blob/master/CloudConnector/summitX-21.1.1.4-cloud_connector-1.1.14.29.xmod?raw=true)
+* [EXOS VirtualMachine CloudConnector v1.1.14.29 xmod](https://github.com/extremenetworks/EXOS_Apps/blob/master/CloudConnector/vm-21.1.1.4-cloud_connector-1.1.14.29.xmod?raw=true)
 
 ## License
 Copyright© 2016, Extreme Networks
