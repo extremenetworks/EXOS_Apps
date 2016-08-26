@@ -4,6 +4,7 @@ This application enables ExtremeManagement to work with EXOS switches to provide
 
 __This firmware should be loaded to the ExtremeManagement 7.0.4 GA server via the Network->Firmware page. Do not load Cloud Connector directly to the switch.__ 
 Let Extreme Management do that for you by marking it as the Reference Image on the Firmware page.
+
 ![](EmgmtRefImage.png "ExtremeManageme Reference image")
 
 
