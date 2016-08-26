@@ -2,9 +2,9 @@
 ## _Attention: Install on ExtremeManagement Server only!_
 This application enables ExtremeManagement to work with EXOS switches to provide a Zero Touch Provisioning Plus (ZTP+) exprience when installing 'just out of the box' ExtremeSwitches running EXOS.
 
-__The CloudConnector should be installed on the ExtremeManagement server using Inventory Manager. It should *not* be installed directly onto an EXOS ExtremeSwitch.__
-
-Let **ExtremeManagement** take care of that for you.
+__This firmware should be loaded to the ExtremeManagement 7.0.4 GA server via the Network->Firmware page. Do not load Cloud Connector directly to the switch.__ 
+Let Extreme Management do that for you by marking it as the Reference Image on the Firmware page.
+[](EmgmtRefImage.png "ExtremeManageme Reference image")
 
 
 ### EXOS CloudConnector v1.1.14.29
@@ -16,9 +16,9 @@ The EXOS CloudConnector application is used together with:
 For a complete description of installation instructions and ExtremeManagement ZTP+ capabilities, see the ExtremeManagement 7.0.4 documentation.
 
 #### Release Notes and Files
-* [EXOS CloudConnector v1.1.14.29 Release Notes](summitX-21.1.1.4-cloud_connector-1.1.14.29_xmod-ReleaseNotes.pdf?raw=true)
-* [EXOS ExtremeSwitch CloudConnector v1.1.14.29 xmod](summitX-21.1.1.4-cloud_connector-1.1.14.29.xmod?raw=true)
-* [EXOS VirtualMachine CloudConnector v1.1.14.29 xmod](vm-21.1.1.4-cloud_connector-1.1.14.29.xmod?raw=true)
+* [EXOS CloudConnector v1.1.14.29 Release Notes](https://github.com/extremenetworks/EXOS_Apps/blob/master/CloudConnector/summitX-21.1.1.4-cloud_connector-1.1.14.29_xmod-ReleaseNotes.pdf?raw=true)
+* [EXOS ExtremeSwitch CloudConnector v1.1.14.29 xmod](https://github.com/extremenetworks/EXOS_Apps/blob/master/CloudConnector/summitX-21.1.1.4-cloud_connector-1.1.14.29.xmod?raw=true)
+* [EXOS VirtualMachine CloudConnector v1.1.14.29 xmod](https://github.com/extremenetworks/EXOS_Apps/blob/master/CloudConnector/vm-21.1.1.4-cloud_connector-1.1.14.29.xmod?raw=true)
 
 ## License
 Copyright© 2016, Extreme Networks
