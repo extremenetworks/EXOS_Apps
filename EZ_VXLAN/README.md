@@ -1,11 +1,11 @@
 # EXOS ezvxlan.py Application
 ## ezvxlan.py 1.0.0.5
 
-For Extreme customers deploying a virutal network using VXLAN, this application provides an automatic mapping of certain VLANS into VLXAN VNIs when used with the EXOS virtual-network capability available on:
-    X670-G2
-    X770
+For Extreme customers deploying a virutal network using VXLAN, this application provides an automatic mapping of certain VLANS into VXLAN VNIs when used with the EXOS virtual-network capability available on:
+- X670-G2
+- X770
 ## Application Highlights:
-- Monitors VLAN/port transactions from EXOS VLAN manager.
+- Monitors VLAN/port additions/deletion
 - Automatically creates VXLAN VNIs when vm-tracking creates dynamic VLANs. VNI=VLAN tag
 - Automatically creates VXLAN VNIs when VLANs are created with a specific name format. VNI taken from VLAN name.
 - VNI is created when first port is added to a VLAN to avoid VXLAN flooding to endpoints without assigned ports
@@ -21,7 +21,7 @@ When ezvxlan.py is running on an ExtremSwitch running EXOS, simply creating a VL
 
 Two VLAN name formats will cause ezvxlan.py to create a VXLAN VNI automatically.
 - SYS_VLAN_xxxx       - dynamic VLAN created by EXOS such as vm-tracking
-- VNI_<vni><text> - Manually created VLAN by user
+- VNI_{vni}{text} - Manually created VLAN by user
 
 ### SYS_VLAN_xxxx VLAN name format:
 EXOS features such as vm-tracking with dynamic detection enabled 
@@ -34,14 +34,14 @@ ezvxlan.py detects VLANs created with the SYS_VLAN_xxxx name and automatically c
 E.g. VLAN SYS_VLAN_1010 will map to VXLAN VNI 1010. ezvxlan.py creates a
 VXLAN VNI name of SYS_VN_1010.
 
-### VNI-<vni><text> or VNI_<vni><text> VLAN name format:
+### VNI-{vni}{text} or VNI_{vni}{text} VLAN name format:
 The second type of VLAN name can be created manually via EXOS CLI, via SNMP or any other EXOS management interface.
-The VLAN name is in the form VNI-<vni><text> or VNI_<vni><text>
+The VLAN name is in the form VNI-{vni}{text} or VNI_{vni}{text}
 where:
 - VNI is the VLAN name must start with capital VNI
 - a -(dash) or _(underscore) separator character 
-- <vni> is any number from 1-<upper VNI value>
-- <text> is any additional text that describes the VLAN. The text may not start with a number.
+- {vni} is any number from 1-<upper VNI value>
+- {text} is any additional text that describes the VLAN. The text may not start with a number.
 
 E.g. Below are EXOS CLI commands used to create VLAN names that match the ezvxlan.py naming pattern.
 - create vlan VNI-10012_vm9037  tag 100
@@ -117,14 +117,6 @@ optional arguments:
   -p PORT, --port PORT  Controller port. Always add this port when VXLAN VLANs
                         are created
 ```
-#### ezvxlan.py show help
-```
-# run script ezvxlan.py show -h
-usage: ezvxlan.py show [-h]
-
-optional arguments:
-  -h, --help  show this help message and exit
-```
 #### ezvxlan.py start
 To start ezvxlan, enter the CLI command:
 ```
@@ -138,7 +130,7 @@ When ezvxlan.py first starts, it:
 - enables OSPF vxlan extensions
 - Creates and configures the VTEP based on the OSPF routerid (unless running in an MLAG configuraiton)
 - scans all existing VLANs looking for matching names
-- if a matching VLAN name is found, and the VLAN has at least one port assigned, the VXLAN VNI is created with the SYS_VN_<vni>
+- if a matching VLAN name is found, and the VLAN has at least one port assigned, the VXLAN VNI is created with the SYS_VN_{vni}
 
 After the initial VLAN scan, ezvxlan.py continues to run in the background monitoring VLAN creation/deletion/port adds/port deletes.
 
@@ -149,13 +141,13 @@ To stop ezvxlan.py, enter the CLI command:
 ```
 # run script ezvxlan.py stop [-k | --keep]
 ```
+By default, when ezvxlan.py is stopped, it will delete any automatically created VXLAN VNI. 
+
 ```
 Stopping ezvxlan.py
 Deleting VXLAN VNI names starting with SYS_VN_
 ```
-By default, when ezvxlan.py is stopped, it will delete any automatically created VXLAN VNI. 
-
-If you wish to leave the VXLAN VNI in place but simply no longer wish ezvxlan.py to monitor VLAN adds/deletes, also specify the -k or --keep option. This will keep any SYS_VN_<vni> entries that have already been created.
+If you wish to leave the VXLAN VNI in place but simply no longer wish ezvxlan.py to monitor VLAN adds/deletes, also specify the -k or --keep option. This will keep any SYS_VN_{vni} entries that have already been created.
 ```
 Stopping ezvxlan.py
 Keeping VXLAN VNI names starting with SYS_VN_
@@ -180,13 +172,13 @@ The show option displays the running status of the ezvxlan.py applications.
 If ezvxlan.py is running
 ```
 ezvxlan.py Version: 1.0.0.5        process is running
-VLANs with names SYS_VLAN_xxxx or VNI_<vni><text> are automatically mapped to SYS_VN_<vni> VTEPs
+VLANs with names SYS_VLAN_xxxx or VNI_{vni}{text} are automatically mapped to SYS_VN_{vni} VTEPs
 ```
 
 If ezvxlan.py is not running
 ```
 ezvxlan Version: 1.0.0.5        process is not running
-VLANs with names SYS_VLAN_xxxx or VNI_<vni><text> are not mapped to SYS_VN_<vni> VTEPs automatically
+VLANs with names SYS_VLAN_xxxx or VNI_{vni}{text} are not mapped to SYS_VN_{vni} VTEPs automatically
 ```
  
 ## Download
