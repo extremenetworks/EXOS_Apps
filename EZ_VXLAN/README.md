@@ -41,7 +41,7 @@ The VLAN name is in the form VNI-{vni}{text} or VNI_{vni}{text}
 where:
 - VNI is the VLAN name must start with capital VNI
 - a -(dash) or _(underscore) separator character 
-- {vni} is any number from 1-<upper VNI value>
+- {vni} is any number from 1-{upper VNI value}
 - {text} is any additional text that describes the VLAN. The text may not start with a number.
 
 E.g. Below are EXOS CLI commands used to create VLAN names that match the ezvxlan.py naming pattern.
@@ -57,7 +57,7 @@ deleted after the last port is removed from the VLAN. By requiring an actual por
 ### VTEP Identifier
 On startup, the VLXAN VTEP is created using the OSPF router id for the IP address. 
 The EXOS CLI command should be used to configure an OSPF router id before starting ezvxlan.
-- configure ospf routerid <ipAddress>
+- configure ospf routerid {ipAddress}
     - Example: configure ospf routerid 10.10.10.10
 
 ezvxlan.py will use the OSPF routerid as the local VTEP address.
