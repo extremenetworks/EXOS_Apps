@@ -4,6 +4,7 @@
 For Extreme customers deploying a virutal network using VXLAN, this application provides an automatic mapping of certain VLANS into VXLAN VNIs when used with the EXOS virtual-network capability available on:
 - X670-G2
 - X770
+
 ## Application Highlights:
 - Monitors VLAN/port additions/deletion
 - Automatically creates VXLAN VNIs when vm-tracking creates dynamic VLANs. VNI=VLAN tag
