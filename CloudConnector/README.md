@@ -17,7 +17,7 @@ The EXOS CloudConnector application is used together with:
 For a complete description of installation instructions and ExtremeManagement ZTP+ capabilities, see the ExtremeManagement 7.0.4 documentation.
 
 #### Release Notes and Files
-* [EXOS CloudConnector v1.1.14.29 Release Notes](https://github.com/extremenetworks/EXOS_Apps/blob/master/CloudConnector/summitX-21.1.1.4-cloud_connector-1.1.14.29_xmod-ReleaseNotes.pdf?raw=true)
+* [EXOS CloudConnector v1.1.14.29 Release Notes](summitX-21 1 1 4-cloud_connector-1 1 14 29_xmod-ReleaseNotes.pdf)
 * [EXOS ExtremeSwitch CloudConnector v1.1.14.29 xmod](https://github.com/extremenetworks/EXOS_Apps/blob/master/CloudConnector/summitX-21.1.1.4-cloud_connector-1.1.14.29.xmod?raw=true)
 * [EXOS VirtualMachine CloudConnector v1.1.14.29 xmod](https://github.com/extremenetworks/EXOS_Apps/blob/master/CloudConnector/vm-21.1.1.4-cloud_connector-1.1.14.29.xmod?raw=true)
 
