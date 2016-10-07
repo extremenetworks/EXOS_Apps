@@ -13,6 +13,7 @@ Let Extreme Management do that for you by marking it as the Reference Image on t
 The EXOS CloudConnector application is used together with:
 * ExtremeManagement 7.0.4 GA release
 * EXOS 21.1.1.4-patch1-2, or later
+* EXOS 21.1.2.14 or later
 
 For a complete description of installation instructions and ExtremeManagement ZTP+ capabilities, see the ExtremeManagement 7.0.4 documentation.
 
