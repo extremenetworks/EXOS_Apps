@@ -22,7 +22,7 @@ For Extreme customers migrating from EOS to EXOS, ezspantree.py emulates the EOS
 - ExtremeXOS 16.x or later
 
 ## Files
-* [EXOS Switch summitX-ezspantree-2.0.0.1.xmod](summitX-ezspantree-2.0.0.1.xmod)
+* [EXOS Switch summitX-ezspantree-2.0.0.1.xmod](summitX-ezspantree-2.0.0.1.xmod?raw=true)
 * [EXOS VM vm-ezspantree-2.0.0.1.xmod](vm-ezspantree-2.0.0.1.xmod)
 * [README.md](README.md)
 * [README.pdf](README.pdf)
