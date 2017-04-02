@@ -1,54 +1,50 @@
 # EXOS ezspantree.py Application
-## ezspantree.py 1.0.0.1
+## EXOS Supported Versions
+### ezspantree.py 2.0.0.1
+ezspantree.py 2.0.0.1 works with EXOS 16.x and later releases.
+ezspantree.py 2.0.0.1 is included with EXOS 22.1 and later releases. No separate download is required for EXOS 22.1 and later.
+
+## Description 
 ezspantree.py is an optional EXOS application which will automatically manage the EXOS default spanning tree `s0`.
 
+For network deployments where spanning tree is an integral part of loop detection and prevention, ezspantree.py will:
+- automatically enable spanning tree 
+- automatically configure the default EXOS spanning tree `s0` to MSTP/CIST
+- add any existing VLANs to spanning tree `s0`
+- automatically add newly created VLANs to `s0`.
+
+If MSTP/CIST is the desired spanning tree behavior for VLANs, no additional configuration for a VLAN is required. ezspantree.py will take care of managing VLAN spanning tree participation.
+
+### Extreme EOS Customers
 For Extreme customers migrating from EOS to EXOS, ezspantree.py emulates the EOS behavior of spanning tree by automating the addition/deletion of VLANs/ports for a single MSTP/CIST spanning tree `s0`. (The EOS default behavior)
 
-If ezspantree.py is installed and running, 
-- EXOS default spanning tree `s0` is configured to MSTP/CIST mode.
-- newly created VLANs are automatically added to EXOS `s0`. 
-- If MSTP/CIST is the desired spanning tree behavior for VLANs, no additional user configuration for a VLAN is required.
-
-When first started, ezspantree.py:
-- removes the connection of any VLANs associated with EXOS stpd s0
-- disables auto-bind of any VLANs associated with EXOS stpd s0 
-- reconfigures stpd s0 mode to MSTP/CIST
-- scans all VLANs not connected to any stpd
-- adds the VLANs to stpd s0
-- enables auto-bind for the VLANs for stpd s0
-
-ezspantree.py will continue running in the background and monitor EXOS for newly created VLANs.
-
-As VLANs are created, the VLAN:
-- is automatically connected to stpd `s0`
-- is enabled for auto-bind 
-
 ## Requirements
-- ExtremeXOS 21.1.1.4 or any 21.1.1.4 patch
+- ExtremeXOS 16.x or later
 
 ## Files
-* [EXOS Switch summitX-21.1.1.4-ezspantree-1.0.0.1.xmod](summitX-21.1.1.4-ezspantree-1.0.0.1.xmod)
-* [EXOS VM vm-21.1.1.4-ezspantree-1.0.0.1.xmod](vm-21.1.1.4-ezspantree-1.0.0.1.xmod)
+* [EXOS Switch summitX-ezspantree-2.0.0.1.xmod](summitX-ezspantree-2.0.0.1.xmod)
+* [EXOS VM vm-ezspantree-2.0.0.1.xmod](vm-ezspantree-2.0.0.1.xmod)
 * [README.md](README.md)
+* [README.pdf](README.pdf)
 
 ## Download
 EXOS offers a variety of download methods. All of the methods below assume the EXOS switch has been configured with an IP address either on the `mgmt` VLAN (for the management port) or `default` VLAN (for the front panel ports).
 ### Download over tftp
-To download summitX-21.1.1.4-ezspantree-1.0.0.1.xmod to an EXOS switch, place the file in a server tftp directory.
+To download summitX-ezspantree-2.0.0.1.xmod to an EXOS switch, place the file in a server tftp directory.
 
 #### Download tftp over management port
 Enter the EXOS CLI command:
-- download image _serverIP_ summitX-21.1.1.4-ezspantree-1.0.0.1.xmod
+- download image _serverIP_ summitX-ezspantree-2.0.0.1.xmod
 
 E.g.
-`download image 10.10.10.1 summitX-21.1.1.4-ezspantree-1.0.0.1.xmod`
+`download image 10.10.10.1 summitX-ezspantree-2.0.0.1.xmod`
 
 #### Download tftp over front panel port
 Enter the EXOS CLI command:
-- download image _serverIP_ summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default
+- download image _serverIP_ summitX-ezspantree-2.0.0.1.xmod vr VR-Default
 
 E.g.
-`download image 10.10.10.1 summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default`
+`download image 10.10.10.1 summitX-ezspantree-2.0.0.1.xmod vr VR-Default`
 
 ### Download over http
 EXOS can download files from a web site using http. 
@@ -62,22 +58,36 @@ python -m SimpleHTTPServer 8000
 Copy summitX-21.1.1.4-ezspantree-1.0.0.1.xmod to _directory_ used in the example above.
 #### Download http over management port
 Enter the EXOS CLI command:
-- download url http://_serverIP_/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod
+- download url http://_serverIP_/summitX-ezspantree-2.0.0.1.xmod
 
-E.g. `download url http://10.10.10.1/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod`
+E.g. `download url http://10.10.10.1/summitX-ezspantree-2.0.0.1.xmod`
 
 #### Download http over front panel port
 Enter the EXOS CLI command:
-- download url http://_serverIP_/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default
+- download url http://_serverIP_/summitX-ezspantree-2.0.0.1.xmod vr VR-Default
 
-E.g. `download url http://10.10.10.1/summitX-21.1.1.4-ezspantree-1.0.0.1.xmod vr VR-Default`
+E.g. `download url http://10.10.10.1/summitX-ezspantree-2.0.0.1.xmod vr VR-Default`
 
-### Download using EXOS web (Chalet)
-- Using your browser, download summitX-21.1.1.4-ezspantree-1.0.0.1.xmod from github to your PC. 
+### Download using EXOS web (Chalet) EXOS 21.x or later
+- Using your browser, download summitX-ezspantree-2.0.0.1.xmod from github to your PC. 
 - Then using the EXOS web interface (Chalet), navigate to Apps->File Manager.
 - Use: `Upload files from Local Drive:` to upload and install the file to the EXOS switch
 
 ## ezspantree.py Usage
+When first started, ezspantree.py:
+- removes the connection of any VLANs associated with EXOS stpd `s0`
+- disables auto-bind of any VLANs associated with EXOS stpd `s0` 
+- reconfigures stpd `s0` mode to MSTP/CIST
+- scans all VLANs not connected to any stpd
+- adds the VLANs to stpd `s0`
+- enables auto-bind for the VLANs for stpd `s0`
+
+ezspantree.py will continue running in the background and monitor EXOS for newly created VLANs. If EXOS is rebooted, ezspantree.py will automatically be restarted.
+
+As VLANs are created, the VLAN:
+- is automatically connected to stpd `s0`
+- is enabled for auto-bind 
+
 In the usage examples, lets assume the command below was used to create VLANs VID 10-15
 ```
 create vlan 10-15
@@ -124,20 +134,19 @@ Spanning Tree Easy Setup
 
 Do you wish to proceed? [y/N] y
 Collecting VLANs assigned to spanning trees. This may take a moment ...
+.
 Configuring STP s0 to MSTP/CIST
 Enabling STP s0
 ezspantree started
 Scanning all VLANs
         VLANs not connected to STP will be automatically added to s0
 
-Adding the following VLAN(s) to Spanning Tree s0:
-Default
-VLAN_0010
-VLAN_0011
-VLAN_0012
-VLAN_0013
-VLAN_0014
-VLAN_0015
+.
+These VLAN(s) will be added to Spanning Tree s0:
+Default, VLAN_0010, VLAN_0011, VLAN_0012, VLAN_0013, VLAN_0014, VLAN_0015
+
+Adding VLAN(s) to Spanning Tree s0:
+.
 ```
 
 To see how ezspantree did, you can use the EXOS command:
