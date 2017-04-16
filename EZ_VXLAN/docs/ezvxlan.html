@@ -1,0 +1,386 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>EZ_VXLAN documentation &#8212; EZ_VXLAN  documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">EZ_VXLAN  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <img alt="_images/logo.png" src="_images/logo.png" />
+<div class="section" id="ez-vxlan-documentation">
+<h1>EZ_VXLAN documentation<a class="headerlink" href="#ez-vxlan-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+<div class="section" id="summary">
+<h1>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h1>
+<p>This document serves as the requirements specification and application description of the implementation of ezVXLAN within EXOS VLAN to VXLAN Automation.
+This application is intended to be part of a larger solution involving Extreme Control and possibly other 3rd party applications. This document describes the ezvxlan.py application running on an Extreme switch with the EXOS OS as part of the overall solution.</p>
+</div>
+<div class="section" id="application-highlights">
+<h1>Application Highlights<a class="headerlink" href="#application-highlights" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="ezvxlan-py-1-x">
+<h2>ezvxlan.py 1.x<a class="headerlink" href="#ezvxlan-py-1-x" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Runs on VXLAN capable switched running EXOS 21.1.1 or later</li>
+<li>Monitors VLAN/port transactions from EXOS VLAN manager.</li>
+<li>Automatically creates VXLAN VNIs when vm-tracking creates dynamic VLANs. VNI=VLAN tag</li>
+<li>Automatically creates VXLAN VNIs when VLANs are created with a specific name format. VNI taken from VLAN name.</li>
+<li>VNI is created when first port is added to a VLAN to avoid VXLAN flooding to endpoints without assigned ports</li>
+<li>VNI is deleted when last port is removed from a VLAN</li>
+<li>VNI is deleted when entire VLAN is deleted</li>
+<li>Configures the Local VTEP (LTEP) with the OSPF router ID if MLAG not present, when the first VNI is created</li>
+<li>If MLAG is present, user must create the same VLAN with the same IP address on each MLAG peer and manually configure the LTEP IP with that VLAN IP address.</li>
+<li>Enables the OSPF extensions, if not already enabled, when the first VNI is created</li>
+</ul>
+</div>
+<div class="section" id="ezvxlan-py-2-x">
+<h2>ezvxlan.py 2.x<a class="headerlink" href="#ezvxlan-py-2-x" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">If BGP is running and router id is configured, uses the BGP router ID as LTEP id. If both BGP and OSPF router IDs are configured, ezvxlan.py use</p>
+<blockquote>
+<div><ul class="simple">
+<li>BGP router ID</li>
+<li>OSPF router ID</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Fabric option to work with Extreme Fabric.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">start</span> <span class="pre">--fabric</span> <span class="pre">option</span></code></li>
+<li>If fabric is enabled, automatically create VXLAN VNIs for all non-fabric VLANs.</li>
+<li>VXLAN VNI is the VLAN tag (VNI=VID)</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">All VLANs option</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">start</span> <span class="pre">--allvlans</span> <span class="pre">option</span></code></li>
+<li>Create VXLAN VNIs for all VLANS except the Default VLAN (VID=1), regardless of VLAN name.</li>
+<li>VXLAN VNI is the VLAN tag (VNI=VID)</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>The application ezvxlan.py is a python application that runs on VXLAN capable switching hardware running EXOS 21.1.1 or later.</p>
+<p>The application automates the creation of VXLAN Virtual Network Interfaces (VNIs) base on VLAN/port creation. By default, ezvxlan.py looks for specific VLAN name formats. If the VLAN name matches the selection criteria and at least one port is assigned to the VLAN, ezvxlan.py creates a  cooresponding VXLAN VNI and the VLAN is attached.</p>
+<div class="section" id="special-vlan-names">
+<h2>Special VLAN Names<a class="headerlink" href="#special-vlan-names" title="Permalink to this headline">¶</a></h2>
+<p>ezvxlan.py looks for 2 speical VLAN name formats to determine if an automatic mapping to a VXLAN VNI should be created.</p>
+<p>VNI[-_]&lt;vni&gt;&lt;anything&gt;</p>
+<ul>
+<li><p class="first">the name must start with VNI</p>
+</li>
+<li><p class="first">VNI is followed by either a –(dash) or _(underscore)</p>
+</li>
+<li><p class="first">&lt;vni&gt; is a number from 1 to &lt;max VNI supported by EXOS&gt;</p>
+</li>
+<li><p class="first">&lt;anything&gt; is any sequence of characters, that doesn’t start with a number, allowed for a VLAN name by EXOS</p>
+</li>
+<li><p class="first">E.g.</p>
+<blockquote>
+<div><ul class="simple">
+<li>VNI-2serverGroup2000, VNI=2</li>
+<li>VNI_31247-southPolarRegion, VNI=31247</li>
+<li>VNI-101010_regional_offices, VNI=101010</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>SYS_VLAN_nnnn</p>
+<ul class="simple">
+<li>where nnnn is a number from 0001 to 4094.</li>
+<li>Names with this format can only created by EXOS when creating dynamic VLANs for features like vm-tracking.</li>
+</ul>
+<p>The purpose of supporting the VNI prefix names are to enable external applications to create these VLANs via other protocols, such as SNMP, and provide an automated method for that action to also create a cooresponding VXLAN VNI and attach the VLAN.</p>
+<div class="section" id="additional-vlan-vni-behavior-ezvxlan-py-2-x">
+<h3>Additional VLAN-&gt;VNI behavior ezvxlan.py 2.x<a class="headerlink" href="#additional-vlan-vni-behavior-ezvxlan-py-2-x" title="Permalink to this headline">¶</a></h3>
+<p>Release ezvxlan 2.x, adds 2 new optional behaviors which are enabled using command line options to the start command</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">run</span> <span class="pre">script</span> <span class="pre">ezvxlan.py</span> <span class="pre">start</span> <span class="pre">[</span> <span class="pre">–fabric</span> <span class="pre">|</span> <span class="pre">--allvlans</span> <span class="pre">]</span></code></p>
+<p><code class="docutils literal"><span class="pre">--fabric</span></code> and <code class="docutils literal"><span class="pre">--allvlans</span></code> are mutually exclusive. I.e. either option may be used, but not both.</p>
+</div></blockquote>
+<div class="section" id="fabric-interoperability-with-extreme-fabric">
+<h4><code class="docutils literal"><span class="pre">–-fabric</span></code> Interoperability with Extreme Fabric<a class="headerlink" href="#fabric-interoperability-with-extreme-fabric" title="Permalink to this headline">¶</a></h4>
+<p>This option does not depend on <a class="reference internal" href="#special-vlan-names">Special VLAN Names</a> formats to create VXLAN VNIs.</p>
+<p>When ezvxlan.py is started with the start <code class="docutils literal"><span class="pre">-–fabric</span></code> option and Extreme Fabric is enabled on the switch, all non-fabric VLANs, regardless of VLAN name, are mapped to a VXLAN. This includes the Default VLAN. For these VXLAN VNIs, the VNI = VID (VLAN tag). Fabric VLANs are not mapped to VXLAN VNIs.</p>
+<p>Since the Default VLAN (VID=1) automatically has all ports assigned to it as untagged traffic, enabling this option could potentially produce a large untagged L2 domain.</p>
+<p>VLAN namess that follow the <a class="reference internal" href="#special-vlan-names">Special VLAN Names</a> format will continue to create VNI = &lt;vni&gt; specified in the name.</p>
+</div>
+<div class="section" id="allvlans-large-scale-l2">
+<h4><code class="docutils literal"><span class="pre">-–allvlans</span></code> Large scale L2<a class="headerlink" href="#allvlans-large-scale-l2" title="Permalink to this headline">¶</a></h4>
+<p>This option does not depend on <a class="reference internal" href="#special-vlan-names">Special VLAN Names</a> formats to create VXLAN VNIs.</p>
+<p>When ezvxlan.py is started with the start <code class="docutils literal"><span class="pre">-–allvlans</span></code> option, with the excption of the Default VLAN (VID=1), all VLANs are mapped to VXLAN VNIs regardless of VLAN name. As VLANs are created and at least one port is assigned, a cooresponding VXLAN is configured with VNI = VID.
+The Default VLAN is excluded to avoid a potential default distribution of untagged L2 traffic over a wide network.</p>
+<p>VLAN namess that follow the Special VLAN Names format will continue to create VNI = &lt;vni&gt; specified in the name.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="exos-command-line">
+<h1>EXOS Command Line<a class="headerlink" href="#exos-command-line" title="Permalink to this headline">¶</a></h1>
+<p>ezvxlan.py is managed using the <code class="docutils literal"><span class="pre">run</span> <span class="pre">script</span></code> CLI command.</p>
+<div class="section" id="help">
+<h2>Help<a class="headerlink" href="#help" title="Permalink to this headline">¶</a></h2>
+<p>To see the ezvxlan options, enter</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># run script ezvxlan.py -h</span>
+usage: ezvxlan <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-d<span class="o">]</span> <span class="o">{</span>start,stop,restart,show<span class="o">}</span> ...
+
+positional arguments:
+  <span class="o">{</span>start,stop,restart,show<span class="o">}</span>
+    start               Start the ezvxlan application
+    stop                Stop the ezvxlan application
+    restart             Restart the ezvxlan application. Useful after upgrade
+    show                Show the running status of ezvxlan.
+
+optional arguments:
+  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
+  -d, --debug           Enable debug
+</pre></div>
+</div>
+</div>
+<div class="section" id="start-help">
+<h2>start help<a class="headerlink" href="#start-help" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># run script ezvxlan.py start -h</span>
+usage: ezvxlan start <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-p PORT<span class="o">]</span> <span class="o">[</span>--fabric <span class="p">|</span> --allvlans<span class="o">]</span>
+
+optional arguments:
+  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
+  -p PORT, --port PORT  Controller port. Always add this port when VXLAN VLANs
+                        are created
+  --fabric              Extreme Fabric mode. When Fabric is enabled, auto
+                        create VxLAN VNIs <span class="k">for</span> all VLANs
+  --allvlans            Automatically create VxLAN VNIs <span class="k">for</span> all VLANs except
+                        default. <span class="nv">VNI</span> <span class="o">=</span> VID
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>no option</dt>
+<dd>If no additional <code class="docutils literal"><span class="pre">start</span></code> option is specified, ezvxlan.py looks for <a class="reference internal" href="#special-vlan-names">Special VLAN Names</a>.</dd>
+<dt><code class="docutils literal"><span class="pre">--port</span></code></dt>
+<dd>When a VLAN is created dynamically, (e.g. with VMware) it may be desireable to always add a constant port to the VLAN, like an uplink port.</dd>
+<dt><code class="docutils literal"><span class="pre">--fabric</span></code></dt>
+<dd>When Extreme Fabric is enabled, and the desired ezvxlan.py behavior is to automatically create VXLAN VNIs for all non-fabric VLANs, add this option to the start commnad. If Extreme Fabric is not enabled, ezvxlan.py behaves as if <code class="docutils literal"><span class="pre">start</span></code> was entered without any additional option.</dd>
+<dt><code class="docutils literal"><span class="pre">--allvlans</span></code></dt>
+<dd>For simple VXLAN deployments where the L2 VLAN domain is the same across the network, this option will automatically create a VXLAN VNI for any VLAN created. The VNI is set to the VLAN id.</dd>
+</dl>
+</div>
+<div class="section" id="start">
+<h2>start<a class="headerlink" href="#start" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># run script ezvxlan.py start</span>
+<span class="c1"># run script ezvxlan.py start --fabric</span>
+<span class="c1"># run script ezvxlan.py start --allvlans</span>
+
+Starting ezvxlan
+</pre></div>
+</div>
+</div>
+<div class="section" id="stop-help">
+<h2>stop help<a class="headerlink" href="#stop-help" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># run script ezvxlan.py stop -h</span>
+usage: ezvxlan stop <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-k<span class="o">]</span>
+
+optional arguments:
+  -h, --help  show this <span class="nb">help</span> message and <span class="nb">exit</span>
+  -k, --keep  Keep automatically created VXLAN VNIs with names that start with SYS_VN_
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>no option</dt>
+<dd>stop ezvxlan.py.  All automatically created VNI&#8217;s beginning with SYS_VN_ are removed. Because ezvxlan.py is no  longer running, no automatich VNI creation/deletion will be performed.</dd>
+</dl>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># run script ezvxlan.py stop</span>
+Stopping ezvxlan
+Deleting VXLAN VNI names starting with SYS_VN_
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">--keep</span></code></dt>
+<dd>stop ezvxlan.py and leave any automatically created VNI&#8217;s in place. Because ezvxlan.py is no longer running, no automatich VNI creation/deletion will be performed.</dd>
+</dl>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># run script ezvxlan.py stop --keep</span>
+Stopping ezvxlan
+Keeping VXLAN VNI names starting with SYS_VN_
+</pre></div>
+</div>
+</div>
+<div class="section" id="show">
+<h2>show<a class="headerlink" href="#show" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># run script ezvxlan.py show</span>
+ezvxlan Version: 2.0.0.3 process is running
+VLANs with names SYS_VLAN_xxxx or VNI_&lt;vni&gt;&lt;text&gt; are automatically mapped to SYS_VN_&lt;vni&gt; VTEPs
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># run script ezvxlan.py show</span>
+ezvxlan Version: 1.0.0.6        process is not running
+VLANs with names SYS_VLAN_xxxx or VNI_&lt;vni&gt;&lt;text&gt; are not mapped to SYS_VN_&lt;vni&gt; VTEPs automatically
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="application-solutions">
+<h1>Application Solutions<a class="headerlink" href="#application-solutions" title="Permalink to this headline">¶</a></h1>
+<p>The usage described below are potential solutions where ezvxlan.py contributes.</p>
+<p># A low end/low cost VMware NSX alternative
+# Interoperabity with Open Stack
+# Interoperability with Extreme Fabric
+# Automatic large scale L2 domain</p>
+<p>These solutions are describe in their corresponding solotions document and are only included here for reference.</p>
+<div class="section" id="vmware-nsx-alternative">
+<h2>VMware NSX Alternative<a class="headerlink" href="#vmware-nsx-alternative" title="Permalink to this headline">¶</a></h2>
+<p>In this first environment, the EXOS vm-tracking feature is enabled with dynamic vlan support. The vm-tracking feature interacts with Extreme Control via RADIUS to validate MAC address/VLANs on a port. When the MAC address is validated, vm-tracking creates a VLAN with the name:</p>
+<ul class="simple">
+<li>SYS_VLAN_nnnn where nnnn is the VLAN tag</li>
+<li>The ezvxlan.py application creates a coresponding VXLAN VNI with the same number as the VLAN tag</li>
+</ul>
+<div class="vmware figure align-center">
+<img alt="_images/appVMwareRefDiag.png" src="_images/appVMwareRefDiag.png" />
+</div>
+<p class="centered">
+<strong>Low End/Low Cost VMware NSX Alternative</strong></p></div>
+<div class="section" id="interoperability-with-open-stack">
+<h2>Interoperability with Open Stack<a class="headerlink" href="#interoperability-with-open-stack" title="Permalink to this headline">¶</a></h2>
+<p>The second application environment involves Open Stack. Open Stack interacts with Extreme Control to create a VLAN with the name format:</p>
+<ul class="simple">
+<li>VNI-&lt;vni&gt;&lt;something&gt; via SNMP.</li>
+<li>The ezvxlan.py application extracts the &lt;vni&gt; portion and creates a VXLAN VNI with the name
+*   SYS_VN_&lt;vni&gt; where &lt;vni&gt; is a minimum 4 digit, zero filled number. E.g. 0006. the &lt;vni&gt; can grow to as many digits beyond 4 that are necessary.</li>
+</ul>
+<div class="openstack figure align-center">
+<img alt="_images/appOpenStackRefDiag.png" src="_images/appOpenStackRefDiag.png" />
+</div>
+<p class="centered">
+<strong>Interoperability with Open Stack</strong></p></div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">EZ_VXLAN documentation</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+<li><a class="reference internal" href="#application-highlights">Application Highlights</a><ul>
+<li><a class="reference internal" href="#ezvxlan-py-1-x">ezvxlan.py 1.x</a></li>
+<li><a class="reference internal" href="#ezvxlan-py-2-x">ezvxlan.py 2.x</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#overview">Overview</a><ul>
+<li><a class="reference internal" href="#special-vlan-names">Special VLAN Names</a><ul>
+<li><a class="reference internal" href="#additional-vlan-vni-behavior-ezvxlan-py-2-x">Additional VLAN-&gt;VNI behavior ezvxlan.py 2.x</a><ul>
+<li><a class="reference internal" href="#fabric-interoperability-with-extreme-fabric"><code class="docutils literal"><span class="pre">–-fabric</span></code> Interoperability with Extreme Fabric</a></li>
+<li><a class="reference internal" href="#allvlans-large-scale-l2"><code class="docutils literal"><span class="pre">-–allvlans</span></code> Large scale L2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exos-command-line">EXOS Command Line</a><ul>
+<li><a class="reference internal" href="#help">Help</a></li>
+<li><a class="reference internal" href="#start-help">start help</a></li>
+<li><a class="reference internal" href="#start">start</a></li>
+<li><a class="reference internal" href="#stop-help">stop help</a></li>
+<li><a class="reference internal" href="#show">show</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#application-solutions">Application Solutions</a><ul>
+<li><a class="reference internal" href="#vmware-nsx-alternative">VMware NSX Alternative</a></li>
+<li><a class="reference internal" href="#interoperability-with-open-stack">Interoperability with Open Stack</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ezvxlan.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">EZ_VXLAN  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Dave Hammers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>
