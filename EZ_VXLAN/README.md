@@ -1,4 +1,6 @@
 # EXOS ezvxlan.py Application
+## User Documentation
+[EZ_VXLAN](https://rawgit.com/extremenetworks/EXOS_Apps/master/EZ_VXLAN/docs/ezvxlan.html)
 ## ezvxlan.py 1.0.0.6
 
 For Extreme customers deploying a virutal network using VXLAN, this application provides an automatic mapping of certain VLANS into VXLAN VNIs when used with the EXOS virtual-network capability available on:
