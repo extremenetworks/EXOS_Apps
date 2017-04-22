@@ -37,8 +37,8 @@ ezvxlan.py 2.x
 
 * If BGP is running and router id is configured, uses the BGP router ID as LTEP id. If both BGP and OSPF router IDs are configured, ezvxlan.py use
 
-    * BGP router ID
-    * OSPF router ID
+    1 BGP router ID
+    2 OSPF router ID
 
 * Fabric option to work with Extreme Fabric.
 
@@ -56,18 +56,18 @@ Overview
 ========
 The application ezvxlan.py is a python application that runs on VXLAN capable switching hardware running EXOS 21.1.1 or later.
 
-The application automates the creation of VXLAN Virtual Network Interfaces (VNIs) base on VLAN/port creation. By default, ezvxlan.py looks for specific VLAN name formats. If the VLAN name matches the selection criteria and at least one port is assigned to the VLAN, ezvxlan.py creates a  cooresponding VXLAN VNI and the VLAN is attached.
+The application automates the creation of VXLAN Virtual Network Interfaces (VNIs) base on VLAN/port creation. By default, ezvxlan.py looks for specific VLAN name formats. If the VLAN name matches the selection criteria and at least one port is assigned to the VLAN, ezvxlan.py creates a  coresponding VXLAN VNI and the VLAN is attached.
 
 Special VLAN Names
 ------------------
-ezvxlan.py looks for 2 speical VLAN name formats to determine if an automatic mapping to a VXLAN VNI should be created.
+ezvxlan.py looks for 2 special VLAN name formats to determine if an automatic mapping to a VXLAN VNI should be created.
 
 VNI[-_]<vni><anything>
 
 *   the name must start with VNI
 *   VNI is followed by either a –(dash) or _(underscore)
 *   <vni> is a number from 1 to <max VNI supported by EXOS>
-*   <anything> is any sequence of characters, that doesn’t start with a number, allowed for a VLAN name by EXOS
+*   <anything> is any sequence of characters that does not start with a number, which are allowed for a VLAN name by EXOS
 
 * E.g.
 
@@ -78,15 +78,15 @@ VNI[-_]<vni><anything>
 SYS_VLAN_nnnn
 
 * where nnnn is a number from 0001 to 4094.
-* Names with this format can only created by EXOS when creating dynamic VLANs for features like vm-tracking.
+* Names with this format can only be created by EXOS when creating dynamic VLANs for features like vm-tracking.
 
-The purpose of supporting the VNI prefix names are to enable external applications to create these VLANs via other protocols, such as SNMP, and provide an automated method for that action to also create a cooresponding VXLAN VNI and attach the VLAN.
+The purpose of supporting the VNI prefix names are to enable external applications to create these VLANs via other protocols, such as SNMP, and provide an automated method for that action to also create a coresponding VXLAN VNI and attach the VLAN.
 
 Additional VLAN->VNI behavior ezvxlan.py 2.x
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Release ezvxlan 2.x, adds 2 new optional behaviors which are enabled using command line options to the start command
 
-    ``run script ezvxlan.py start [ –fabric | --allvlans ]``
+    ``run script ezvxlan.py start [ -–fabric | --allvlans ]``
 
     ``--fabric`` and ``--allvlans`` are mutually exclusive. I.e. either option may be used, but not both.
 
@@ -98,17 +98,17 @@ When ezvxlan.py is started with the start ``-–fabric`` option and Extreme Fabr
 
 Since the Default VLAN (VID=1) automatically has all ports assigned to it as untagged traffic, enabling this option could potentially produce a large untagged L2 domain.
 
-VLAN namess that follow the `Special VLAN Names`_ format will continue to create VNI = <vni> specified in the name.
+VLAN names that follow the `Special VLAN Names`_ format will continue to create VNI = <vni> specified in the name.
 
 
 ``-–allvlans`` Large scale L2
 """""""""""""""""""""""""""""
 This option does not depend on `Special VLAN Names`_ formats to create VXLAN VNIs.
 
-When ezvxlan.py is started with the start ``-–allvlans`` option, with the excption of the Default VLAN (VID=1), all VLANs are mapped to VXLAN VNIs regardless of VLAN name. As VLANs are created and at least one port is assigned, a cooresponding VXLAN is configured with VNI = VID.
+When ezvxlan.py is started with the start ``-–allvlans`` option, with the excption of the Default VLAN (VID=1), all VLANs are mapped to VXLAN VNIs regardless of VLAN name. As VLANs are created and at least one port is assigned, a coresponding VXLAN is configured with VNI = VID.
 The Default VLAN is excluded to avoid a potential default distribution of untagged L2 traffic over a wide network.
 
-VLAN namess that follow the Special VLAN Names format will continue to create VNI = <vni> specified in the name.
+VLAN names that follow the Special VLAN Names format will continue to create VNI = <vni> specified in the name.
 
 EXOS Command Line
 =================
