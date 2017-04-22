@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>EZ_VXLAN documentation &#8212; EZ_VXLAN  documentation</title>
+    <title>Summary &#8212; EZ_VXLAN  documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -43,20 +43,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <img alt="_images/logo.png" src="_images/logo.png" />
-<div class="section" id="ez-vxlan-documentation">
-<h1>EZ_VXLAN documentation<a class="headerlink" href="#ez-vxlan-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-</div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
-</ul>
-</div>
+  <img alt="_images/ExtremeSwitchingLogo.png" src="_images/ExtremeSwitchingLogo.png" />
+<img alt="_images/XosLogo.png" src="_images/XosLogo.png" />
 <div class="section" id="summary">
 <h1>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h1>
 <p>ezvxlan.py is an application that runs on an EXOS ExtremeSwitch providing automatic mapping of VLANs to VxLAN VNIs.</p>
@@ -237,16 +225,17 @@ optional arguments:
 <dl class="docutils">
 <dt>no option</dt>
 <dd>stop ezvxlan.py.  All automatically created VNI&#8217;s beginning with SYS_VN_ are removed. Because ezvxlan.py is no  longer running, no automatich VNI creation/deletion will be performed.</dd>
+<dt><code class="docutils literal"><span class="pre">--keep</span></code></dt>
+<dd>stop ezvxlan.py and leave any automatically created VNI&#8217;s in place. Because ezvxlan.py is no longer running, no automatich VNI creation/deletion will be performed.</dd>
 </dl>
+</div>
+<div class="section" id="stop">
+<h2>stop<a class="headerlink" href="#stop" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># run script ezvxlan.py stop</span>
 Stopping ezvxlan
 Deleting VXLAN VNI names starting with SYS_VN_
 </pre></div>
 </div>
-<dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">--keep</span></code></dt>
-<dd>stop ezvxlan.py and leave any automatically created VNI&#8217;s in place. Because ezvxlan.py is no longer running, no automatich VNI creation/deletion will be performed.</dd>
-</dl>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># run script ezvxlan.py stop --keep</span>
 Stopping ezvxlan
 Keeping VXLAN VNI names starting with SYS_VN_
@@ -310,13 +299,11 @@ VLANs with names SYS_VLAN_xxxx or VNI_&lt;vni&gt;&lt;text&gt; are not mapped to 
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="#">
-              <img class="logo" src="_static/logo.png" alt="Logo"/>
+              <img class="logo" src="_static/ExtremeNetworksLogo.png" alt="Logo"/>
             </a></p>
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">EZ_VXLAN documentation</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-<li><a class="reference internal" href="#summary">Summary</a></li>
+<li><a class="reference internal" href="#">Summary</a></li>
 <li><a class="reference internal" href="#application-highlights">Application Highlights</a><ul>
 <li><a class="reference internal" href="#ezvxlan-py-1-x">ezvxlan.py 1.x</a></li>
 <li><a class="reference internal" href="#ezvxlan-py-2-x">ezvxlan.py 2.x</a></li>
@@ -338,6 +325,7 @@ VLANs with names SYS_VLAN_xxxx or VNI_&lt;vni&gt;&lt;text&gt; are not mapped to 
 <li><a class="reference internal" href="#start-help">start help</a></li>
 <li><a class="reference internal" href="#start">start</a></li>
 <li><a class="reference internal" href="#stop-help">stop help</a></li>
+<li><a class="reference internal" href="#stop">stop</a></li>
 <li><a class="reference internal" href="#show">show</a></li>
 </ul>
 </li>
@@ -379,7 +367,7 @@ VLANs with names SYS_VLAN_xxxx or VNI_&lt;vni&gt;&lt;text&gt; are not mapped to 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Dave Hammers.
+        &#169; Copyright 2017, Extreme Networks.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
