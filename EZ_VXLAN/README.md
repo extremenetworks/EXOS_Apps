@@ -4,10 +4,13 @@
 
 ## ezvxlan.py 2.0.0.3
 
+Already included with EXOS 22.3
+
 For Extreme customers deploying a virutal network using VXLAN, this application provides an automatic mapping of certain VLANS into VXLAN VNIs when used with the EXOS virtual-network capability available on:
 - X670-G2
 - X770
 - X690
+- X870
 
 This application works best when combined with Extreme Management Center. http://www.extremenetworks.com/product/management-center/
 
