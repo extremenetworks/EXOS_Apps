@@ -14,6 +14,7 @@ For Extreme Management Center 8.x, the firmware page is shown below:
 
 Separate Cloud Connector versions are no longer necessary with EXOS CloudConnector v3.0.29.39. The EXOS CloudConnector v3.0.29.39 is compatible with all EXOS releases from EXOS 21.x and later. 
 - [summitX-cloud_connector-3.0.29.39.xmod](summitX-cloud_connector-3.0.29.39.xmod?raw=true)
+- [onie-cloud_connector-3.0.29.39.xmod](onie-cloud_connector-3.0.29.39.xmod?raw=true)
 
 For a complete description of installation instructions and ExtremeManagement ZTP+ capabilities, see the ExtremeManagement 8.x documentation.
 
