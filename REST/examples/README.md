@@ -2,13 +2,14 @@
 
 The simple example applications in this directory can demonstrate how a customer would develop an application that communicates with the EXOS REST API.
 
-restconf.py - This is a common module defining the base Restconf Python classthat performs:
+_restconf.py_ - This is a common module defining the base Restconf Python classthat performs:
 - basic authentication
 - well known URL lookup for the REST interfaces
 - get(), post(), patch(), delete() functions 
 
-restget.py - A simple example of a RESTCONF server GET application that retrieves data from a device.
-restdelete.py - A simple example of a RESTCONF server DELETE application that deletes a VLAN.
+_restget.py_ - A simple example of a RESTCONF server GET application that retrieves data from a device.
+
+_restdelete.py_ - A simple example of a RESTCONF server DELETE application that deletes a VLAN.
 
 ## License
 Copyright© 2016, Extreme Networks
