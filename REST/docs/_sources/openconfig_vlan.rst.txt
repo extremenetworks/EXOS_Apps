@@ -1,0 +1,13 @@
+
+openconfig_vlan
+---------------
+
+openconfig_vlan URLs
+^^^^^^^^^^^^^^^^^^^^
+.. literalinclude:: openconfig_vlan.url
+
+openconfig_vlan Complete JSON
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. literalinclude:: openconfig_vlan.json
+    :language: json
+

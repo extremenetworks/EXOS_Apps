@@ -1,0 +1,59 @@
+.. image:: ExtremeSwitchingLogo.png
+.. image:: XosLogo.png
+
+################################
+RESTCONF Reference Documentation
+################################
+.. include:: version.rst
+THIS DOCUMENT IS AUTOMATICALLY GENERATED FROM THE SUPPORTED YANG MODELS.
+
+This document contains:
+
+* YANG model tree
+* RESTCONF URLs for each supported YANG model
+* The complete JSON for the YANG model.
+
+The data models contained in this document follow the RESTCONF protocol (RFC 8040).
+
+YANG models frequently have optional parts. The full JSON data model is presented even though in practice only a portion of a model is used for any HTTP transaction. 
+
+Throughout the URLs and JSON, the string ``<key>`` means that an identifier is needed for that part of a model.
+
+Example: ``https://<ip>/rest/restconf/data/openconfig_interfaces:interfaces/interface=<key>/state``
+
+``<key>`` means that a specific interface identifier is required at that point in the URL or JSON.
+
+EXOS Compatibility
+------------------
+The restconf.pyz application is compatible with EXOS 22.1 and later releases.
+
+restconf.pyz is bundled with EXOS beginning with 22.4.
+
+External Links
+--------------
+| `OpenConfig Web Site <http://www.openconfig.net/>`_
+| `OpenConfig Data Models <http://www.openconfig.net/projects/models/>`_
+| `OpenConfig YANG Models <https://github.com/openconfig/public>`_
+| `IETF/IEEE YANG Models <https://github.com/YangModels/yang>`_
+| `RFC 8040 - RESTCONF Protocol <https://tools.ietf.org/html/rfc8040>`_
+
+###############
+YANG Model Tree
+###############
+
+Open Config YANG Data Models
+----------------------------
+.. literalinclude:: ../../../yang/openconfig/_build/octree.txt
+
+IETF YANG Data Models
+---------------------
+.. literalinclude:: ../../../yang/ietf/_build/ietftree.txt
+
+Extreme Enterprise YANG Data Models
+-----------------------------------
+.. literalinclude:: ../../../yang/extreme/_build/extremetree.txt
+
+#############
+URLs and JSON
+#############
+.. include:: yang_models.rst

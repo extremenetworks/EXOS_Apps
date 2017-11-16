@@ -1,0 +1,13 @@
+
+openconfig_module_catalog
+-------------------------
+
+openconfig_module_catalog URLs
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. literalinclude:: openconfig_module_catalog.url
+
+openconfig_module_catalog Complete JSON
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. literalinclude:: openconfig_module_catalog.json
+    :language: json
+

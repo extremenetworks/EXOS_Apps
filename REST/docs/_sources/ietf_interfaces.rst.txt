@@ -1,0 +1,13 @@
+
+ietf_interfaces
+---------------
+
+ietf_interfaces URLs
+^^^^^^^^^^^^^^^^^^^^
+.. literalinclude:: ietf_interfaces.url
+
+ietf_interfaces Complete JSON
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. literalinclude:: ietf_interfaces.json
+    :language: json
+

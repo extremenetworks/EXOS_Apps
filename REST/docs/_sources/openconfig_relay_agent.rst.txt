@@ -1,0 +1,13 @@
+
+openconfig_relay_agent
+----------------------
+
+openconfig_relay_agent URLs
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. literalinclude:: openconfig_relay_agent.url
+
+openconfig_relay_agent Complete JSON
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. literalinclude:: openconfig_relay_agent.json
+    :language: json
+

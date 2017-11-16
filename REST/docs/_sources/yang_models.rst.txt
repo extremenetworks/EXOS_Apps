@@ -1,0 +1,10 @@
+.. include:: extreme_fabric.rst
+.. include:: ietf_interfaces.rst
+.. include:: openconfig_interfaces.rst
+.. include:: openconfig_module_catalog.rst
+.. include:: openconfig_platform.rst
+.. include:: openconfig_relay_agent.rst
+.. include:: openconfig_system.rst
+.. include:: openconfig_telemetry.rst
+.. include:: openconfig_vlan.rst
+.. include:: version.rst

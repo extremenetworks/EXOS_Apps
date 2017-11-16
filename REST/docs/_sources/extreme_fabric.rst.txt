@@ -1,0 +1,13 @@
+
+extreme_fabric
+--------------
+
+extreme_fabric URLs
+^^^^^^^^^^^^^^^^^^^
+.. literalinclude:: extreme_fabric.url
+
+extreme_fabric Complete JSON
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. literalinclude:: extreme_fabric.json
+    :language: json
+

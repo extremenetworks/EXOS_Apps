@@ -1,0 +1,13 @@
+
+openconfig_system
+-----------------
+
+openconfig_system URLs
+^^^^^^^^^^^^^^^^^^^^^^
+.. literalinclude:: openconfig_system.url
+
+openconfig_system Complete JSON
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. literalinclude:: openconfig_system.json
+    :language: json
+
