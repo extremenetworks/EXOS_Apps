@@ -18,20 +18,6 @@ This EXOS application is intended to be part of a larger solution involving Extr
 Application Highlights
 ======================
 
-ezvxlan.py 1.x
---------------
-
-* Runs on VXLAN capable switched running EXOS 21.1.1 or later
-* Monitors VLAN/port transactions from EXOS VLAN manager.
-* Automatically creates VXLAN VNIs when vm-tracking creates dynamic VLANs. VNI=VLAN tag
-* Automatically creates VXLAN VNIs when VLANs are created with a specific name format. VNI taken from VLAN name.
-* VNI is created when first port is added to a VLAN to avoid VXLAN flooding to endpoints without assigned ports
-* VNI is deleted when last port is removed from a VLAN
-* VNI is deleted when entire VLAN is deleted
-* Configures the Local VTEP (LTEP) with the OSPF router ID if MLAG not present, when the first VNI is created
-* If MLAG is present, user must create the same VLAN with the same IP address on each MLAG peer and manually configure the LTEP IP with that VLAN IP address.
-* Enables the OSPF extensions, if not already enabled, when the first VNI is created
-
 ezvxlan.py 2.x
 --------------
 
@@ -51,6 +37,20 @@ ezvxlan.py 2.x
     * ``start --allvlans option``
     * Create VXLAN VNIs for all VLANS except the Default VLAN (VID=1), regardless of VLAN name.
     * VXLAN VNI is the VLAN tag (VNI=VID)
+
+ezvxlan.py 1.x
+--------------
+
+* Runs on VXLAN capable switched running EXOS 21.1.1 or later
+* Monitors VLAN/port transactions from EXOS VLAN manager.
+* Automatically creates VXLAN VNIs when vm-tracking creates dynamic VLANs. VNI=VLAN tag
+* Automatically creates VXLAN VNIs when VLANs are created with a specific name format. VNI taken from VLAN name.
+* VNI is created when first port is added to a VLAN to avoid VXLAN flooding to endpoints without assigned ports
+* VNI is deleted when last port is removed from a VLAN
+* VNI is deleted when entire VLAN is deleted
+* Configures the Local VTEP (LTEP) with the OSPF router ID if MLAG not present, when the first VNI is created
+* If MLAG is present, user must create the same VLAN with the same IP address on each MLAG peer and manually configure the LTEP IP with that VLAN IP address.
+* Enables the OSPF extensions, if not already enabled, when the first VNI is created
 
 Overview
 ========

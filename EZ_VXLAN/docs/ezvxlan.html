@@ -1,16 +1,13 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Summary &#8212; EZ_VXLAN  documentation</title>
-    
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
@@ -27,7 +24,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -52,21 +49,6 @@
 </div>
 <div class="section" id="application-highlights">
 <h1>Application Highlights<a class="headerlink" href="#application-highlights" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="ezvxlan-py-1-x">
-<h2>ezvxlan.py 1.x<a class="headerlink" href="#ezvxlan-py-1-x" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Runs on VXLAN capable switched running EXOS 21.1.1 or later</li>
-<li>Monitors VLAN/port transactions from EXOS VLAN manager.</li>
-<li>Automatically creates VXLAN VNIs when vm-tracking creates dynamic VLANs. VNI=VLAN tag</li>
-<li>Automatically creates VXLAN VNIs when VLANs are created with a specific name format. VNI taken from VLAN name.</li>
-<li>VNI is created when first port is added to a VLAN to avoid VXLAN flooding to endpoints without assigned ports</li>
-<li>VNI is deleted when last port is removed from a VLAN</li>
-<li>VNI is deleted when entire VLAN is deleted</li>
-<li>Configures the Local VTEP (LTEP) with the OSPF router ID if MLAG not present, when the first VNI is created</li>
-<li>If MLAG is present, user must create the same VLAN with the same IP address on each MLAG peer and manually configure the LTEP IP with that VLAN IP address.</li>
-<li>Enables the OSPF extensions, if not already enabled, when the first VNI is created</li>
-</ul>
-</div>
 <div class="section" id="ezvxlan-py-2-x">
 <h2>ezvxlan.py 2.x<a class="headerlink" href="#ezvxlan-py-2-x" title="Permalink to this headline">¶</a></h2>
 <ul>
@@ -92,6 +74,21 @@
 <li>VXLAN VNI is the VLAN tag (VNI=VID)</li>
 </ul>
 </li>
+</ul>
+</div>
+<div class="section" id="ezvxlan-py-1-x">
+<h2>ezvxlan.py 1.x<a class="headerlink" href="#ezvxlan-py-1-x" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Runs on VXLAN capable switched running EXOS 21.1.1 or later</li>
+<li>Monitors VLAN/port transactions from EXOS VLAN manager.</li>
+<li>Automatically creates VXLAN VNIs when vm-tracking creates dynamic VLANs. VNI=VLAN tag</li>
+<li>Automatically creates VXLAN VNIs when VLANs are created with a specific name format. VNI taken from VLAN name.</li>
+<li>VNI is created when first port is added to a VLAN to avoid VXLAN flooding to endpoints without assigned ports</li>
+<li>VNI is deleted when last port is removed from a VLAN</li>
+<li>VNI is deleted when entire VLAN is deleted</li>
+<li>Configures the Local VTEP (LTEP) with the OSPF router ID if MLAG not present, when the first VNI is created</li>
+<li>If MLAG is present, user must create the same VLAN with the same IP address on each MLAG peer and manually configure the LTEP IP with that VLAN IP address.</li>
+<li>Enables the OSPF extensions, if not already enabled, when the first VNI is created</li>
 </ul>
 </div>
 </div>
@@ -222,9 +219,9 @@ optional arguments:
 </div>
 <dl class="docutils">
 <dt>no option</dt>
-<dd>stop ezvxlan.py.  All automatically created VNI&#8217;s beginning with SYS_VN_ are removed. Because ezvxlan.py is no  longer running, no automatich VNI creation/deletion will be performed.</dd>
+<dd>stop ezvxlan.py.  All automatically created VNI’s beginning with SYS_VN_ are removed. Because ezvxlan.py is no  longer running, no automatich VNI creation/deletion will be performed.</dd>
 <dt><code class="docutils literal"><span class="pre">--keep</span></code></dt>
-<dd>stop ezvxlan.py and leave any automatically created VNI&#8217;s in place. Because ezvxlan.py is no longer running, no automatich VNI creation/deletion will be performed.</dd>
+<dd>stop ezvxlan.py and leave any automatically created VNI’s in place. Because ezvxlan.py is no longer running, no automatich VNI creation/deletion will be performed.</dd>
 </dl>
 </div>
 <div class="section" id="stop">
@@ -243,13 +240,13 @@ Keeping VXLAN VNI names starting with SYS_VN_
 <div class="section" id="show">
 <h2>show<a class="headerlink" href="#show" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># run script ezvxlan.py show</span>
-ezvxlan Version: 2.0.0.3 process is running
+ezvxlan Version: <span class="m">2</span>.0.0.3 process is running
 VLANs with names SYS_VLAN_xxxx or VNI_&lt;vni&gt;&lt;text&gt; are automatically mapped to SYS_VN_&lt;vni&gt; VTEPs
 </pre></div>
 </div>
 <p>or</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># run script ezvxlan.py show</span>
-ezvxlan Version: 1.0.0.6        process is not running
+ezvxlan Version: <span class="m">1</span>.0.0.6        process is not running
 VLANs with names SYS_VLAN_xxxx or VNI_&lt;vni&gt;&lt;text&gt; are not mapped to SYS_VN_&lt;vni&gt; VTEPs automatically
 </pre></div>
 </div>
@@ -297,14 +294,14 @@ VLANs with names SYS_VLAN_xxxx or VNI_&lt;vni&gt;&lt;text&gt; are not mapped to 
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="#">
-              <img class="logo" src="_static/ExtremeNetworksLogo.png" alt="Logo"/>
+              <img class="logo" src="_static/Extreme-Networks-RGB.png" alt="Logo"/>
             </a></p>
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Summary</a></li>
 <li><a class="reference internal" href="#application-highlights">Application Highlights</a><ul>
-<li><a class="reference internal" href="#ezvxlan-py-1-x">ezvxlan.py 1.x</a></li>
 <li><a class="reference internal" href="#ezvxlan-py-2-x">ezvxlan.py 2.x</a></li>
+<li><a class="reference internal" href="#ezvxlan-py-1-x">ezvxlan.py 1.x</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#overview">Overview</a><ul>
@@ -366,7 +363,7 @@ VLANs with names SYS_VLAN_xxxx or VNI_&lt;vni&gt;&lt;text&gt; are not mapped to 
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Extreme Networks.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
     </div>
   </body>
 </html>
