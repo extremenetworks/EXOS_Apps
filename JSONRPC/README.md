@@ -8,6 +8,13 @@ The sample `jsonrpc_client.py` script, available here, provides an example serve
 
 The `jsonrpc.py` class module contains the access methods for different EXOS JSONRPC methods.
 
+[jsonrpc-client.py application](jsonrpc_client.py)
+[jsonrpc.py EXOS JSONRPC import](jsonrpc.py)
+[ipaddrlist Example IP address list file](ipaddrlist)
+[exos-clilist Example EXOS CLI file](exos_clilist)
+[exos-summit-downloads Example EXOS CLI download commands](exos_summit_downloads)
+[exos-sample.py Example EXOS switch script file](exos_sample.py)
+
 ## `jsonrpc.py`
 The file `jsonrpc.py` is a python class module that may be imported into your python applications. It encapsulates the JSONRPC communications with EXOS switches for you so you may focus on solving your business needs.
 
