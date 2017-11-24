@@ -1,0 +1,4 @@
+create vlan 10-20
+config vlan 10-20 add ports all tag
+show vid
+show ports vid
