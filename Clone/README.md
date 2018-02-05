@@ -3,8 +3,8 @@
 __Click the link above to see the documentation__
 
 ## Download
- - [summitX-clone-1.1.0.15.xmod](summitX-clone-1.1.0.15.xmod)
- - [onie-clone-1.1.0.15.xmod.xmod](onie-clone-1.1.0.15.xmod)
+ - [summitX-clone-1.1.0.15.xmod](https://github.com/extremenetworks/EXOS_Apps/raw/master/Clone/summitX-clone-1.1.0.15.xmod)
+ - [onie-clone-1.1.0.15.xmod.xmod](https://github.com/extremenetworks/EXOS_Apps/raw/master/Clone/onie-clone-1.1.0.15.xmod)
 
 To download directly to an EXOS switch, use your browser and copy one of the links above depending on your switch type. 
 
