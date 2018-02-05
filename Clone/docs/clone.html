@@ -1,0 +1,1640 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>EXOS Cloning (clone.py) &#8212; Clone  documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">Clone  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <img alt="_images/ExtremeSwitchingLogo.png" src="_images/ExtremeSwitchingLogo.png" />
+<img alt="_images/XosLogo.png" src="_images/XosLogo.png" />
+<div class="section" id="exos-cloning-clone-py">
+<h1>EXOS Cloning (clone.py)<a class="headerlink" href="#exos-cloning-clone-py" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="exos-compatibility">
+<h2>EXOS Compatibility<a class="headerlink" href="#exos-compatibility" title="Permalink to this headline">¶</a></h2>
+<p>Most of the clone.py application features are compatible with EXOS 21.1 and later releases. Some features such as <code class="docutils literal"><span class="pre">slot</span></code> and cloning an entire stack require EXOS 22.2 and later.</p>
+<p>clone.py began shipping as part of EXOS 22.3. To view the version of the cloning application available on an EXOS switch, run the command:</p>
+<p><code class="docutils literal"><span class="pre">run</span> <span class="pre">script</span> <span class="pre">clone.py</span> <span class="pre">show</span></code></p>
+<p>The latest version of the EXOS cloning applicaiton is <a class="reference external" href="https://github.com/extremenetworks/EXOS_Apps/tree/master/Clone">here</a>.</p>
+<p>(see <a class="reference internal" href="#downloading-the-cloning-application">Downloading The Cloning Application</a>)</p>
+</div>
+</div>
+<div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>The clone.py application makes a complete software/configuration copy from one EXOS switch (master) to another (client).</p>
+<dl class="docutils">
+<dt>Cloning performs the following actions:</dt>
+<dd><ul class="first last simple">
+<li>copies the EXOS inactive operating system partition</li>
+<li>copies the EXOS active operating system partition</li>
+<li>(optionally) copies the <code class="docutils literal"><span class="pre">/usr/local/cfg</span></code> directory (see –exos_only option)</li>
+<li>copies selected NVRAM elements</li>
+<li>aligns boot partitions with the master switch</li>
+</ul>
+</dd>
+</dl>
+<p>There are 2 basic ways to clone:</p>
+<dl class="docutils">
+<dt><strong>Network cloning:</strong></dt>
+<dd><p class="first">The master and client switches are connected to a network. The client makes a clone of the master across the network.</p>
+<p>For network cloning, it is not necessary that the master and client switches are located physically together. As long as the IP address of the master is reachable by the client, the client may be cloned using network cloning.</p>
+<p class="last">Example: The master switch is located at the corportate offices in Chicago, USA. A switch is being installed in Paris, France. The new switch in Paris can clone the Chicago master switch over the network.</p>
+</dd>
+<dt><strong>USB cloning:</strong></dt>
+<dd>The master switch image is recorded on a USB memory module which can be used to clone client switches.</dd>
+</dl>
+<div class="section" id="why-use-cloning">
+<h2>Why use cloning?<a class="headerlink" href="#why-use-cloning" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Complete “One Operation” Copy</strong></dt>
+<dd><p class="first">Beyond the basic EXOS operating system image, there are additional modules (.xmod), which provide increased EXOS functionality, that may be added to your switches. Switches can contain policy files, scripts, additional configurations and applicaitons.</p>
+<p>Or you may create a reference switch with a baseline set of EXOS versions, scripts, policy files etc. just the way you would like all of your EXOS switches to be configured. Use the cloning application to align your new/existing client switches be just like the reference switch.</p>
+<p>To align a new/existing client switch with existing switch contents/configurations would require downloading and installing all of the files/components to each client switch. The cloning application makes a complete software copy from onc switch to another in one operation.</p>
+<p class="last">(See also: USB Zero Touch Provisioning in EXOS 22.3 for cloning new switches)</p>
+</dd>
+<dt><strong>Backup</strong></dt>
+<dd>The cloning application can also be used to create a complete backup of a switch by cloning to a USB memory module. Both EXOS partitions, and the complete configuration directories are recorded on the USB memory module should the switch need to be restored.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="i-want-to">
+<h1>I want to:<a class="headerlink" href="#i-want-to" title="Permalink to this headline">¶</a></h1>
+<dl class="docutils">
+<dt><strong>Use My Network to:</strong></dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="#clone-standalone-switch-to-standalone-switch-over-a-network">Clone standalone switch to standalone switch over a network</a></li>
+<li><a class="reference internal" href="#clone-a-stack-node-replacement-over-a-network">Clone a stack node replacement over a network</a></li>
+<li><a class="reference internal" href="#clone-an-entire-stack-over-a-network">Clone an entire stack over a network</a></li>
+</ul>
+</dd>
+<dt><strong>Use My USB Memory to:</strong></dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="#clone-standalone-switch-to-standalone-switch-using-usb-memory">Clone standalone switch to standalone switch using USB memory</a></li>
+<li><a class="reference internal" href="#clone-an-entire-stack-using-usb-memory">Clone an entire stack using USB memory</a></li>
+</ul>
+</dd>
+<dt><strong>Synchonize My Stack:</strong></dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="#synchonize-an-entire-stack-to-the-master">Synchonize an entire stack to the master</a></li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="clone-standalone-switch-to-standalone-switch-over-a-network">
+<h2>Clone standalone switch to standalone switch over a network<a class="headerlink" href="#clone-standalone-switch-to-standalone-switch-over-a-network" title="Permalink to this headline">¶</a></h2>
+<div class="standlone2standalone figure align-center">
+<img alt="_images/StandaloneToStandalone.png" src="_images/StandaloneToStandalone.png" />
+</div>
+<p class="centered">
+<strong>Clone Standalone to Standlone</strong></p><p>To clone over a network, both the master and client switch need the cloning applicaiton installed. (see <a class="reference internal" href="#downloading-the-cloning-application">Downloading The Cloning Application</a>)</p>
+<div class="section" id="on-the-master-switch">
+<h3>On the master switch<a class="headerlink" href="#on-the-master-switch" title="Permalink to this headline">¶</a></h3>
+<p>Start the cloning application.
+This only needs to be done once. The master switch may now serve client requests for cloning from any number of client switches.</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py master
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>clone.py is started as cloning master
+Use <span class="s2">&quot;stop&quot;</span> option to stop cloning master services
+</pre></div>
+</div>
+</div>
+<div class="section" id="on-the-client-switch">
+<h3>On the client switch<a class="headerlink" href="#on-the-client-switch" title="Permalink to this headline">¶</a></h3>
+<p>For cloning on the client switch, let’s assume:</p>
+<blockquote>
+<div><ul class="simple">
+<li>the switch has an IP address either via DHCP or manually configured</li>
+<li>the switch can reach the IP address of the master switch</li>
+<li>Example if the master switch has the IP address <code class="docutils literal"><span class="pre">10.10.10.1</span></code>. use <code class="docutils literal"><span class="pre">ping</span></code> to test network connectivity from the client to the master switch.</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">ping</span> <span class="pre">vr</span> <span class="pre">VR-Mgmt</span> <span class="pre">10.10.10.1</span></code> for connectivity by the management port</li>
+<li><code class="docutils literal"><span class="pre">ping</span> <span class="pre">vr</span> <span class="pre">VR-Default</span> <span class="pre">10.10.10.1</span></code> for connectivity by the front panel ports</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<p>Start the cloning operation on the client switch by entering the following CLI command:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">run</span> <span class="pre">script</span> <span class="pre">clone.py</span> <span class="pre">from</span> <span class="pre">10.10.10.1</span></code></li>
+</ul>
+</div></blockquote>
+<p>or to clone only the EXOS software and leave the client configuration unchanged:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">run</span> <span class="pre">script</span> <span class="pre">clone.py</span> <span class="pre">from</span> <span class="pre">10.10.10.1</span> <span class="pre">--exos_only</span></code></li>
+</ul>
+</div></blockquote>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py from <span class="m">10</span>.10.10.1
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                             C A U T I O N                              +
++       Cloning will replace the EXOS partitions and configuration       +
++   on this switch with the contents of the master switch <span class="m">10</span>.10.10.1     +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Do you want to <span class="k">continue</span> cloning? <span class="o">[</span>y/N<span class="o">]</span>: y
+clone.py is started as cloning client.
+This switch will become a copy of <span class="m">10</span>.68.61.131
+DO NOT REMOVE POWER or REBOOT the switch <span class="k">until</span> the operation is COMPLETE
+
+Starting cloning process
+
+Starting cloning process
+
+Transfering NVRAM information from master switch
+...........................
+Transfering EXOS partitions and configuration
+
+Transferring /usr/local/cfg directory.
+Enabling partition write
+
+Transferring inactive EXOS partition
+Preserving file boot/system.cfg
+
+Restoring file boot/system.cfg
+......................
+Transferring active EXOS partition
+Preserving file boot/system.cfg
+............
+Restoring file boot/system.cfg
+................................
+Transfering control information from master switch
+Copying remote file /proc/extr/nvram/bootsel to /proc/extr/nvram/bootsel
+Copying remote file /proc/extr/nvram/cmdline to /proc/extr/nvram/cmdline
+Copying remote file /proc/extr/nvram/fsu to /proc/extr/nvram/fsu
+Copying remote file /proc/extr/nvram/fsp to /proc/extr/nvram/fsp
+
+Config file fixup <span class="k">for</span> this switch
+
+
+Rebooting to master switch configuration
+You may need to adjust any IP addresses that may have been copied from the master switch
+
+************************
+*   Cloning COMPLETE   *
+************************
+Rebooting ...
+</pre></div>
+</div>
+<p>An example of cloning just the EXOS software leaving the local configuration unchanged:</p>
+<p>Command using the <code class="docutils literal"><span class="pre">--exos_only</span></code> option:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py from <span class="m">10</span>.10.10.1 --exos_only
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                        C A U T I O N                        +
++   Cloning will replace the EXOS partitions on this switch   +
++     with the contents of the master switch <span class="m">10</span>.10.10.1       +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Do you want to <span class="k">continue</span> cloning? <span class="o">[</span>y/N<span class="o">]</span>: y
+clone.py is started as cloning client.
+This switch will become a copy of <span class="m">10</span>.68.61.131
+DO NOT REMOVE POWER or REBOOT the switch <span class="k">until</span> the operation is COMPLETE
+
+Starting cloning process
+
+Starting cloning process
+
+Transfering NVRAM information from master switch
+...........................
+Transfering EXOS partitions and configuration
+
+Transferring EXOS version information
+Enabling partition write
+
+Transferring inactive EXOS partition
+Preserving file boot/system.cfg
+.
+Restoring file boot/system.cfg
+.................
+Transferring active EXOS partition
+Preserving file boot/system.cfg
+...
+Restoring file boot/system.cfg
+..................................
+Transfering control information from master switch
+Copying remote file /proc/extr/nvram/bootsel to /proc/extr/nvram/bootsel
+Copying remote file /proc/extr/nvram/cmdline to /proc/extr/nvram/cmdline
+Copying remote file /proc/extr/nvram/fsu to /proc/extr/nvram/fsu
+Copying remote file /proc/extr/nvram/fsp to /proc/extr/nvram/fsp
+
+Config file fixup <span class="k">for</span> this switch
+
+
+Rebooting to master switch EXOS image
+
+************************
+*   Cloning COMPLETE   *
+************************
+Rebooting ...
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="clone-a-stack-node-replacement-over-a-network">
+<h2>Clone a stack node replacement over a network<a class="headerlink" href="#clone-a-stack-node-replacement-over-a-network" title="Permalink to this headline">¶</a></h2>
+<p>To add or replace a switch in a stack, cloning will convert a standalone switch to a stack member.
+Stacking attributes, such as slot number, are specified on the command line at the start of the cloning process. Once the new switch has cloned the stack master, it will reboot and become a stack member at the specified slot number.</p>
+<dl class="docutils">
+<dt>When cloning a switch to become a stacking member, additional NVRAM attributes are copied from the stack master to the new switch:</dt>
+<dd><ul class="first last simple">
+<li>stacking enabled</li>
+<li>stack MAC</li>
+<li>slot number – either provided or derived from the stacking master</li>
+<li>The <code class="docutils literal"><span class="pre">–M</span></code> option determines if the master-capable option is enabled.</li>
+</ul>
+</dd>
+</dl>
+<p>To clone a new stack member over a network, the stacking master and the new stack member need the cloning applicaiton installed. (see <a class="reference internal" href="#downloading-the-cloning-application">Downloading The Cloning Application</a>)</p>
+<p>When cloning a stack member replacement or adding a new stack member to an existing stack, the simplest network configuration uses the switch management ports.</p>
+<p>If the switch management port is normally not used, you can use it for cloning by assigning any IP address on the same subnet, such as a private IP <code class="docutils literal"><span class="pre">192.168.1.1</span></code> for the stack master and <code class="docutils literal"><span class="pre">192.168.1.2</span></code> for the new client switch, and connect the switch management ports directly to each other.</p>
+<p>Example command on the master:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>config mgmt ip <span class="m">192</span>.168.1.1/24
+</pre></div>
+</div>
+<p>Example command on the new switch:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>config mgmt ip <span class="m">192</span>.168.1.2/24
+</pre></div>
+</div>
+<div class="standlone2stack figure align-center">
+<img alt="_images/Standalone2Stack.png" src="_images/Standalone2Stack.png" />
+</div>
+<p class="centered">
+<strong>Clone Add/Replace Stack Switch</strong></p><dl class="docutils">
+<dt><strong>The new/replacement stack member:</strong></dt>
+<dd><ul class="first last simple">
+<li>The stacking links must be connected to the new stack member</li>
+<li>The stacking links must be configured properly for that switch type to have stacking connectivity<ul>
+<li>Each switch type has different configuration options for enabling and configuring stacking links. See the EXOS users guide for more information</li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="on-the-stack-master">
+<h3>On the stack master<a class="headerlink" href="#on-the-stack-master" title="Permalink to this headline">¶</a></h3>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py master
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>clone.py is started as cloning master
+Use <span class="s2">&quot;stop&quot;</span> option to stop cloning master services
+</pre></div>
+</div>
+</div>
+<div class="section" id="on-the-new-stack-member">
+<h3>On the new stack member<a class="headerlink" href="#on-the-new-stack-member" title="Permalink to this headline">¶</a></h3>
+<p>First configure the switches stacking-support options so that stacking connectivity will be ready once the switch becomes stacking enabled. <strong>It is important to perform this step before cloning the new switch.</strong> If the switch is cloned as a stacking standby switch, console login and configuration options require contacting a stack master for user authentication. If the stacking links are not configured correctly, then only failsafe login is available</p>
+<p>Once the standalone switch stack-support configuration is correct where the switches stack links match the stack, the clone operation will take care of everything else</p>
+<p>On the stacking master, use the <code class="docutils literal"><span class="pre">show</span> <span class="pre">stacking</span></code> command to see if the new switch stacking links have been configured correctly with stacking-support.</p>
+<p>In the examples below, <code class="docutils literal"><span class="pre">10.68.69.94</span></code> is the IP address of the stacking master</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>show stacking
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Stack Topology is a Ring
+This node is not in an Active Topology
+Node MAC Address    Slot  Stack State  Role     Flags
+------------------  ----  -----------  -------  ---
+*00:04:96:98:94:d3  -     Disabled     Master   --- &lt;-This is the standalone switch
+ <span class="m">00</span>:04:96:98:87:3a  <span class="m">4</span>     Active       Standby  --O
+ 0e:00:00:00:00:85  <span class="m">5</span>     Active       Standby  --O
+ <span class="m">00</span>:04:96:98:87:54  <span class="m">6</span>     Active       Standby  --O
+ 0e:00:00:00:00:84  <span class="m">7</span>     Active       Standby  --O
+ <span class="m">00</span>:04:96:14:0b:03  <span class="m">8</span>     Active       Backup   --O
+ <span class="m">00</span>:04:96:14:0b:04  <span class="m">1</span>     Active       Standby  --O
+ 0e:00:00:00:00:83  <span class="m">2</span>     Active       Master   --O
+* - Indicates this node
+Flags:  <span class="o">(</span>C<span class="o">)</span> Candidate <span class="k">for</span> this active topology, <span class="o">(</span>A<span class="o">)</span> Active Node
+        <span class="o">(</span>O<span class="o">)</span> node may be in Other active topology
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><strong>Example:</strong></dt>
+<dd>Clone new switch as standby slot 3</dd>
+</dl>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py from <span class="m">10</span>.68.69.94 -s <span class="m">3</span>
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1">#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
++                               C A U T I O N                                +
++         Cloning will replace the EXOS partitions and configuration         +
++     on this switch with the contents of the master switch <span class="m">10</span>.68.69.94      +
++                                                                            +
++                                  STACKING                                  +
++      You have requested this switch to be cloned to stack <span class="m">10</span>.68.69.94      +
++         Switches have a variety of stacking cabling options. See:          +
++                                                                            +
++                       configure stacking-support ...                       +
++                                    and                                     +
++                          <span class="nb">enable</span> stacking-support                           +
++                                                                            +
++   The stacking-support options MUST already be configured before cloning   +
++                  <span class="k">for</span> stack connectivity to work correctly                  +
+<span class="c1">#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+Do you want to <span class="k">continue</span> cloning? <span class="o">[</span>y/N<span class="o">]</span>: y
+clone.py is started as cloning client.
+This switch will become a copy of <span class="m">10</span>.68.69.94
+DO NOT REMOVE POWER or REBOOT the switch <span class="k">until</span> the operation is COMPLETE
+
+Starting cloning process
+Starting cloning process
+Transfering EXOS partitions and configuration
+
+Transferring active EXOS partition.......
+Updating active partition
+...................................
+Transferring inactive EXOS partition...............
+Transferring /usr/local/cfg directory....Transfering NVRAM information from master switch
+Transfering control information from master switch
+Transfering stacking information from master switch
+Using first available slot <span class="m">3</span>
+
+Rebooting to master switch configuration
+You may need to adjust any IP addresses that may have been copied from the master switch
+<span class="c1">#************************</span>
+*   Cloning COMPLETE   *
+<span class="c1">#************************</span>
+Rebooting ...
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Authentication Service <span class="o">(</span>AAA<span class="o">)</span> on the master node is now available <span class="k">for</span> login.
+admin
+password:
+
+ExtremeXOS
+Copyright <span class="o">(</span>C<span class="o">)</span> <span class="m">1996</span>-2017 Extreme Networks. All rights reserved.
+This product is protected by one or more US patents listed at http://www.extremenetworks.com/patents along with their foreign counterparts.
+<span class="o">==============================================================================</span>
+
+You are connected to a Standby node.  Only a limited <span class="nb">command</span> <span class="nb">set</span> is supported.
+You may use <span class="s2">&quot;telnet slot &lt;slot_number&gt;&quot;</span> to connect to the Master node to access
+the full <span class="nb">set</span> of commands.
+
+You are connected to a standby stack node<span class="se">\&#39;</span>s serial port.
+Use <span class="s2">&quot;telnet slot &lt;slot_number&gt;&quot;</span> to connect to another node.
+
+Press the &lt;tab&gt; or <span class="s1">&#39;?&#39;</span> key at any <span class="nb">time</span> <span class="k">for</span> completions.
+Remember to save your configuration changes.
+</pre></div>
+</div>
+<p>After the new stack member switch reboots, you can verify its stack membership.</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Slot-3 Stack.1 &gt; show stacking
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Stack Topology is a Ring
+Active Topology is a Ring
+Node MAC Address    Slot  Stack State  Role     Flags
+------------------  ----  -----------  -------  ---
+*00:04:96:98:94:d3  <span class="m">3</span>     Active       Standby  CA-
+ <span class="m">00</span>:04:96:98:87:3a  <span class="m">4</span>     Active       Standby  CA-
+ 0e:00:00:00:00:85  <span class="m">5</span>     Active       Standby  CA-
+ <span class="m">00</span>:04:96:98:87:54  <span class="m">6</span>     Active       Standby  CA-
+ 0e:00:00:00:00:84  <span class="m">7</span>     Active       Standby  CA-
+ <span class="m">00</span>:04:96:14:0b:03  <span class="m">8</span>     Active       Backup   CA-
+ <span class="m">00</span>:04:96:14:0b:04  <span class="m">1</span>     Active       Standby  CA-
+ 0e:00:00:00:00:83  <span class="m">2</span>     Active       Master   CA-
+* - Indicates this node
+Flags:  <span class="o">(</span>C<span class="o">)</span> Candidate <span class="k">for</span> this active topology, <span class="o">(</span>A<span class="o">)</span> Active Node
+        <span class="o">(</span>O<span class="o">)</span> node may be in Other active topology
+</pre></div>
+</div>
+<p>The ‘*’ next to the top switch indicates the new switches position in the stack. The cloning operation has successfully cloned the switch into the slot 3 position as a standby switch.</p>
+</div>
+<div class="section" id="id1">
+<h3>On the stack master<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><strong>Example</strong></dt>
+<dd>Clone new switch as master-capable backup switch in slot 2</dd>
+</dl>
+<p>On the master switch:</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Slot-1 Stack.1 &gt; show slot
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Slots    Type                 Configured           State       Ports
+--------------------------------------------------------------------
+Slot-1   X450G2-48p-10G4      X450G2-48p-10G4      Operational   <span class="m">52</span>
+Slot-2                                             Empty         <span class="m">28</span>
+Slot-3   X450G2-24t-10G4                           Operational   <span class="m">28</span>
+Slot-4   X450G2-24p-G4                             Operational   <span class="m">28</span>
+Slot-5                                             Empty          <span class="m">0</span>
+Slot-6                                             Empty          <span class="m">0</span>
+Slot-7                                             Empty          <span class="m">0</span>
+Slot-8                                             Empty          <span class="m">0</span>
+</pre></div>
+</div>
+<p>The display shows that slot 2 is missing. This was the backup switch for the stack.</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Slot-1 Stack.3 &gt; run script clone.py master
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>clone.py is started as cloning master
+Use <span class="s2">&quot;stop&quot;</span> option to stop cloning master services
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>On the new stack member<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>On the new switch, clone the new stack member as master-capable slot 2</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py from <span class="m">10</span>.68.69.50 -M -s <span class="m">2</span>
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                               C A U T I O N                                +
++         Cloning will replace the EXOS partitions and configuration         +
++     on this switch with the contents of the master switch <span class="m">10</span>.68.69.50      +
++                                                                            +
++                                  STACKING                                  +
++      You have requested this switch to be cloned to stack <span class="m">10</span>.68.69.50      +
++                            as a stacking master                            +
++         Switches have a variety of stacking cabling options. See:          +
++                                                                            +
++                       configure stacking-support ...                       +
++                                    and                                     +
++                          <span class="nb">enable</span> stacking-support                           +
++                                                                            +
++   The stacking-support options MUST already be configured before cloning   +
++                  <span class="k">for</span> stack connectivity to work correctly                  +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Do you want to <span class="k">continue</span> cloning? <span class="o">[</span>y/N<span class="o">]</span>: y
+clone.py is started as cloning client.
+This switch will become a copy of <span class="m">10</span>.68.69.50
+DO NOT REMOVE POWER or REBOOT the switch <span class="k">until</span> the operation is COMPLETE
+
+Starting cloning process
+
+Starting cloning process
+
+Transfering NVRAM information from master switch
+...........................
+Transfering stacking information from master switch
+Cannot find stacking node information <span class="k">for</span> slot <span class="m">2</span>
+Adding switch as a new stack member slot <span class="m">2</span>
+Switch will be stacking master capable
+
+Transfering EXOS partitions and configuration
+
+Transferring /usr/local/cfg directory.
+Enabling partition write
+
+Transferring inactive EXOS partition
+Preserving file boot/system.cfg
+
+Restoring file boot/system.cfg
+........
+Transferring active EXOS partition
+Preserving file boot/system.cfg
+.....
+Restoring file boot/system.cfg
+........
+Transfering control information from master switch
+Copying remote file /proc/extr/nvram/bootsel to /proc/extr/nvram/bootsel
+Copying remote file /proc/extr/nvram/cmdline to /proc/extr/nvram/cmdline
+Copying remote file /proc/extr/nvram/fsu to /proc/extr/nvram/fsu
+Copying remote file /proc/extr/nvram/fsp to /proc/extr/nvram/fsp
+
+Config file fixup <span class="k">for</span> this switch
+
+
+Rebooting to master switch configuration
+You may need to adjust any IP addresses that may have been copied from the master switch
+
+************************
+*   Cloning COMPLETE   *
+************************
+Rebooting ...
+</pre></div>
+</div>
+<p>Checking to see the results of cloning a new stack backup switch.</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Slot-2 Stack.1 &gt; show switch
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>SysName:          Stack
+SysLocation:
+SysContact:       support@extremenetworks.com, +1 <span class="m">888</span> <span class="m">257</span> <span class="m">3000</span>
+System MAC:       0E:00:00:00:00:83
+System Type:      X450G2-24p-10G4 <span class="o">(</span>Stack<span class="o">)</span>
+
+SysHealth check:  Enabled <span class="o">(</span>Normal<span class="o">)</span>
+Recovery Mode:    All
+System Watchdog:  Enabled
+
+Current Time:     Fri Nov <span class="m">17</span> <span class="m">11</span>:01:57 <span class="m">2017</span>
+Timezone:         <span class="o">[</span>Auto DST Disabled<span class="o">]</span> GMT Offset: <span class="m">0</span> minutes, name is UTC.
+Boot Time:        Fri Nov <span class="m">17</span> <span class="m">10</span>:57:14 <span class="m">2017</span>
+Boot Count:       <span class="m">643</span>
+Next Reboot:      None scheduled
+System UpTime:    <span class="m">20</span> hours <span class="m">23</span> minutes <span class="m">53</span> seconds
+
+Slot:             Slot-2 *                     Slot-1
+                  ------------------------     ------------------------
+Current State:    BACKUP <span class="o">(</span>In Sync<span class="o">)</span>             MASTER
+
+Image Selected:   primary                      primary
+Image Booted:     primary                      primary
+Primary ver:      <span class="m">22</span>.1.1.5                     <span class="m">22</span>.1.1.5
+Secondary ver:    <span class="m">22</span>.4.0.37                    <span class="m">22</span>.4.0.37
+
+Config Selected:  primary.cfg
+Config Booted:    primary.cfg
+
+primary.cfg       Created by ExtremeXOS version <span class="m">22</span>.4.0.37
+                  <span class="m">754635</span> bytes saved on Thu Nov <span class="m">16</span> <span class="m">14</span>:30:15 <span class="m">2017</span>
+</pre></div>
+</div>
+<p>The new switch was correctly cloned to slot 2 as the backup switch.</p>
+</div>
+</div>
+<div class="section" id="clone-an-entire-stack-over-a-network">
+<h2>Clone an entire stack over a network<a class="headerlink" href="#clone-an-entire-stack-over-a-network" title="Permalink to this headline">¶</a></h2>
+<p>EXOS 22.2 is a minimum requirement for using the cloning application ‘Stack Cloning’ capability. Each stack member switch must be running EXOS 22.2 or later.</p>
+<p>To clone over a network, both the master stack and new stack switch need the cloning applicaiton installed. (see <a class="reference internal" href="#downloading-the-cloning-application">Downloading The Cloning Application</a>)</p>
+<p>When constucting a new stack, it is sometimes challenging to get the right software on the standalone switches to correctly form a stack. Aligning the boot partition of all the stack member switches is also important for future sofware upgrades. Using the cloning application, the process of geting the right software on each of the stack memers is simplified.</p>
+<div class="stacktostack figure align-center">
+<img alt="_images/StackToStack.png" src="_images/StackToStack.png" />
+</div>
+<p class="centered">
+<strong>Clone Entire Stack</strong></p><div class="section" id="on-the-master-stack">
+<h3>On the master stack<a class="headerlink" href="#on-the-master-stack" title="Permalink to this headline">¶</a></h3>
+<p>Start the cloning application.
+This only needs to be done once. The master switch may now serve client requests for cloning.</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py master
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>clone.py is started as cloning master
+Use <span class="s2">&quot;stop&quot;</span> option to stop cloning master services
+</pre></div>
+</div>
+</div>
+<div class="section" id="on-the-new-stack">
+<h3>On the new stack<a class="headerlink" href="#on-the-new-stack" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>Cloning cannot assist with getting the stacking link connectivity correct. Each switch type has unique configurations for</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">enable</span> <span class="pre">stacking-support</span></code></li>
+<li><code class="docutils literal"><span class="pre">config</span> <span class="pre">stacking</span> <span class="pre">easy-setup</span></code></li>
+</ul>
+</dd>
+</dl>
+<p>It doesn’t matter if the switches have mismatched software, or the boot partitions do not align. The cloning application will take care of that.</p>
+<p>Check the new stack to see the current status</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Slot-1 Stack.1 &gt; show slot
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Slots    Type                 Configured           State       Ports
+--------------------------------------------------------------------
+Slot-1   X450G2-48p-10G4      X450G2-48p-10G4      Operational   <span class="m">52</span>
+Slot-2   X450G2-24p-10G4                           Failed        <span class="m">28</span>
+Slot-3   X450G2-24t-10G4                           Failed        <span class="m">28</span>
+Slot-4   X450G2-24p-G4                             Failed        <span class="m">28</span>
+Slot-5                                             Empty          <span class="m">0</span>
+Slot-6                                             Empty          <span class="m">0</span>
+Slot-7                                             Empty          <span class="m">0</span>
+Slot-8                                             Empty          <span class="m">0</span>
+</pre></div>
+</div>
+<p>The stack has been formed with some kind of software on all of the switches. The display shows that slots 2,3,4 are incompatible with the stack master.</p>
+<p>In this example, the new stack is cloned from the master stack. The master stack IP address is <code class="docutils literal"><span class="pre">10.68.61.81</span></code>.</p>
+<p>The stack cloning operation is performed in 2 steps:</p>
+<ol class="arabic simple">
+<li>clone the new stack master switch from the master stack</li>
+<li>synchronize the rest of the new stack members with the new stack master switch using the EXOS autoexec.xsf capability</li>
+</ol>
+<p>Depending on the types of switches, the stack cloning operation may take 4-5 minutes per stack member.
+Newer switches take less time.</p>
+<p>First step: Start the cloning application on the new stack master switch. It will clone the new stack master switch from the master stack.</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py from <span class="m">10</span>.68.61.81
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                             C A U T I O N                             +
++      Cloning will replace the EXOS partitions and configuration       +
++   on this switch with the contents of the master switch <span class="m">10</span>.68.61.81   +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Do you want to <span class="k">continue</span> cloning? <span class="o">[</span>y/N<span class="o">]</span>: y
+</pre></div>
+</div>
+<p>No more user input is needed after the question is answered.</p>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>clone.py is started as cloning client.
+This switch will become a copy of <span class="m">10</span>.68.61.81
+DO NOT REMOVE POWER or REBOOT the switch <span class="k">until</span> the operation is COMPLETE
+
+Cloning stack master. DO NOT REBOOT OR POWER CYCLE this switch
+
+Starting cloning process
+
+Starting cloning process
+Saving configuration primary.cfg  on master ..... <span class="k">done</span>!
+..........
+Transfering NVRAM information from master switch
+...........................
+Transfering EXOS partitions and configuration
+
+Transferring /usr/local/cfg directory.
+Enabling partition write
+
+Transferring inactive EXOS partition
+Preserving file boot/system.cfg
+.
+Restoring file boot/system.cfg
+..........
+Transferring active EXOS partition
+Preserving file boot/system.cfg
+....
+Restoring file boot/system.cfg
+......
+Transfering control information from master switch
+Copying remote file /proc/extr/nvram/bootsel to /proc/extr/nvram/bootsel
+Copying remote file /proc/extr/nvram/cmdline to /proc/extr/nvram/cmdline
+Copying remote file /proc/extr/nvram/fsu to /proc/extr/nvram/fsu
+Copying remote file /proc/extr/nvram/fsp to /proc/extr/nvram/fsp
+
+Config file fixup <span class="k">for</span> this switch
+.
+
+Rebooting to master switch configuration
+You may need to adjust any IP addresses that may have been copied from the master switch
+Rebooting ...
+reboot: Restarting system
+
+Copyright <span class="m">2014</span> Extreme Networks, Inc.
+
+Starting CRC of Default image
+Using Default image ...
+
+Copyright <span class="m">2014</span> Extreme Networks, Inc.
+
+
+Press and hold the &lt;spacebar&gt; to enter the bootrom:  <span class="m">0</span>
+Loading Secondary OS Image
+
+Starting ExtremeXOS <span class="m">22</span>.2.1b5
+Copyright <span class="o">(</span>C<span class="o">)</span> <span class="m">1996</span>-2017 Extreme Networks.  All rights reserved.
+This product is protected by one or more US patents listed at http://www.extremenetworks.com/patents along with their foreign counterparts.
+
+
+<span class="o">(</span>pending-AAA<span class="o">)</span> login:
+
+Authentication Service <span class="o">(</span>AAA<span class="o">)</span> on the master node is now available <span class="k">for</span> login.
+</pre></div>
+</div>
+<p>At this point, the new stack master switch has been cloned from the master stack.</p>
+<p>The cloning application performs the next step where the new master sychronizes the rest of the new stack members.</p>
+<p>There may be a few minute delay at this point while EXOS prepares to run the autoexec.xsf script to finish the stack cloning operation.</p>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Loading autoexec.xsf.
+*********************
+CLONING STACK MEMBERS
+*********************
+Cloning slot <span class="m">4</span> started
+............................................................................
+Slot <span class="m">4</span> cloning COMPLETE
+Cloning slot <span class="m">3</span> started
+.........................................................
+Slot <span class="m">3</span> cloning COMPLETE
+Cloning slot <span class="m">2</span> started
+..........................................................
+Slot <span class="m">2</span> cloning COMPLETE
+****************
+CLONING COMPLETE
+****************
+Script Loaded Successfully.
+The output of loading autoexec script can be seen by executing <span class="s2">&quot;show script output autoexec&quot;</span>.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="clone-standalone-switch-to-standalone-switch-using-usb-memory">
+<h2>Clone standalone switch to standalone switch using USB memory<a class="headerlink" href="#clone-standalone-switch-to-standalone-switch-using-usb-memory" title="Permalink to this headline">¶</a></h2>
+<p>Customers can create a complete switch image and store it on USB memory. The clone.py application is also stored on the USB memory. The USB memory can then be used to clone other switches, or restore a switch to the state when the switch information was saved to USB.
+In EXOS 22.3, a clone image stored on USB memory may be used to auto clone a switch using the USBZTP feature.
+(See USB ZTP for more details.)</p>
+<div class="standlone2usb figure align-center">
+<img alt="_images/StandaloneToUSB.png" src="_images/StandaloneToUSB.png" />
+</div>
+<p class="centered">
+<strong>Clone To/From USB Memory</strong></p><div class="section" id="copying-a-switch-to-usb">
+<h3>Copying a switch to USB<a class="headerlink" href="#copying-a-switch-to-usb" title="Permalink to this headline">¶</a></h3>
+<p>Copying the entire contents of a switch to a USB memory module is the same procedure for both a standalone and a stack image.</p>
+<div class="createusb figure align-center">
+<img alt="_images/CreateUSB.png" src="_images/CreateUSB.png" />
+</div>
+<p class="centered">
+<strong>Clone a switch to USB memory</strong></p><p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># run script clone.py usb -o</span>
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>clone: <span class="m">1</span>.1.0.15
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++   Clone EXOS and configuration partitions on this switch to the file:   +
++            /usr/local/ext/xos1439G-00484_2018-02-04_2037.cln            +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Do you want to <span class="k">continue</span> cloning? <span class="o">[</span>y/N<span class="o">]</span>: y
+.......................................
+-rwxr-xr-x    <span class="m">1</span> root     root    <span class="m">459603456</span> Feb  <span class="m">4</span> <span class="m">20</span>:38 /usr/local/ext/xos1439G-00484_2018-02-04_2037.cln
+
+ 1K-blocks      Used Available Use%
+   <span class="m">7848960</span>    <span class="m">448984</span>   <span class="m">7399976</span>   <span class="m">6</span>%
+
+
+************************
+*   Cloning COMPLETE   *
+************************
+</pre></div>
+</div>
+<p>The image file name contains the switch serial number, date and time the clone image was created.</p>
+</div>
+<div class="section" id="usb-to-switch">
+<h3>USB to switch<a class="headerlink" href="#usb-to-switch" title="Permalink to this headline">¶</a></h3>
+<p>To create a standalone clone from a USB memory module, insert the USB memory into the switch.
+Using the <code class="docutils literal"><span class="pre">ls</span> <span class="pre">/usr/local/ext</span></code> command, determine the name of the clone image file (ending wiht .cln)</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># ls /usr/local/ext</span>
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>-rwxr-xr-x    <span class="m">1</span> root     root       <span class="m">149626</span> Feb  <span class="m">4</span> <span class="m">20</span>:38 clone.py
+-rwxr-xr-x    <span class="m">1</span> root     root    <span class="m">459603456</span> Feb  <span class="m">4</span> <span class="m">20</span>:38 xos1439G-00484_2018-02-04_2037.cln
+</pre></div>
+</div>
+<p>Enter the command to clone the switch from the desired file name on the USB memory module:</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py usb -i xos1439G-00484_2018-02-04_2037.cln
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>clone: <span class="m">1</span>.1.0.15
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                         C A U T I O N                          +
++   Cloning will replace the EXOS partitions and configuration   +
++        on this switch with the contents of the usb file        +
++       /usr/local/ext/xos1439G-00484_2018-02-04_2037.cln        +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Do you want to <span class="k">continue</span> cloning? <span class="o">[</span>y/N<span class="o">]</span>: y
+DO NOT REMOVE POWER or REBOOT the switch <span class="k">until</span> the operation is COMPLETE
+Switch will reboot when cloning is COMPLETE
+...
+Transfering NVRAM information from USB
+..........................
+Transferring /usr/local/cfg directory
+
+Transferring inactive EXOS partition from USB
+..........
+Transferring active EXOS partition from USB
+.............
+Config file fixup <span class="k">for</span> this switch
+..
+
+****************************
+*   USB Cloning COMPLETE   *
+****************************
+reboot: Restarting system
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="clone-an-entire-stack-using-usb-memory">
+<h2>Clone an entire stack using USB memory<a class="headerlink" href="#clone-an-entire-stack-using-usb-memory" title="Permalink to this headline">¶</a></h2>
+<p>Cloning an entire stack from a USB memory module has the same requirements as cloning a stack over the networks. <a class="reference internal" href="#clone-an-entire-stack-over-a-network">Clone an entire stack over a network</a>.</p>
+<p>Instead of cloning the new stack over the network, an existing stack master image is copied to a USB memory module using the procedure <a class="reference internal" href="#copying-a-switch-to-usb">Copying a switch to USB</a>.</p>
+<div class="masterstacktousb figure align-center">
+<img alt="_images/MasterStackToUSB.png" src="_images/MasterStackToUSB.png" />
+</div>
+<p class="centered">
+<strong>Copy Existing Stack Master to USB</strong></p><p>Once you have formed the new stack and are ready to clone it using the image captured on a USB memory module.</p>
+<p>Insert the USB into the new stack master.
+<strong>Note: The clone image must come from another stack</strong></p>
+<div class="usbtostack figure align-center">
+<img alt="_images/USBtoStack.png" src="_images/USBtoStack.png" />
+</div>
+<p class="centered">
+<strong>Copy USB to New Stack Master</strong></p><p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># run script clone.py usb -i /usr/local/ext/xos1031G-00001_2018-02-02_1351.cln</span>
+</pre></div>
+</div>
+<p>While the new stack master is performing the cloning operation, the other switches in the new stack may reboot.</p>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>clone: <span class="m">1</span>.1.0.15
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                         C A U T I O N                          +
++   Cloning will replace the EXOS partitions and configuration   +
++        on this switch with the contents of the usb file        +
++       /usr/local/ext/xos1031G-00001_2018-02-02_1351.cln        +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Do you want to <span class="k">continue</span> cloning? <span class="o">[</span>y/N<span class="o">]</span>: y
+DO NOT REMOVE POWER or REBOOT the switch <span class="k">until</span> the operation is COMPLETE
+Switch will reboot when cloning is COMPLETE
+......
+Transfering NVRAM information from USB
+.........................
+Transferring /usr/local/cfg directory
+.
+Transferring inactive EXOS partition from USB
+....
+Preserving file alt/boot/system.cfg
+....
+Restoring file alt/boot/system.cfg
+
+Transferring active EXOS partition from USB
+.....
+Preserving file boot/system.cfg
+...
+Restoring file boot/system.cfg
+
+Config file fixup <span class="k">for</span> this switch
+..
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++   CLONING will <span class="k">continue</span> to synchronize the remaining stack members   +
++                       after the stack reboots                        +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+reboot: Restarting system
+</pre></div>
+</div>
+<p>The new stack master switch will reboot at this point. Once the new stack master has rebooted, it will synchronize the remaining stack members using the EXOS autoexec.xsf facility. Stack members will be cloned based on stack link distance from the master. Switches furthest away from the master, via stack links, will be cloned first.</p>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">(</span>pending-AAA<span class="o">)</span> login:
+
+Authentication Service <span class="o">(</span>AAA<span class="o">)</span> on the master node is now available <span class="k">for</span> login.
+
+Loading autoexec.xsf.
+*********************
+CLONING STACK MEMBERS
+*********************
+clone: <span class="m">1</span>.1.0.15
+Cloning slot <span class="m">4</span> started
+........................................................
+Slot <span class="m">4</span> cloning COMPLETE
+Cloning slot <span class="m">3</span> started
+....................................................................
+Slot <span class="m">3</span> cloning COMPLETE
+Cloning slot <span class="m">2</span> started
+.......................................................
+Slot <span class="m">2</span> cloning COMPLETE
+****************
+CLONING COMPLETE
+****************
+Script Loaded Successfully.
+The output of loading autoexec script can be seen by executing <span class="s2">&quot;show script output autoexec&quot;</span>.
+</pre></div>
+</div>
+</div>
+<div class="section" id="synchonize-an-entire-stack-to-the-master">
+<h2>Synchonize an entire stack to the master<a class="headerlink" href="#synchonize-an-entire-stack-to-the-master" title="Permalink to this headline">¶</a></h2>
+<p>Beginning with EXOS 22.2, the move of functionality from the Linux kernel to user space rendered the stacking command synchronize slot &lt;&gt; unfunctional. While the CLI remained the same, the implementation was replaced by the clone.py application.</p>
+<p>In this mode the clone.py application uses the stacking link to copy the file system partitions and stacking NVRAM objects from the stack master to the specified slot</p>
+<div class="syncslot figure align-center">
+<img alt="_images/SyncSlot.png" src="_images/SyncSlot.png" />
+</div>
+<p class="centered">
+<strong>EXOS sync slot command</strong></p><p>When using the CLI command to start the clone.py application, only one slot may be specified.</p>
+<p>When running the clone.py application directly, any number of slots including the keyword ‘all’ may be specified. If more that one slot is specified, the master is cloned to each slot one at a time. Early versions would clone the entire stack at once but ran into issues if some slots finished and rebooted, disrupting the stack link to other switches that had not completed the cloning operation.</p>
+</div>
+</div>
+<div class="section" id="application-description">
+<h1>Application Description<a class="headerlink" href="#application-description" title="Permalink to this headline">¶</a></h1>
+<p>The clone.py application uses a master/client model.
+The master use the Linux tar utility to tar the EXOS partitions directly to a socket connection to the client.
+The client uses the Linux tar utility to read the input directly from the socket connect to the master.</p>
+<p>There are no intermediate tar files created on either the master or client switch.</p>
+<div class="masterclient figure align-center">
+<img alt="_images/MasterClient.png" src="_images/MasterClient.png" />
+</div>
+<div class="section" id="master">
+<h2>Master<a class="headerlink" href="#master" title="Permalink to this headline">¶</a></h2>
+<p>When the clone.py is run on a switch as a master, it acts as a server an listens for connection requests from clone.py applications running as clients.</p>
+<p>The master will serve up to 8 cloning clients at a time. The master listens on VR-Mgmt and VR-Default for external client requests and VR-Control for stacking cloning requests.</p>
+</div>
+<div class="section" id="client">
+<h2>Client<a class="headerlink" href="#client" title="Permalink to this headline">¶</a></h2>
+<p>When the clone.py application runs as a client, it attempts to connect with the clone master on VR-Mgmt and VR-Default for standalone operations, and VR-Control for synchronize slot &lt;&gt;.</p>
+</div>
+<div class="section" id="usb">
+<h2>USB<a class="headerlink" href="#usb" title="Permalink to this headline">¶</a></h2>
+<p>When the clone.py application is used to create a clone image on the USB memory, it creates a file with a .cln suffix</p>
+<p>When the clone.py application is used to reimage a switch, the file name is provided in the command. Typically it will be the &lt;file&gt;.cln created by the creation process</p>
+<div class="masterusb figure align-center">
+<img alt="_images/MasterUSB.png" src="_images/MasterUSB.png" />
+</div>
+</div>
+</div>
+<div class="section" id="downloading-the-cloning-application">
+<h1>Downloading The Cloning Application<a class="headerlink" href="#downloading-the-cloning-application" title="Permalink to this headline">¶</a></h1>
+<p>If the EXOS switch can connect with the github directly, use the following CLI command to upgrade clone.py to the latest version:</p>
+<p>Using the management port</p>
+<p><code class="docutils literal"><span class="pre">download</span> <span class="pre">url</span> <span class="pre">&lt;https://github.com/extremenetworks/EXOS_Apps/tree/master/Clone&gt;</span></code></p>
+<p>Using a front panel port</p>
+<p><code class="docutils literal"><span class="pre">download</span> <span class="pre">url</span> <span class="pre">&lt;https://github.com/extremenetworks/EXOS_Apps/tree/master/Clone&gt;</span> <span class="pre">vr</span> <span class="pre">VR-Default</span></code></p>
+</div>
+<div class="section" id="exos-command-line">
+<h1>EXOS Command Line<a class="headerlink" href="#exos-command-line" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="top-level-help">
+<h2>Top level help<a class="headerlink" href="#top-level-help" title="Permalink to this headline">¶</a></h2>
+<p>There are multiple levels of help available in clone.py. The top level help displays the clone.py options. Each option may have additional help.</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py -h
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>usage: clone <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-d<span class="o">]</span> <span class="o">{</span>master,stop,restart,show,from,usb<span class="o">}</span> ...
+
+positional arguments:
+  <span class="o">{</span>master,stop,restart,show,from,usb<span class="o">}</span>
+    master              Start the remote cloning server on this switch
+    stop                Stop the clone application
+    restart             Restart the clone application. Useful after upgrade
+    show                Show the running status of clone.
+    from                Cloning this switch from the &lt;ipaddress&gt; provided.
+    usb                 Cloning this switch to/from the usb memory at
+                        /usr/local/ext/
+
+optional arguments:
+  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
+  -d, --debug           Enable debug
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2><code class="docutils literal"><span class="pre">master</span></code><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Start clone.py as a server for other clone.py clients. The contents of the clone master switch will be duplicated to the clients</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py master
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>clone.py is started as cloning master
+Use <span class="s2">&quot;stop&quot;</span> option to stop cloning master services
+</pre></div>
+</div>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py stop
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Stopping clone.py
+clone.py is stopped
+</pre></div>
+</div>
+</div>
+<div class="section" id="stop">
+<h2><code class="docutils literal"><span class="pre">stop</span></code><a class="headerlink" href="#stop" title="Permalink to this headline">¶</a></h2>
+<p>Stop clone.py. A message displays whether clone.py is stopped or was not running</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py stop
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Stopping clone.py
+clone.py is stopped
+</pre></div>
+</div>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py stop
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>clone.py is not running
+</pre></div>
+</div>
+</div>
+<div class="section" id="restart">
+<h2><code class="docutils literal"><span class="pre">restart</span></code><a class="headerlink" href="#restart" title="Permalink to this headline">¶</a></h2>
+<p>Used after upgrading clone.py, E.g. if clone.py was running as a clone master, this is equivalent of combining the stop, master commands</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py restart
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Restarting clone.py
+clone.py has been restarted
+</pre></div>
+</div>
+</div>
+<div class="section" id="show">
+<h2><code class="docutils literal"><span class="pre">show</span></code><a class="headerlink" href="#show" title="Permalink to this headline">¶</a></h2>
+<p>Displays if clone.py is running and the version number</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py show
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>clone.py        Version: <span class="m">1</span>.0.0.3 is running
+</pre></div>
+</div>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py show
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>clone.py        Version: <span class="m">1</span>.0.0.3 is not running
+</pre></div>
+</div>
+</div>
+<div class="section" id="from">
+<h2><code class="docutils literal"><span class="pre">from</span></code><a class="headerlink" href="#from" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="from-help">
+<h3><code class="docutils literal"><span class="pre">from</span> <span class="pre">help</span></code><a class="headerlink" href="#from-help" title="Permalink to this headline">¶</a></h3>
+<p>getting help for the <code class="docutils literal"><span class="pre">from</span></code> option</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py from -h
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>usage: clone from <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-f<span class="o">]</span> <span class="o">[</span>-s STACKING_SLOT<span class="o">]</span> <span class="o">[</span>-M<span class="o">]</span> <span class="o">[</span>-e<span class="o">]</span> &lt;ipaddress&gt;
+
+positional arguments:
+  &lt;ipaddress&gt;           The IP address of the master switch you are cloning to
+                        this switch
+
+optional arguments:
+  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
+  -f, --force           Force the cloning operation. Do not ask <span class="k">for</span>
+                        confirmation
+  -s STACKING_SLOT, --stacking_slot STACKING_SLOT
+                        Also clone stacking information from a stack slot.
+                        Slot <span class="m">0</span> finds the lowest available slot number
+  -M, --stacking_master
+                        For stacking, <span class="nb">enable</span> this switch to be master_capable
+  -e, --exos_only       Only clone EXOS partitions. Do not clone the
+                        configuration
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">&lt;ipaddress&gt;</span></code></dt>
+<dd>The ipaddress of the switch running clone.py as a master. E.g. run script clone.py from 10.10.10.1 will attempt to contact a clone.py master running on 10.10.10.1 on both the VR-Mgmt and VR-Default VRs</dd>
+<dt><code class="docutils literal"><span class="pre">-h</span></code></dt>
+<dd>show this help message and exit</dd>
+<dt><code class="docutils literal"><span class="pre">-f,</span> <span class="pre">--force</span></code></dt>
+<dd>By default, clone.py prompts for a confirmation if it should proceed with the cloning operation. If clone.py is used by another script or CLI command, the prompt is not desired. The –force optoin bypasses the confirmation promt</dd>
+<dt><code class="docutils literal"><span class="pre">-s,</span> <span class="pre">--stacking_slot</span> <span class="pre">&lt;slot&gt;</span></code></dt>
+<dd>This option is used to tell clone.py to clone the switch as a member of a stack. The &lt;ipaddress&gt; is the stack masters IP address and clone.py is running as a clone master on the stack master. The slot can be provided so that the switch will have that stacking slot number when cloning is complete, or slot number can be 0. If slot is 0, clone.py will ask the stacking master which slot number is the first available</dd>
+<dt><code class="docutils literal"><span class="pre">-M,</span> <span class="pre">--stacking_master</span></code></dt>
+<dd>When –s is specified indicating that clone.py is cloning the switch to be a stack member, the default behavior is to configure the switch as a standby node. Using this option, the switch is configured to be <code class="docutils literal"><span class="pre">stacking</span> <span class="pre">master-capable</span> <span class="pre">on</span></code></dd>
+<dt><code class="docutils literal"><span class="pre">-e,</span> <span class="pre">--exos_only</span></code></dt>
+<dd>If this option is provided, the <code class="docutils literal"><span class="pre">/usr/local/cfg</span></code> partition is not copied from the clone master. This is usefule to synchronize /exos, /boot, /alt/exos, /alt/boot and which is the boot partition. It is faster that performing 2 upgrades and aligning which is the booted image using conventional CLI commands. The contents of the <code class="docutils literal"><span class="pre">/usr/local/cfg</span></code> partition are unaffected</dd>
+</dl>
+</div>
+<div class="section" id="from-standalone-to-standalone">
+<h3><code class="docutils literal"><span class="pre">from</span></code> Standalone to Standalone<a class="headerlink" href="#from-standalone-to-standalone" title="Permalink to this headline">¶</a></h3>
+<div class="standlone2standalone figure align-center">
+<img alt="_images/StandaloneToStandalone.png" src="_images/StandaloneToStandalone.png" />
+</div>
+<p>Creating a standalone clone from a standalone master. In this example clone.py is running as master on 10.68.65.81</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py from <span class="m">10</span>.68.65.81
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                             C A U T I O N                             +
++      Cloning will replace the EXOS partitions and configuration       +
++   on this switch with the contents of the master switch <span class="m">10</span>.68.65.81   +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Do you want to <span class="k">continue</span> cloning? <span class="o">[</span>y/N<span class="o">]</span>: y
+clone.py is started as cloning client.
+This switch will become a copy of <span class="m">10</span>.68.65.81
+DO NOT REMOVE POWER or REBOOT the switch <span class="k">until</span> the operation is COMPLETE
+
+Starting cloning process
+Starting cloning process
+Transfering EXOS partitions and configuration
+
+Transferring active EXOS partition...............
+Updating active partition
+..................................................
+Transferring inactive EXOS partition........................
+Transferring /usr/local/cfg directory..........
+Transfering NVRAM information from master switch
+Transfering control information from master switch
+
+Rebooting to master switch configuration
+You may need to adjust any IP addresses that may have been copied from the master switch
+************************
+*   Cloning COMPLETE   *
+************************
+Rebooting ...
+</pre></div>
+</div>
+</div>
+<div class="section" id="from-stack-to-standalone">
+<h3><code class="docutils literal"><span class="pre">from</span></code> Stack to Standalone<a class="headerlink" href="#from-stack-to-standalone" title="Permalink to this headline">¶</a></h3>
+<div class="standlone2stack figure align-center">
+<img alt="_images/StandaloneToStack.png" src="_images/StandaloneToStack.png" />
+</div>
+<p>This example shows a standalone switch being cloned from a stack master. The –s or –stacking_slot &lt;slot&gt; tells clone.py the type of clone to be done</p>
+<p>When cloning to become a stacking member, additional NVRAM attributes are copied
+* stacking enabled
+* stack MAC
+* slot number – either provided or derived from the stacking master
+* The –M option determines if the master-capable option is enabled.</p>
+<p><cite>On the stack master</cite></p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Stack.1 &gt; run script clone.py master
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>clone.py is started as cloning master
+Use <span class="s2">&quot;stop&quot;</span> option to stop cloning master services
+
+Slot-2 Stack.2 <span class="c1">#</span>
+</pre></div>
+</div>
+<p><cite>On the standalone switch</cite>
+First configure the switches stacking-support options so that stacking connectivity will be ready once the switch becomes stacking enabled. <strong>It is important to perform this step before cloning the standalone switch.</strong> If the switch is cloned as a stacking standby switch, console login and configuration options require contacting a stack master for user authentication. If the stacking links are not configured correctly, then only failsafe login is available</p>
+<p>Once the standalone switch stack-support configuration is correct so the switches stack links match the stack, the clone operation will take care of everything else</p>
+<p>Use the <code class="docutils literal"><span class="pre">show</span> <span class="pre">stacking</span></code> command to see if the stacking links have been configured correctly with stacking-support.</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; show stacking
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Stack Topology is a Ring
+This node is not in an Active Topology
+Node MAC Address    Slot  Stack State  Role     Flags
+------------------  ----  -----------  -------  ---
+*00:04:96:98:94:d3  -     Disabled     Master   --- &lt;-This is the standalone switch
+ <span class="m">00</span>:04:96:98:87:3a  <span class="m">4</span>     Active       Standby  --O
+ 0e:00:00:00:00:85  <span class="m">5</span>     Active       Standby  --O
+ <span class="m">00</span>:04:96:98:87:54  <span class="m">6</span>     Active       Standby  --O
+ 0e:00:00:00:00:84  <span class="m">7</span>     Active       Standby  --O
+ <span class="m">00</span>:04:96:14:0b:03  <span class="m">8</span>     Active       Backup   --O
+ <span class="m">00</span>:04:96:14:0b:04  <span class="m">1</span>     Active       Standby  --O
+ 0e:00:00:00:00:83  <span class="m">2</span>     Active       Master   --O
+* - Indicates this node
+Flags:  <span class="o">(</span>C<span class="o">)</span> Candidate <span class="k">for</span> this active topology, <span class="o">(</span>A<span class="o">)</span> Active Node
+        <span class="o">(</span>O<span class="o">)</span> node may be in Other active topology
+</pre></div>
+</div>
+<p><strong>Example:</strong> Clone as standby, let the stacking master select the first availabe slot number</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; run script clone.py from <span class="m">10</span>.68.69.94 -s <span class="m">0</span>
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                               C A U T I O N                                +
++         Cloning will replace the EXOS partitions and configuration         +
++     on this switch with the contents of the master switch <span class="m">10</span>.68.69.94      +
++                                                                            +
++                                  STACKING                                  +
++      You have requested this switch to be cloned to stack <span class="m">10</span>.68.69.94      +
++         Switches have a variety of stacking cabling options. See:          +
++                                                                            +
++                       configure stacking-support ...                       +
++                                    and                                     +
++                          <span class="nb">enable</span> stacking-support                           +
++                                                                            +
++   The stacking-support options MUST already be configured before cloning   +
++                  <span class="k">for</span> stack connectivity to work correctly                  +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Do you want to <span class="k">continue</span> cloning? <span class="o">[</span>y/N<span class="o">]</span>: y
+clone.py is started as cloning client.
+This switch will become a copy of <span class="m">10</span>.68.69.94
+DO NOT REMOVE POWER or REBOOT the switch <span class="k">until</span> the operation is COMPLETE
+
+* &gt; Starting cloning process
+Starting cloning process
+Transfering EXOS partitions and configuration
+
+Transferring active EXOS partition.......
+Updating active partition
+...................................
+Transferring inactive EXOS partition...............
+Transferring /usr/local/cfg directory....Transfering NVRAM information from master switch
+Transfering control information from master switch
+Transfering stacking information from master switch
+Using first available slot <span class="m">3</span>
+
+Rebooting to master switch configuration
+You may need to adjust any IP addresses that may have been copied from the master switch
+************************
+*   Cloning COMPLETE   *
+************************
+Rebooting ...
+
+reboot: Restarting system
+
+Copyright <span class="m">2014</span> Extreme Networks, Inc.
+
+Starting CRC of Default image
+Using Default image ...
+
+Copyright <span class="m">2014</span> Extreme Networks, Inc.
+
+
+Press and hold the &lt;spacebar&gt; to enter the bootrom:  <span class="m">0</span>
+Loading Primary OS Image
+
+Starting ExtremeXOS <span class="m">22</span>.2.0b38
+Copyright <span class="o">(</span>C<span class="o">)</span> <span class="m">1996</span>-2017 Extreme Networks.  All rights reserved.
+This product is protected by one or more US patents listed at http://www.extremenetworks.com/patents along with their foreign counterparts.
+
+ ______      _
+<span class="p">|</span>  ____<span class="p">|</span>    <span class="p">|</span> <span class="p">|</span>
+<span class="p">|</span> <span class="p">|</span>__  __  _<span class="p">|</span> <span class="p">|</span>_ _ __ ___ _ __ ___   ___
+<span class="p">|</span>  __<span class="p">|</span> <span class="se">\ \/</span> / __<span class="p">|</span> <span class="s1">&#39;__/ _ \ &#39;</span>_ <span class="sb">`</span> _ <span class="se">\ </span>/ _ <span class="se">\</span>
+<span class="p">|</span> <span class="p">|</span>____ &gt;  &lt;<span class="p">|</span> <span class="p">|</span>_<span class="p">|</span> <span class="p">|</span> <span class="p">|</span>  __/ <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span>  __/
+<span class="p">|</span>______/_/<span class="se">\_\\</span>__<span class="p">|</span>_<span class="p">|</span>  <span class="se">\_</span>__<span class="p">|</span>_<span class="p">|</span> <span class="p">|</span>_<span class="p">|</span> <span class="p">|</span>_<span class="p">|</span><span class="se">\_</span>__<span class="p">|</span>
+ _   _      _                      _
+<span class="p">|</span> <span class="se">\ </span><span class="p">|</span> <span class="p">|</span>    <span class="p">|</span> <span class="p">|</span>                    <span class="p">|</span> <span class="p">|</span>
+<span class="p">|</span>  <span class="se">\|</span> <span class="p">|</span> ___<span class="p">|</span> <span class="p">|</span>___      _____  _ __<span class="p">|</span> <span class="p">|</span> _____
+<span class="p">|</span> . <span class="sb">`</span> <span class="p">|</span>/ _ <span class="se">\ </span>__<span class="se">\ \ </span>/<span class="se">\ </span>/ / _ <span class="se">\|</span> <span class="s1">&#39;__| |/ / __|</span>
+<span class="s1">| |\  |  __/ |_ \ V  V / (_) | |  |   &lt;\__ \</span>
+<span class="s1">|_| \_|\___|\__| \_/\_/ \___/|_|  |_|\_\___/</span>
+
+<span class="s1">(pending-AAA) login:</span>
+
+<span class="s1">Authentication Service (AAA) on the master node is now available for login.</span>
+<span class="s1">admin</span>
+<span class="s1">password:</span>
+
+<span class="s1">ExtremeXOS</span>
+<span class="s1">Copyright (C) 1996-2017 Extreme Networks. All rights reserved.</span>
+<span class="s1">This product is protected by one or more US patents listed at http://www.extremenetworks.com/patents along with their foreign counterparts.</span>
+<span class="s1">==============================================================================</span>
+
+
+<span class="s1">You are connected to a Standby node.  Only a limited command set is supported.</span>
+<span class="s1">You may use &quot;telnet slot &lt;slot_number&gt;&quot; to connect to the Master node to access</span>
+<span class="s1">the full set of commands.</span>
+
+<span class="s1">You are connected to a standby stack node&#39;</span>s serial port.
+Use <span class="s2">&quot;telnet slot &lt;slot_number&gt;&quot;</span> to connect to another node.
+
+Press the &lt;tab&gt; or <span class="s1">&#39;?&#39;</span> key at any <span class="nb">time</span> <span class="k">for</span> completions.
+Remember to save your configuration changes.
+
+
+* Slot-3 Stack.1 &gt; show stacking
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Stack Topology is a Ring
+Active Topology is a Ring
+Node MAC Address    Slot  Stack State  Role     Flags
+------------------  ----  -----------  -------  ---
+*00:04:96:98:94:d3  <span class="m">3</span>     Active       Standby  CA-
+ <span class="m">00</span>:04:96:98:87:3a  <span class="m">4</span>     Active       Standby  CA-
+ 0e:00:00:00:00:85  <span class="m">5</span>     Active       Standby  CA-
+ <span class="m">00</span>:04:96:98:87:54  <span class="m">6</span>     Active       Standby  CA-
+ 0e:00:00:00:00:84  <span class="m">7</span>     Active       Standby  CA-
+ <span class="m">00</span>:04:96:14:0b:03  <span class="m">8</span>     Active       Backup   CA-
+ <span class="m">00</span>:04:96:14:0b:04  <span class="m">1</span>     Active       Standby  CA-
+ 0e:00:00:00:00:83  <span class="m">2</span>     Active       Master   CA-
+* - Indicates this node
+Flags:  <span class="o">(</span>C<span class="o">)</span> Candidate <span class="k">for</span> this active topology, <span class="o">(</span>A<span class="o">)</span> Active Node
+        <span class="o">(</span>O<span class="o">)</span> node may be in Other active topology
+* Slot-3 Stack.2 &gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2><code class="docutils literal"><span class="pre">usb</span></code><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>This option is used to create a clone image file on USB memory</p>
+<div class="standlone2usb figure align-center">
+<img alt="_images/StandaloneToUSB.png" src="_images/StandaloneToUSB.png" />
+</div>
+<div class="section" id="usb-help">
+<h3><code class="docutils literal"><span class="pre">usb</span> <span class="pre">help</span></code><a class="headerlink" href="#usb-help" title="Permalink to this headline">¶</a></h3>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py usb -h
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>usage: clone usb <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-f<span class="o">]</span> <span class="o">[</span>-e<span class="o">]</span> <span class="o">[</span>-i USB_INPUT <span class="p">|</span> -o <span class="p">|</span> -v USB_FILE<span class="o">]</span>
+
+optional arguments:
+  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
+  -f, --force           Force the cloning operation. Do not ask <span class="k">for</span>
+                        confirmation
+  -e, --exos_only       Only clone EXOS partitions. Do not clone the
+                        configuration
+  -i USB_INPUT, --usb_input USB_INPUT
+                        The clone input file name on /usr/local/ext/&lt;file&gt;
+  -o                    Create a clone of this switch in /usr/local/ext/&lt;file&gt;
+  -v USB_FILE, --usb_file USB_FILE
+                        Display the EXOS versions contained in a clone file
+                        /usr/local/ext/
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-h</span></code></dt>
+<dd>show this help message and exit</dd>
+<dt><code class="docutils literal"><span class="pre">-f,</span> <span class="pre">--force</span></code></dt>
+<dd>By default, clone.py prompts for a confirmation if it should proceed with the cloning operation. If clone.py is used by another script or CLI command, the prompt is not desired. The –force optoin bypasses the confirmation promt</dd>
+<dt><code class="docutils literal"><span class="pre">-e,</span> <span class="pre">--exos_only</span></code></dt>
+<dd>If this option is provided, the <code class="docutils literal"><span class="pre">/usr/local/cfg</span></code> partition is not copied from the clone master. This is usefule to synchronize /exos, /boot, /alt/exos, /alt/boot and which is the boot partition. It is faster that performing 2 upgrades and aligning which is the booted image using conventional CLI commands. The contents of the <code class="docutils literal"><span class="pre">/usr/local/cfg</span></code> partition are unaffected.</dd>
+<dt><code class="docutils literal"><span class="pre">-i</span> <span class="pre">USB_INPUT,</span> <span class="pre">--usb_input</span> <span class="pre">USB_INPUT</span></code></dt>
+<dd>When cloning a switch from a USB memory file created by <code class="docutils literal"><span class="pre">usb</span> <span class="pre">–o</span></code>, this option specifies the file name of the <code class="docutils literal"><span class="pre">clone.py</span> <span class="pre">–o</span> <span class="pre">&lt;filename&gt;</span></code> used as input to the clone.py application.</dd>
+<dt><code class="docutils literal"><span class="pre">-o</span></code></dt>
+<dd>clone.py creates a clone image file on USB memory <code class="docutils literal"><span class="pre">/usr/local/ext</span></code></dd>
+<dt><code class="docutils literal"><span class="pre">-v</span> <span class="pre">USB_FILE,</span> <span class="pre">--usb_file</span> <span class="pre">USB_FILE</span></code></dt>
+<dd>Show the EXOS versions of a file created by usb –o. The EXOS versions for /exos and /alt/exos are useful pieces of information to know when cloning a new switch. This command extracts the EXOS versions from the .cln file and displays the EXOS versions.</dd>
+</dl>
+</div>
+<div class="section" id="usb-o">
+<h3><code class="docutils literal"><span class="pre">usb</span> <span class="pre">-o</span></code><a class="headerlink" href="#usb-o" title="Permalink to this headline">¶</a></h3>
+<p>This option creates a clone image file on USB memory, Using the –e (–exos_only) option, the <code class="docutils literal"><span class="pre">/usr/local/cfg</span></code> partition is not included in the clone file.</p>
+<p>This option requires a USB memory is inserted into the switches USB port. USB memory is mounted on directory <code class="docutils literal"><span class="pre">/usr/local/ext</span></code>.</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py usb -o -e
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++   Clone EXOS partitions on this switch to the file:   +
++   /usr/local/ext/xos1405G-00125_2017-01-21_1757.cln   +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Do you want to <span class="k">continue</span> cloning? <span class="o">[</span>y/N<span class="o">]</span>: y
+......................................
+-rwxr-xr-x    <span class="m">1</span> root     root    <span class="m">453981696</span> Jan <span class="m">21</span> <span class="m">17</span>:58 /usr/local/ext/xos1405G-00125_2017-01-21_1757.cln
+
+ 1K-blocks      Used Available Use%
+   <span class="m">7958912</span>    <span class="m">443428</span>   <span class="m">7515484</span>   <span class="m">6</span>%
+
+************************
+*   Cloning COMPLETE   *
+************************
+</pre></div>
+</div>
+<p>In the example above, the clone file name xos1405G-00125_2017-01-21_1757.cln has the following parts
+* xos – constant identifying this file was create from EXOS
+erial number of the switch used to create the clone image file
+* 2017-01-21_1757 – The date and time the clone image file was create
+* .cln – file suffix indicating this file was created by clone.py</p>
+<p>In addition to creating the clone image, the clone.py application is also copied ot the USB memory.</p>
+<p>See clone.pyc in the example below:</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>ls /usr/local/ext
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>-rwxr-xr-x    <span class="m">1</span> root     root        <span class="m">81344</span> Jan <span class="m">21</span> <span class="m">17</span>:58 clone.pyc
+-rwxr-xr-x    <span class="m">1</span> root     root    <span class="m">453981696</span> Jan <span class="m">21</span> <span class="m">17</span>:58 xos1405G-00125_2017-01-21_1757.cln
+
+ 1K-blocks      Used Available Use%
+   <span class="m">7958912</span>    <span class="m">443428</span>   <span class="m">7515484</span>   <span class="m">6</span>%
+</pre></div>
+</div>
+<p>Including the clone.py on the USB memory makes it easier to insert this USB memory into other switches and image them. The application is already included on the USB memory so it will not be necessary to install it on the new switch.</p>
+</div>
+<div class="section" id="usb-i-file">
+<h3><code class="docutils literal"><span class="pre">usb</span> <span class="pre">–i</span> <span class="pre">&lt;file&gt;</span></code><a class="headerlink" href="#usb-i-file" title="Permalink to this headline">¶</a></h3>
+<p>This option will clone a new switch from a file on USB memory.</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py usb -i xos1405G-00125_2017-01-21_1757.cln
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                         C A U T I O N                          +
++   Cloning will replace the EXOS partitions and configuration   +
++        on this switch with the contents of the usb file        +
++       /usr/local/ext/xos1405G-00125_2017-01-21_1757.cln        +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Do you want to <span class="k">continue</span> cloning? <span class="o">[</span>y/N<span class="o">]</span>: y
+DO NOT REMOVE POWER or REBOOT the switch <span class="k">until</span> the operation is COMPLETE
+Switch will reboot when cloning is COMPLETE
+
+Transferring /usr/local/cfg directory
+...
+Transferring inactive EXOS partition
+...........
+Transferring active EXOS partition
+..............
+****************************
+*   USB Cloning COMPLETE   *
+****************************
+...reboot: Restarting system
+</pre></div>
+</div>
+<p>Using the –e option will only image the EXOS partitions. The <code class="docutils literal"><span class="pre">/usr/local/cfg</span></code> partition will not be included in the cloning process</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py usb -i xos1405G-00125_2017-01-21_1757.cln -e
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                        C A U T I O N                        +
++   Cloning will replace the EXOS partitions on this switch   +
++              with the contents of the usb file              +
++      /usr/local/ext/xos1405G-00125_2017-01-21_1757.cln      +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Do you want to <span class="k">continue</span> cloning? <span class="o">[</span>y/N<span class="o">]</span>: y
+DO NOT REMOVE POWER or REBOOT the switch <span class="k">until</span> the operation is COMPLETE
+Switch will reboot when cloning is COMPLETE
+
+Transferring inactive EXOS partition
+.................
+Transferring active EXOS partition
+...........
+****************************
+*   USB Cloning COMPLETE   *
+****************************
+.....reboot: Restarting system
+</pre></div>
+</div>
+</div>
+<div class="section" id="usb-v">
+<h3><code class="docutils literal"><span class="pre">usb</span> <span class="pre">–v</span></code><a class="headerlink" href="#usb-v" title="Permalink to this headline">¶</a></h3>
+<p>A clone image file created by usb –o contains serial number, date and time, but does not tell much about the contents of the file.</p>
+<p>The <code class="docutils literal"><span class="pre">–v</span></code> option inspects the contents and reports which EXOS versions are stored.</p>
+<p>Command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script clone.py usb -v xos1405G-00125_2017-01-21_1757.cln
+</pre></div>
+</div>
+<p>Display:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>File: /usr/local/ext/xos1405G-00125_2017-01-21_1757.cln
+Contains:
+EXOS: <span class="m">22</span>.2.0.38
+EXOS: <span class="m">22</span>.3.0.7
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="slot">
+<h2><code class="docutils literal"><span class="pre">slot</span></code><a class="headerlink" href="#slot" title="Permalink to this headline">¶</a></h2>
+<p>See EXOS <code class="docutils literal"><span class="pre">synchronize</span> <span class="pre">slot</span></code> command</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/Extreme-Networks-RGB.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">EXOS Cloning (clone.py)</a><ul>
+<li><a class="reference internal" href="#exos-compatibility">EXOS Compatibility</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#overview">Overview</a><ul>
+<li><a class="reference internal" href="#why-use-cloning">Why use cloning?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#i-want-to">I want to:</a><ul>
+<li><a class="reference internal" href="#clone-standalone-switch-to-standalone-switch-over-a-network">Clone standalone switch to standalone switch over a network</a><ul>
+<li><a class="reference internal" href="#on-the-master-switch">On the master switch</a></li>
+<li><a class="reference internal" href="#on-the-client-switch">On the client switch</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clone-a-stack-node-replacement-over-a-network">Clone a stack node replacement over a network</a><ul>
+<li><a class="reference internal" href="#on-the-stack-master">On the stack master</a></li>
+<li><a class="reference internal" href="#on-the-new-stack-member">On the new stack member</a></li>
+<li><a class="reference internal" href="#id1">On the stack master</a></li>
+<li><a class="reference internal" href="#id2">On the new stack member</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clone-an-entire-stack-over-a-network">Clone an entire stack over a network</a><ul>
+<li><a class="reference internal" href="#on-the-master-stack">On the master stack</a></li>
+<li><a class="reference internal" href="#on-the-new-stack">On the new stack</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clone-standalone-switch-to-standalone-switch-using-usb-memory">Clone standalone switch to standalone switch using USB memory</a><ul>
+<li><a class="reference internal" href="#copying-a-switch-to-usb">Copying a switch to USB</a></li>
+<li><a class="reference internal" href="#usb-to-switch">USB to switch</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clone-an-entire-stack-using-usb-memory">Clone an entire stack using USB memory</a></li>
+<li><a class="reference internal" href="#synchonize-an-entire-stack-to-the-master">Synchonize an entire stack to the master</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#application-description">Application Description</a><ul>
+<li><a class="reference internal" href="#master">Master</a></li>
+<li><a class="reference internal" href="#client">Client</a></li>
+<li><a class="reference internal" href="#usb">USB</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#downloading-the-cloning-application">Downloading The Cloning Application</a></li>
+<li><a class="reference internal" href="#exos-command-line">EXOS Command Line</a><ul>
+<li><a class="reference internal" href="#top-level-help">Top level help</a></li>
+<li><a class="reference internal" href="#id3"><code class="docutils literal"><span class="pre">master</span></code></a></li>
+<li><a class="reference internal" href="#stop"><code class="docutils literal"><span class="pre">stop</span></code></a></li>
+<li><a class="reference internal" href="#restart"><code class="docutils literal"><span class="pre">restart</span></code></a></li>
+<li><a class="reference internal" href="#show"><code class="docutils literal"><span class="pre">show</span></code></a></li>
+<li><a class="reference internal" href="#from"><code class="docutils literal"><span class="pre">from</span></code></a><ul>
+<li><a class="reference internal" href="#from-help"><code class="docutils literal"><span class="pre">from</span> <span class="pre">help</span></code></a></li>
+<li><a class="reference internal" href="#from-standalone-to-standalone"><code class="docutils literal"><span class="pre">from</span></code> Standalone to Standalone</a></li>
+<li><a class="reference internal" href="#from-stack-to-standalone"><code class="docutils literal"><span class="pre">from</span></code> Stack to Standalone</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4"><code class="docutils literal"><span class="pre">usb</span></code></a><ul>
+<li><a class="reference internal" href="#usb-help"><code class="docutils literal"><span class="pre">usb</span> <span class="pre">help</span></code></a></li>
+<li><a class="reference internal" href="#usb-o"><code class="docutils literal"><span class="pre">usb</span> <span class="pre">-o</span></code></a></li>
+<li><a class="reference internal" href="#usb-i-file"><code class="docutils literal"><span class="pre">usb</span> <span class="pre">–i</span> <span class="pre">&lt;file&gt;</span></code></a></li>
+<li><a class="reference internal" href="#usb-v"><code class="docutils literal"><span class="pre">usb</span> <span class="pre">–v</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#slot"><code class="docutils literal"><span class="pre">slot</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/clone.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">Clone  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Extreme Networks.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+  </body>
+</html>
