@@ -1065,13 +1065,17 @@ If the EXOS switch can connect with the github directly, use the following CLI c
 Using the management port
 
 ``download url https://github.com/extremenetworks/EXOS_Apps/raw/master/Clone/summitX-clone-1.1.0.15.xmod``
+
 or
+
 ``download url https://github.com/extremenetworks/EXOS_Apps/raw/master/Clone/onie-clone-1.1.0.15.xmod``
 
 Using a front panel port
 
 ``download url https://github.com/extremenetworks/EXOS_Apps/raw/master/Clone/summitX-clone-1.1.0.15.xmod vr VR-Default``
+
 or
+
 ``download url https://github.com/extremenetworks/EXOS_Apps/raw/master/Clone/onie-clone-1.1.0.15.xmod vr VR-Default``
 
 
