@@ -1,4 +1,10 @@
 # JSONRPC EXOS Interface
+## Version 2.0.0.3
+ - Corrects support for https
+ - Add re-authentication if session token becomes invalid
+ - add JsonRPC.version() to return version string
+
+ 
 ## Description
 EXOS 21.1 and later provides a JSONRPC interface for management communication with EXOS switches.
 (see http://documentation.extremenetworks.com/app_notes/MMI/121152_MMI_Application_Release_Notes.pdf)
@@ -22,8 +28,10 @@ The file `jsonrpc.py` is a python class module that may be imported into your py
 from jsonrcp import JsonRPC
 ```
 
+Module version can be obtained by:
+* JsonRPC.version()
 
-The JsonRPC provides management methods for:
+JsonRPC provides management methods for:
 * JsonRPC.cli()
     
     Send configuration or show CLI commands to switch(es). 	For show commands, the data strucutures  used to create the display are returned. No Screen scraping is required. The data stuctures may be directly used in your Python application.

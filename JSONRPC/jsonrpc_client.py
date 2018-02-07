@@ -371,8 +371,14 @@ def get_params():
 def main():
     args = get_params()
 
+    # get the version from the class
+    print 'JsonRPC', JsonRPC.version()
+
     # create a JSONRPC interface object with any defaults
     jsonrpc = JsonRPC(username=args.username, password=args.password)
+
+    # or get the version from the object
+    # print 'jsonrpc', jsonrpc.version()
 
     if args.is_script is True:
         # if command line script option, check if we have need to prompt

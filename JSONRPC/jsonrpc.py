@@ -1,11 +1,19 @@
 import requests
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 
 # CONSTANTS
+JSONRPC_VERSION = '2.0'
 IPADDRESS = 'ipaddress'
 USERNAME = 'username'
 PASSWORD = 'password'
 TRANSACTION = 'transaction'
-COOKIE = 'cookie'
+COOKIE = 'session'
+X_AUTH_TOKEN = 'X-Auth-Token'
+X_AUTH_TOKEN_LOWER = X_AUTH_TOKEN.lower()
+_version_ = JSONRPC_VERSION + '.0.3'
+
 
 #
 # This class contains the specifics of constructing a JSONRPC message and
@@ -29,14 +37,19 @@ class JsonRPC(object):
                 USERNAME: username,
                 PASSWORD: password if password else '',
                 TRANSACTION: 1,
-                COOKIE: None
+                COOKIE: None,
+                X_AUTH_TOKEN: None,
                 }
 
-#      _ _                  _   _               _
-#  ___| (_)  _ __ ___   ___| |_| |__   ___   __| |
-# / __| | | | '_ ` _ \ / _ \ __| '_ \ / _ \ / _` |
-#| (__| | | | | | | | |  __/ |_| | | | (_) | (_| |
-# \___|_|_| |_| |_| |_|\___|\__|_| |_|\___/ \__,_|
+    @staticmethod
+    def version():
+        return _version_
+
+#       _ _                  _   _               _
+#   ___| (_)  _ __ ___   ___| |_| |__   ___   __| |
+#  / __| | | | '_ ` _ \ / _ \ __| '_ \ / _ \ / _` |
+# | (__| | | | | | | | |  __/ |_| | | | (_) | (_| |
+#  \___|_|_| |_| |_| |_|\___|\__|_| |_|\___/ \__,_|
 #
     def cli(self, cmds, ipaddress=None, username=None, password=None):
         # This is the JSONRPC method='cli':
@@ -56,7 +69,7 @@ class JsonRPC(object):
         #
 
         cmd_string = ''
-        if isinstance(cmds,list):
+        if isinstance(cmds, list):
             for c in cmds:
                 cmd_string += '{};'.format(c.strip())
         else:
@@ -77,17 +90,17 @@ class JsonRPC(object):
         # return the JSONRPC response to the caller
         return jsonrpc_response
 
-#                                _       _
-# _ __ _   _ _ __  ___  ___ _ __(_)_ __ | |_
-#| '__| | | | '_ \/ __|/ __| '__| | '_ \| __|
-#| |  | |_| | | | \__ \ (__| |  | | |_) | |_
-#|_|   \__,_|_| |_|___/\___|_|  |_| .__/ \__|
-#                                 |_|
-#                _   _               _
-# _ __ ___   ___| |_| |__   ___   __| |
-#| '_ ` _ \ / _ \ __| '_ \ / _ \ / _` |
-#| | | | | |  __/ |_| | | | (_) | (_| |
-#|_| |_| |_|\___|\__|_| |_|\___/ \__,_|
+#                                 _       _
+#  _ __ _   _ _ __  ___  ___ _ __(_)_ __ | |_
+# | '__| | | | '_ \/ __|/ __| '__| | '_ \| __|
+# | |  | |_| | | | \__ \ (__| |  | | |_) | |_
+# |_|   \__,_|_| |_|___/\___|_|  |_| .__/ \__|
+#                                  |_|
+#                 _   _               _
+#  _ __ ___   ___| |_| |__   ___   __| |
+# | '_ ` _ \ / _ \ __| '_ \ / _ \ / _` |
+# | | | | | |  __/ |_| | | | (_) | (_| |
+# |_| |_| |_|\___|\__|_| |_|\___/ \__,_|
 #
     def runscript(self, params, ipaddress=None, username=None, password=None):
         # This is the JSONRPC method='runscript'
@@ -118,12 +131,12 @@ class JsonRPC(object):
                                                        )
         return jsonrpc_response
 
-#             _   _                                  _   _               _
-# _ __  _   _| |_| |__   ___  _ __    _ __ ___   ___| |_| |__   ___   __| |
-#| '_ \| | | | __| '_ \ / _ \| '_ \  | '_ ` _ \ / _ \ __| '_ \ / _ \ / _` |
-#| |_) | |_| | |_| | | | (_) | | | | | | | | | |  __/ |_| | | | (_) | (_| |
-#| .__/ \__, |\__|_| |_|\___/|_| |_| |_| |_| |_|\___|\__|_| |_|\___/ \__,_|
-#|_|    |___/
+#              _   _                                  _   _               _
+#  _ __  _   _| |_| |__   ___  _ __    _ __ ___   ___| |_| |__   ___   __| |
+# | '_ \| | | | __| '_ \ / _ \| '_ \  | '_ ` _ \ / _ \ __| '_ \ / _ \ / _` |
+# | |_) | |_| | |_| | | | (_) | | | | | | | | | |  __/ |_| | | | (_) | (_| |
+# | .__/ \__, |\__|_| |_|\___/|_| |_| |_| |_| |_|\___|\__|_| |_|\___/ \__,_|
+# |_|    |___/
 #
     def python(self, params, ipaddress=None, username=None, password=None):
         # This is the JSONRPC method='python':
@@ -191,7 +204,8 @@ class JsonRPC(object):
                     USERNAME: username,
                     PASSWORD: password if password else '',
                     TRANSACTION: 1,
-                    COOKIE: None
+                    COOKIE: None,
+                    X_AUTH_TOKEN: None,
                     }
             return self.device_db[ipaddress]
         raise KeyError('No Device IP address')
@@ -214,10 +228,10 @@ class JsonRPC(object):
         device_dict[TRANSACTION] += 1
 
         # format the HTTP body
-        json_request = {'method' : method,
-                        'id' : device_dict[TRANSACTION],
-                        'jsonrpc' : '2.0',
-                        'params' : params,
+        json_request = {'method': method,
+                        'id': device_dict[TRANSACTION],
+                        'jsonrpc': JSONRPC_VERSION,
+                        'params': params,
                         }
 
         # http headers
@@ -225,9 +239,25 @@ class JsonRPC(object):
 
         # after the first authentication, EXOS returns a cookie we can use
         # in JSONRPC transactions to avoid re-authenticating for every transaction
+        cookie = {}
+        if device_dict.get(X_AUTH_TOKEN):
+            # X_AUTH_TOKEN in 22.5 is used as a header and a cookie
+            headers[X_AUTH_TOKEN] = device_dict.get(X_AUTH_TOKEN)
+            cookie[X_AUTH_TOKEN_LOWER] = device_dict.get(X_AUTH_TOKEN)
+
+        # if we have a cookie from previsous authentication, use it
         if device_dict.get(COOKIE):
-            # if we have a cookie from previsous authentication, use it
-            headers[COOKIE] = 'session={0}'.format(device_dict.get(COOKIE))
+            cookie[COOKIE] = device_dict.get(COOKIE)
+
+        # auth_retry will handle the case if the session cookie expires
+        # If that happens, the credentials provided are re-authorized
+        for auth_retry in range(2):
+            if cookie:
+                # if we have a cookie, don't use credentials
+                auth = None
+            else:
+                # no cookie available, use login credentials
+                auth = (device_dict.get(USERNAME), device_dict.get(PASSWORD))
 
             # use https if available
             for protocol in ['https', 'http']:
@@ -238,48 +268,49 @@ class JsonRPC(object):
 
                 # send the JSONRPC message to the EXOS switch
                 try:
-                    response = requests.post(url,
+                    response = requests.post(
+                        url,
                         headers=headers,
+                        verify=False,
+                        cookies=cookie,
+                        auth=auth,
                         json=json_request)
                     break
-                except:
-                    print 'cookie protocol', protocol, 'failed'
+                except Exception as e:
+                    # device did not like the protocol choice, try the next one
                     pass
             else:
+                # a basic http transport error occured
                 raise
-        else:
-            # use https if available
-            for protocol in ['https', 'http']:
-                # construct a JSONRPC URL for the EXOS JSONRPC POST message
-                url = '{proto}://{ip}/jsonrpc'.format(
-                        proto=protocol,
-                        ip=device_dict.get(IPADDRESS))
 
-                # send the JSONRPC message to the EXOS switch
-                # no cookie, use basic auth
-                try:
-                    response = requests.post(url,
-                        headers=headers,
-                        auth=(device_dict.get(USERNAME), device_dict.get(PASSWORD)),
-                        json=json_request)
-                    break
-                except:
-                    print 'basic auth protocol', protocol, 'failed'
-                    pass
-            else:
-                raise
+            # did authentication fail using a cookie?
+            # Try again using credentials
+            if response.status_code == 401 and auth is None:
+                cookie = {}
+                device_dict[X_AUTH_TOKEN] = None
+                device_dict[COOKIE] = None
+                continue
+            break
 
         # interpret the response from the EXOS switch
         # first check the HTTP error code to see if HTTP was successful
         # delivering the message
-        if response.status_code == requests.codes.ok:
-            # if we have a cookie, store it so we can use it later
-            device_dict[COOKIE] = response.cookies.get('session')
-            try:
-                # ensure the response is JSON encoded
-                return response.json()
-            except Exception as e:
-                raise e
+        if response.status_code != requests.codes.ok:
+            # raise http exception
+            response.raise_for_status()
 
-        # raise http exception
-        response.raise_for_status()
+        # if X-Auth-Token is present, use that for a auth
+        if device_dict[X_AUTH_TOKEN] is None:
+            device_dict[X_AUTH_TOKEN] = response.headers.get(X_AUTH_TOKEN)
+            if device_dict[X_AUTH_TOKEN] is None:
+                device_dict[X_AUTH_TOKEN] = response.cookies.get(X_AUTH_TOKEN.lower())
+
+        # if we have a cookie, store it so we can use it later
+        if device_dict[COOKIE] is None:
+            device_dict[COOKIE] = response.cookies.get('session')
+
+        try:
+            # ensure the response is JSON encoded
+            return response.json()
+        except Exception as e:
+            raise e
