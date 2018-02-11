@@ -1,0 +1,357 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>eventd.py ExtremeXOS SNMP Event Monitor &#8212; eventd  documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">eventd  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <img alt="_images/ExtremeSwitchingLogo.png" src="_images/ExtremeSwitchingLogo.png" />
+<img alt="_images/XosLogo.png" src="_images/XosLogo.png" />
+<div class="section" id="eventd-py-extremexos-snmp-event-monitor">
+<h1>eventd.py ExtremeXOS SNMP Event Monitor<a class="headerlink" href="#eventd-py-extremexos-snmp-event-monitor" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="disclaimer">
+<h2>Disclaimer<a class="headerlink" href="#disclaimer" title="Permalink to this headline">¶</a></h2>
+<p>This script is provided free of charge by Extreme.  We hope such scripts are helpful when used in conjunction with Extreme products and technology; however, scripts are provided simply as an accommodation and are not supported nor maintained by Extreme.  ANY SCRIPTS PROVIDED BY EXTREME ARE HEREBY PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL EXTREME OR ITS THIRD PARTY LICENSORS BE LIABLE    FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE USE OR DISTRIBUTION OF SUCH SCRIPTS.</p>
+</div>
+<div class="section" id="minimum-extremexos-required">
+<h2>Minimum ExtremeXOS Required<a class="headerlink" href="#minimum-extremexos-required" title="Permalink to this headline">¶</a></h2>
+<p>15.7.1</p>
+</div>
+<div class="section" id="files">
+<h2>Files<a class="headerlink" href="#files" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils" id="id1">
+<caption><span class="caption-text">eventd.py Application Download</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">File</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference external" href="https://github.com/extremenetworks/ExtremeScripting/tree/master/EXOS/Python">eventd.py</a></td>
+<td>the Python module</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="https://github.com/extremenetworks/ExtremeScripting/tree/master/EXOS/Python">eventd.cfg</a></td>
+<td>the configuration file</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>eventd.py is a Python application, which may be installed on an EXOS switch, which monitors SNMP notifications (traps) sent from other systems.
+When a trap is received, the trap is compared to entries in a configuration file. If a match is found, EXOS CLI command(s) are performed.</p>
+<p>eventd.py can receive SNMP notifications from any number of remote systems allowing for a user to create custom behavior depending on the source of the SNMP notification.</p>
+<p>eventd.py can be configured to monitor and react to local SNMP notifications as well by using the loopback address 127.0.0.1.</p>
+<p>In the figure below, there are three switches. The top two switches, Switch A 10.10.10.1 and Switch B 10.10.1.02, send SNMP notifications to Switch C 10.10.10.3.</p>
+<p>Switch 10.10.10.3 can take local action depending on the SNMP notification information sent from the other switches.</p>
+<img alt="_images/3switchGenericModel.jpg" src="_images/3switchGenericModel.jpg" />
+<p>For example, Switch C could take some action if Switch A had a link go down.</p>
+</div>
+</div>
+<div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>The eventd.cfg file must be configured with the local switches IP address that is monitored for incoming SNMP traps. Additionally, the action(s) taken on the local switch when it receives an SNMP trap from another system need to be configured as well.</p>
+<div class="section" id="configuration-section">
+<h2>%configuration Section<a class="headerlink" href="#configuration-section" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>The configuration file, eventd.cfg, must be set up with the local system IP address and optionally the local system virtual router::</dt>
+<dd>%configuration
+-i &lt;ipaddress&gt; [-v &lt;virtual_router&gt; [-d]</dd>
+</dl>
+<dl class="cmdoption">
+<dt id="cmdoption-i">
+<code class="descname">-i</code><code class="descclassname"> &lt;ipaddress&gt;</code><code class="descclassname">, </code><code class="descname">--ip_address</code><code class="descclassname"> &lt;ipaddress&gt;</code><a class="headerlink" href="#cmdoption-i" title="Permalink to this definition">¶</a></dt>
+<dd><p>the IP address to monitor for incomming SNMP trap notifications</p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-v">
+<code class="descname">-v</code><code class="descclassname"> &lt;virtual_router&gt;</code><code class="descclassname">, </code><code class="descname">--virtual_router</code><code class="descclassname"> &lt;virtual_router&gt;</code><a class="headerlink" href="#cmdoption-v" title="Permalink to this definition">¶</a></dt>
+<dd><p>the, optional, virtual router for the &lt;ipaddress&gt;</p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-d">
+<code class="descname">-d</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--debug</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable debug. This parameter should not be used in a production environment</p>
+</dd></dl>
+
+<p>Examples:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">i</span> <span class="mf">169.254</span><span class="o">.</span><span class="mf">209.132</span> <span class="o">-</span><span class="n">v</span> <span class="n">VR</span><span class="o">-</span><span class="n">Mgmt</span>
+<span class="o">-</span><span class="n">i</span> <span class="mf">169.254</span><span class="o">.</span><span class="mf">209.132</span> <span class="o">-</span><span class="n">v</span> <span class="n">VR</span><span class="o">-</span><span class="n">Default</span>
+<span class="o">-</span><span class="n">i</span> <span class="mf">10.10</span><span class="o">.</span><span class="mf">10.3</span> <span class="o">-</span><span class="n">v</span> <span class="n">VR</span><span class="o">-</span><span class="n">Mgmt</span> <span class="o">-</span><span class="n">d</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="map-section">
+<h2>%map Section<a class="headerlink" href="#map-section" title="Permalink to this headline">¶</a></h2>
+<p>The %map section translates SNMP OIDs into easy to use names for the %action section (described below).</p>
+<p>To get started, some OID.s have already been mapped to names. Any OID received from an SNMP notification may be mapped to a name. Once the OID to name mapping is in place, the name may be used in the %action section as a matching field.</p>
+<p>Examples:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">1.3</span><span class="o">.</span><span class="mf">6.1</span><span class="o">.</span><span class="mf">6.3</span><span class="o">.</span><span class="mf">1.1</span><span class="o">.</span><span class="mf">5.1</span><span class="o">=</span><span class="n">coldStart</span>
+<span class="mf">1.3</span><span class="o">.</span><span class="mf">6.1</span><span class="o">.</span><span class="mf">6.3</span><span class="o">.</span><span class="mf">1.1</span><span class="o">.</span><span class="mf">5.2</span><span class="o">=</span><span class="n">warmStart</span>
+<span class="mf">1.3</span><span class="o">.</span><span class="mf">6.1</span><span class="o">.</span><span class="mf">6.3</span><span class="o">.</span><span class="mf">1.1</span><span class="o">.</span><span class="mf">5.3</span><span class="o">=</span><span class="n">linkDown</span>
+<span class="mf">1.3</span><span class="o">.</span><span class="mf">6.1</span><span class="o">.</span><span class="mf">6.3</span><span class="o">.</span><span class="mf">1.1</span><span class="o">.</span><span class="mf">5.4</span><span class="o">=</span><span class="n">linkUp</span>
+<span class="mf">1.3</span><span class="o">.</span><span class="mf">6.1</span><span class="o">.</span><span class="mf">6.3</span><span class="o">.</span><span class="mf">1.1</span><span class="o">.</span><span class="mf">5.5</span><span class="o">=</span><span class="n">authenticationFailure</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="action-section">
+<h2>%action Section<a class="headerlink" href="#action-section" title="Permalink to this headline">¶</a></h2>
+<p>The %action section is used to define entries that match incoming SNMP notifications and the resulting EXOS CLI action to take. Any name defined in the %map section can be used to qualify the entry.</p>
+<p>Once all of the fields have matched the incoming SNMP notification, the cmd list is given to EXOS</p>
+<p>Example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fromIP</span><span class="o">=</span><span class="mf">169.254</span><span class="o">.</span><span class="mf">233.238</span><span class="p">,</span> <span class="n">linkUp</span><span class="p">,</span> <span class="n">ifIndex</span><span class="o">=</span><span class="mi">1001</span><span class="p">,</span> <span class="n">cmd</span><span class="o">=</span><span class="s1">&#39;disable port 2&#39;</span>
+</pre></div>
+</div>
+<p>In this example, when an SNMP notification is received:</p>
+<blockquote>
+<div><ul class="simple">
+<li>did it come from IP address 169.254.233.238</li>
+<li>is it a linkup notification</li>
+<li>is it from ifIndex 1001</li>
+</ul>
+<p>If all of these are true, the cmd ‘disable port 2’ is given to EXOS.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="loading-the-files">
+<h1>Loading the Files<a class="headerlink" href="#loading-the-files" title="Permalink to this headline">¶</a></h1>
+<p>To load the files onto a switch, put eventd.py and customized eventd.cfg on a tftp server.</p>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><p class="first">For this example we will use 10.12.12.1 as the IP address of the tftp server.
+We will also use 10.10.10.3 as the management IP address for the switch</p>
+<p>To transfer the files to the switch, at the EXOS CLI enter:</p>
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="n">tftp</span> <span class="mf">10.12</span><span class="o">.</span><span class="mf">12.1</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">r</span> <span class="n">eventd</span><span class="o">.</span><span class="n">py</span>
+<span class="n">tftp</span> <span class="mf">10.12</span><span class="o">.</span><span class="mf">12.1</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">r</span> <span class="n">eventd</span><span class="o">.</span><span class="n">cfg</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>To start the eventd process, at the EXOS CLI enter:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">create</span> <span class="n">process</span> <span class="n">eventd</span> <span class="n">python</span><span class="o">-</span><span class="n">module</span> <span class="n">eventd</span> <span class="n">start</span> <span class="n">auto</span>
+</pre></div>
+</div>
+<p>The switch is now ready to receive SNMP notifications and take the actions you.ve defined in the eventd.cfg file.</p>
+<p>You only need to perform this operation once. eventd will be restarted if EXOS reboots.</p>
+<div class="section" id="updating-eventd-cfg">
+<h2>Updating eventd.cfg<a class="headerlink" href="#updating-eventd-cfg" title="Permalink to this headline">¶</a></h2>
+<p>If you would like to update the information in eventd.cfg, it will be necessary to restart eventd after the new eventd.cfg is loaded on the switch:</p>
+<p>Example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tftp</span> <span class="mf">10.12</span><span class="o">.</span><span class="mf">12.1</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">r</span> <span class="n">eventd</span><span class="o">.</span><span class="n">cfg</span>
+<span class="n">restart</span> <span class="n">process</span> <span class="n">eventd</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuring-snmp-trap-receivers">
+<h2>Configuring SNMP trap receivers<a class="headerlink" href="#configuring-snmp-trap-receivers" title="Permalink to this headline">¶</a></h2>
+<p>For any EXOS switch that should forward SNMP notifications (traps) to eventd, you will configure the SNMP agent on that switch.</p>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><p class="first">In this example we configure Switch A (10.10.10.1), and Switch B (10.10.10.2) to send SNMP traps to 10.10.10.3</p>
+<p>On switch A:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">configure</span> <span class="n">snmp</span> <span class="n">add</span> <span class="n">trapreceiver</span> <span class="mf">10.10</span><span class="o">.</span><span class="mf">10.3</span> <span class="n">community</span> <span class="n">public</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>On switch B::</dt>
+<dd>configure snmp add trapreceiver 10.10.10.3 community public</dd>
+</dl>
+<p class="last">Switch A and B are now sending SNMP notifications (traps) to eventd on 10.10.10.3.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="example-eventd-with-mlag">
+<h2>Example: eventd with MLAG<a class="headerlink" href="#example-eventd-with-mlag" title="Permalink to this headline">¶</a></h2>
+<p>This section illustrates how eventd can be used with MLAG to have two switch react to events on the other switch.</p>
+<p>Throughout this example, we will use the following configuration information for an existing MLAG 2 switch configuration.</p>
+<img alt="_images/MLAGmodel.jpg" src="_images/MLAGmodel.jpg" />
+<p>Below is the output from <code class="docutils literal"><span class="pre">show</span> <span class="pre">mlag</span> <span class="pre">peer</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">**************************************************************************</span>
+<span class="o">*</span>                    <span class="n">Switch</span> <span class="mi">1</span>                                            <span class="o">*</span>
+<span class="o">**************************************************************************</span>
+<span class="n">Multi</span><span class="o">-</span><span class="n">switch</span> <span class="n">Link</span> <span class="n">Aggregation</span> <span class="n">Peers</span><span class="p">:</span>
+
+<span class="n">MLAG</span> <span class="n">Peer</span>         <span class="p">:</span> <span class="n">m00049697D184</span>
+<span class="n">VLAN</span>              <span class="p">:</span> <span class="n">isc_mlag</span>               <span class="n">Virtual</span> <span class="n">Router</span>    <span class="p">:</span> <span class="n">VR</span><span class="o">-</span><span class="n">MLAGISC</span>
+<span class="n">Local</span> <span class="n">IP</span> <span class="n">Address</span>  <span class="p">:</span> <span class="mf">169.254</span><span class="o">.</span><span class="mf">233.238</span>        <span class="n">Peer</span> <span class="n">IP</span> <span class="n">Address</span>   <span class="p">:</span> <span class="mf">169.254</span><span class="o">.</span><span class="mf">209.132</span>
+<span class="n">MLAG</span> <span class="n">ports</span>        <span class="p">:</span> <span class="mi">3</span>                      <span class="n">Tx</span><span class="o">-</span><span class="n">Interval</span>       <span class="p">:</span> <span class="mi">1000</span> <span class="n">ms</span>
+<span class="n">Checkpoint</span> <span class="n">Status</span> <span class="p">:</span> <span class="n">Up</span>                     <span class="n">Peer</span> <span class="n">Tx</span><span class="o">-</span><span class="n">Interval</span>  <span class="p">:</span> <span class="mi">1000</span> <span class="n">ms</span>
+<span class="n">Rx</span><span class="o">-</span><span class="n">Hellos</span>         <span class="p">:</span> <span class="mi">98380</span>                  <span class="n">Tx</span><span class="o">-</span><span class="n">Hellos</span>         <span class="p">:</span> <span class="mi">98748</span>
+<span class="n">Rx</span><span class="o">-</span><span class="n">Checkpoint</span> <span class="n">Msgs</span><span class="p">:</span> <span class="mi">4867</span>                   <span class="n">Tx</span><span class="o">-</span><span class="n">Checkpoint</span> <span class="n">Msgs</span><span class="p">:</span> <span class="mi">4872</span>
+<span class="n">Rx</span><span class="o">-</span><span class="n">Hello</span> <span class="n">Errors</span>   <span class="p">:</span> <span class="mi">0</span>                      <span class="n">Tx</span><span class="o">-</span><span class="n">Hello</span> <span class="n">Errors</span>   <span class="p">:</span> <span class="mi">0</span>
+<span class="n">Hello</span> <span class="n">Timeouts</span>    <span class="p">:</span> <span class="mi">2</span>                      <span class="n">Checkpoint</span> <span class="n">Errors</span> <span class="p">:</span> <span class="mi">0</span>
+<span class="n">Up</span> <span class="n">Time</span>           <span class="p">:</span> <span class="mi">1</span><span class="n">d</span><span class="p">:</span><span class="mi">2</span><span class="n">h</span><span class="p">:</span><span class="mi">8</span><span class="n">m</span><span class="p">:</span><span class="mi">14</span><span class="n">s</span>           <span class="n">Peer</span> <span class="n">Conn</span><span class="o">.</span><span class="n">Failures</span><span class="p">:</span> <span class="mi">2</span>
+<span class="n">Local</span> <span class="n">MAC</span>         <span class="p">:</span> <span class="mi">00</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">96</span><span class="p">:</span><span class="mi">97</span><span class="p">:</span><span class="n">e9</span><span class="p">:</span><span class="n">ee</span>      <span class="n">Peer</span> <span class="n">MAC</span>          <span class="p">:</span> <span class="mi">00</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">96</span><span class="p">:</span><span class="mi">97</span><span class="p">:</span><span class="n">d1</span><span class="p">:</span><span class="mi">84</span>
+<span class="n">Config</span><span class="s1">&#39;d LACP MAC : None                   Current LACP MAC  : 00:04:96:97:e9:ee</span>
+<span class="n">Authentication</span>    <span class="p">:</span> <span class="kc">None</span>
+
+<span class="n">Alternate</span> <span class="n">path</span> <span class="n">information</span><span class="p">:</span> <span class="kc">None</span>
+
+<span class="o">**************************************************************************</span>
+<span class="o">*</span>                    <span class="n">Switch</span> <span class="mi">2</span>                                            <span class="o">*</span>
+<span class="o">**************************************************************************</span>
+<span class="n">Multi</span><span class="o">-</span><span class="n">switch</span> <span class="n">Link</span> <span class="n">Aggregation</span> <span class="n">Peers</span><span class="p">:</span>
+
+<span class="n">MLAG</span> <span class="n">Peer</span>         <span class="p">:</span> <span class="n">m00049697E9EE</span>
+<span class="n">VLAN</span>              <span class="p">:</span> <span class="n">isc_mlag</span>               <span class="n">Virtual</span> <span class="n">Router</span>    <span class="p">:</span> <span class="n">VR</span><span class="o">-</span><span class="n">MLAGISC</span>
+<span class="n">Local</span> <span class="n">IP</span> <span class="n">Address</span>  <span class="p">:</span> <span class="mf">169.254</span><span class="o">.</span><span class="mf">209.132</span>        <span class="n">Peer</span> <span class="n">IP</span> <span class="n">Address</span>   <span class="p">:</span> <span class="mf">169.254</span><span class="o">.</span><span class="mf">233.238</span>
+<span class="n">MLAG</span> <span class="n">ports</span>        <span class="p">:</span> <span class="mi">3</span>                      <span class="n">Tx</span><span class="o">-</span><span class="n">Interval</span>       <span class="p">:</span> <span class="mi">1000</span> <span class="n">ms</span>
+<span class="n">Checkpoint</span> <span class="n">Status</span> <span class="p">:</span> <span class="n">Up</span>                     <span class="n">Peer</span> <span class="n">Tx</span><span class="o">-</span><span class="n">Interval</span>  <span class="p">:</span> <span class="mi">1000</span> <span class="n">ms</span>
+<span class="n">Rx</span><span class="o">-</span><span class="n">Hellos</span>         <span class="p">:</span> <span class="mi">96018</span>                  <span class="n">Tx</span><span class="o">-</span><span class="n">Hellos</span>         <span class="p">:</span> <span class="mi">96513</span>
+<span class="n">Rx</span><span class="o">-</span><span class="n">Checkpoint</span> <span class="n">Msgs</span><span class="p">:</span> <span class="mi">4715</span>                   <span class="n">Tx</span><span class="o">-</span><span class="n">Checkpoint</span> <span class="n">Msgs</span><span class="p">:</span> <span class="mi">4713</span>
+<span class="n">Rx</span><span class="o">-</span><span class="n">Hello</span> <span class="n">Errors</span>   <span class="p">:</span> <span class="mi">0</span>                      <span class="n">Tx</span><span class="o">-</span><span class="n">Hello</span> <span class="n">Errors</span>   <span class="p">:</span> <span class="mi">0</span>
+<span class="n">Hello</span> <span class="n">Timeouts</span>    <span class="p">:</span> <span class="mi">0</span>                      <span class="n">Checkpoint</span> <span class="n">Errors</span> <span class="p">:</span> <span class="mi">0</span>
+<span class="n">Up</span> <span class="n">Time</span>           <span class="p">:</span> <span class="mi">1</span><span class="n">d</span><span class="p">:</span><span class="mi">2</span><span class="n">h</span><span class="p">:</span><span class="mi">8</span><span class="n">m</span><span class="p">:</span><span class="mi">14</span><span class="n">s</span>           <span class="n">Peer</span> <span class="n">Conn</span><span class="o">.</span><span class="n">Failures</span><span class="p">:</span> <span class="mi">0</span>
+<span class="n">Local</span> <span class="n">MAC</span>         <span class="p">:</span> <span class="mi">00</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">96</span><span class="p">:</span><span class="mi">97</span><span class="p">:</span><span class="n">d1</span><span class="p">:</span><span class="mi">84</span>      <span class="n">Peer</span> <span class="n">MAC</span>          <span class="p">:</span> <span class="mi">00</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">96</span><span class="p">:</span><span class="mi">97</span><span class="p">:</span><span class="n">e9</span><span class="p">:</span><span class="n">ee</span>
+<span class="n">Config</span><span class="s1">&#39;d LACP MAC : None                   Current LACP MAC  : 00:04:96:97:e9:ee</span>
+<span class="n">Authentication</span>    <span class="p">:</span> <span class="kc">None</span>
+
+<span class="n">Alternate</span> <span class="n">path</span> <span class="n">information</span><span class="p">:</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p><strong>On Switch 1:</strong></p>
+<p>Edit the eventd.cfg file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">configuration</span>
+<span class="o">-</span><span class="n">i</span> <span class="mf">169.254</span><span class="o">.</span><span class="mf">233.238</span> <span class="o">-</span><span class="n">v</span> <span class="n">VR</span><span class="o">-</span><span class="n">MLAGISC</span>
+</pre></div>
+</div>
+<p>Transfer the file to the switch:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tftp</span> <span class="o">&lt;</span><span class="n">tftpserver</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">r</span> <span class="n">eventd</span><span class="o">.</span><span class="n">cfg</span>
+</pre></div>
+</div>
+<p>Start eventd:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">create</span> <span class="n">process</span> <span class="n">eventd</span> <span class="n">python</span><span class="o">-</span><span class="n">module</span> <span class="n">eventd</span> <span class="n">start</span> <span class="n">auto</span>
+</pre></div>
+</div>
+<p>Tell SNMP to send traps to the other switch:
+configure snmp add trapreceiver 169.254.209.132 community public</p>
+<p><strong>On Switch 2:</strong></p>
+<p>Edit the eventd.cfg file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">configuration</span>
+<span class="o">-</span><span class="n">i</span> <span class="mf">169.254</span><span class="o">.</span><span class="mf">209.132</span> <span class="o">-</span><span class="n">v</span> <span class="n">VR</span><span class="o">-</span><span class="n">MLAGISC</span>
+</pre></div>
+</div>
+<p>Transfer the file to the switch:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tftp</span> <span class="o">&lt;</span><span class="n">tftpserver</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">r</span> <span class="n">eventd</span><span class="o">.</span><span class="n">cfg</span>
+</pre></div>
+</div>
+<p>Start eventd:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">create</span> <span class="n">process</span> <span class="n">eventd</span> <span class="n">python</span><span class="o">-</span><span class="n">module</span> <span class="n">eventd</span> <span class="n">start</span> <span class="n">auto</span>
+</pre></div>
+</div>
+<p>Tell SNMP to send traps to the other switch:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">configure</span> <span class="n">snmp</span> <span class="n">add</span> <span class="n">trapreceiver</span> <span class="mf">169.254</span><span class="o">.</span><span class="mf">233.238</span> <span class="n">community</span> <span class="n">public</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/Extreme-Networks-RGB.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">eventd.py ExtremeXOS SNMP Event Monitor</a><ul>
+<li><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
+<li><a class="reference internal" href="#minimum-extremexos-required">Minimum ExtremeXOS Required</a></li>
+<li><a class="reference internal" href="#files">Files</a></li>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li><a class="reference internal" href="#configuration-section">%configuration Section</a></li>
+<li><a class="reference internal" href="#map-section">%map Section</a></li>
+<li><a class="reference internal" href="#action-section">%action Section</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#loading-the-files">Loading the Files</a><ul>
+<li><a class="reference internal" href="#updating-eventd-cfg">Updating eventd.cfg</a></li>
+<li><a class="reference internal" href="#configuring-snmp-trap-receivers">Configuring SNMP trap receivers</a></li>
+<li><a class="reference internal" href="#example-eventd-with-mlag">Example: eventd with MLAG</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">eventd  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Extreme Networks.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+  </body>
+</html>
