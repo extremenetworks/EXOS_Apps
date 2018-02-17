@@ -1,4 +1,4 @@
-# EXOS clone.py Application
+# EXOS Cable Diagnostics Application
 ## [User Documentation](https://rawgit.com/extremenetworks/EXOS_Apps/master/Cablediags/docs/)
 __Click the link above to see the documentation__
 
