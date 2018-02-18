@@ -14,7 +14,7 @@
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
+        HAS_SOURCE:  false,
         SOURCELINK_SUFFIX: '.txt'
       };
     </script>
@@ -22,16 +22,12 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
         <li class="nav-item nav-item-0"><a href="#">RESTCONF  documentation</a> &#187;</li> 
       </ul>
     </div>  
@@ -45,8 +41,8 @@
 <img alt="_images/XosLogo.png" src="_images/XosLogo.png" />
 <div class="section" id="restconf-reference-documentation">
 <h1>RESTCONF Reference Documentation<a class="headerlink" href="#restconf-reference-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="version-1-0-1-18">
-<h2>Version 1.0.1.18<a class="headerlink" href="#version-1-0-1-18" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="version-1-0-1-30">
+<h2>Version 1.0.1.30<a class="headerlink" href="#version-1-0-1-30" title="Permalink to this headline">¶</a></h2>
 <p>THIS DOCUMENT IS AUTOMATICALLY GENERATED FROM THE SUPPORTED YANG MODELS.</p>
 <p>This document contains:</p>
 <ul class="simple">
@@ -535,16 +531,23 @@ module: openconfig-interfaces
           |  |  |  +--ro oc-eth:out-8021q-frames?         yang:counter64
           |  |  +--ro oc-lag:aggregate-id?             -&gt; /oc-if:interfaces/interface/name
           |  +--rw oc-vlan:switched-vlan
-          |     +--rw oc-vlan:config
-          |     |  +--rw oc-vlan:interface-mode?   oc-vlan-types:vlan-mode-type
-          |     |  +--rw oc-vlan:native-vlan?      union
-          |     |  +--rw oc-vlan:access-vlan?      union
-          |     |  +--rw oc-vlan:trunk-vlans*      union
-          |     +--ro oc-vlan:state
-          |        +--ro oc-vlan:interface-mode?   oc-vlan-types:vlan-mode-type
-          |        +--ro oc-vlan:native-vlan?      union
-          |        +--ro oc-vlan:access-vlan?      union
-          |        +--ro oc-vlan:trunk-vlans*      union
+          |  |  +--rw oc-vlan:config
+          |  |  |  +--rw oc-vlan:interface-mode?   oc-vlan-types:vlan-mode-type
+          |  |  |  +--rw oc-vlan:native-vlan?      union
+          |  |  |  +--rw oc-vlan:access-vlan?      union
+          |  |  |  +--rw oc-vlan:trunk-vlans*      union
+          |  |  +--ro oc-vlan:state
+          |  |     +--ro oc-vlan:interface-mode?   oc-vlan-types:vlan-mode-type
+          |  |     +--ro oc-vlan:native-vlan?      union
+          |  |     +--ro oc-vlan:access-vlan?      union
+          |  |     +--ro oc-vlan:trunk-vlans*      union
+          |  +--rw oc-poe:poe
+          |     +--rw oc-poe:config
+          |     |  +--rw oc-poe:enabled?   boolean
+          |     +--ro oc-poe:state
+          |        +--ro oc-poe:enabled?       boolean
+          |        +--ro oc-poe:power-used?    decimal64
+          |        +--ro oc-poe:power-class?   uint8
           +--rw oc-lag:aggregation
           |  +--rw oc-lag:config
           |  |  +--rw oc-lag:lag-type?    aggregation-type
@@ -880,15 +883,23 @@ module: openconfig-network-instance
           |  +--rw vlan* [vlan-id]
           |     +--rw vlan-id    -&gt; ../config/vlan-id
           |     +--rw config
-          |     |  +--rw vlan-id?   oc-vlan-types:vlan-id
-          |     |  +--rw name?      string
-          |     |  +--rw status?    enumeration
-          |     |  +--rw tpid?      identityref
+          |     |  +--rw vlan-id?                          oc-vlan-types:vlan-id
+          |     |  +--rw name?                             string
+          |     |  +--rw status?                           enumeration
+          |     |  +--rw tpid?                             identityref
+          |     |  +--rw extr-oc-ni:nsi?                   network-service-id
+          |     |  +--rw extr-oc-ni:nsi-type?              network-service-id-type
+          |     |  +--rw extr-oc-ni:fabric-mcast-enable?   boolean
+          |     |  +--rw extr-oc-ni:stg-id?                uint32
           |     +--ro state
-          |     |  +--ro vlan-id?   oc-vlan-types:vlan-id
-          |     |  +--ro name?      string
-          |     |  +--ro status?    enumeration
-          |     |  +--ro tpid?      identityref
+          |     |  +--ro vlan-id?                          oc-vlan-types:vlan-id
+          |     |  +--ro name?                             string
+          |     |  +--ro status?                           enumeration
+          |     |  +--ro tpid?                             identityref
+          |     |  +--ro extr-oc-ni:nsi?                   network-service-id
+          |     |  +--ro extr-oc-ni:nsi-type?              network-service-id-type
+          |     |  +--ro extr-oc-ni:fabric-mcast-enable?   boolean
+          |     |  +--ro extr-oc-ni:stg-id?                uint32
           |     +--rw members
           |        +--ro member*
           |           +--ro interface-ref
@@ -2223,38 +2234,21 @@ module: openconfig-vlan
     |     |     +--rw ip:ip                    inet:ipv4-address-no-zone
     |     |     +--rw ip:link-layer-address    yang:phys-address
     |     +--rw ip:ipv6!
-    |     |  +--rw ip:enabled?                     boolean
-    |     |  +--rw ip:forwarding?                  boolean
-    |     |  +--rw ip:mtu?                         uint32
-    |     |  +--rw ip:address* [ip]
-    |     |  |  +--rw ip:ip               inet:ipv6-address-no-zone
-    |     |  |  +--rw ip:prefix-length    uint8
-    |     |  +--rw ip:neighbor* [ip]
-    |     |  |  +--rw ip:ip                    inet:ipv6-address-no-zone
-    |     |  |  +--rw ip:link-layer-address    yang:phys-address
-    |     |  +--rw ip:dup-addr-detect-transmits?   uint32
-    |     |  +--rw ip:autoconf
-    |     |     +--rw ip:create-global-addresses?        boolean
-    |     |     +--rw ip:create-temporary-addresses?     boolean {ipv6-privacy-autoconf}?
-    |     |     +--rw ip:temporary-valid-lifetime?       uint32 {ipv6-privacy-autoconf}?
-    |     |     +--rw ip:temporary-preferred-lifetime?   uint32 {ipv6-privacy-autoconf}?
-    |     +--rw eth-if:ethernet
-    |        +--rw eth-if:auto-negotiation
-    |        |  +--rw eth-if:enable?   boolean
-    |        +--rw eth-if:duplex?             duplex-type
-    |        +--rw eth-if:speed?              eth-if-speed-type
-    |        +--rw eth-if:flow-control
-    |        |  +--rw eth-if:pause
-    |        |  |  +--rw eth-if:direction?   pause-fc-direction-type
-    |        |  +--rw eth-if:pfc {ethernet-pfc}?
-    |        |  |  +--rw eth-if:enable?   boolean
-    |        |  +--rw eth-if:force-flow-control?   boolean
-    |        +--rw pse:poe-pse
-    |           +--rw pse:multi-pair!
-    |           |  +--rw pse:pse-enable?       boolean
-    |           |  +--rw pse:powering-pairs?   enumeration
-    |           +--rw pse:single-pair!
-    |              +--rw pse:pse-enable?   boolean
+    |        +--rw ip:enabled?                     boolean
+    |        +--rw ip:forwarding?                  boolean
+    |        +--rw ip:mtu?                         uint32
+    |        +--rw ip:address* [ip]
+    |        |  +--rw ip:ip               inet:ipv6-address-no-zone
+    |        |  +--rw ip:prefix-length    uint8
+    |        +--rw ip:neighbor* [ip]
+    |        |  +--rw ip:ip                    inet:ipv6-address-no-zone
+    |        |  +--rw ip:link-layer-address    yang:phys-address
+    |        +--rw ip:dup-addr-detect-transmits?   uint32
+    |        +--rw ip:autoconf
+    |           +--rw ip:create-global-addresses?        boolean
+    |           +--rw ip:create-temporary-addresses?     boolean {ipv6-privacy-autoconf}?
+    |           +--rw ip:temporary-valid-lifetime?       uint32 {ipv6-privacy-autoconf}?
+    |           +--rw ip:temporary-preferred-lifetime?   uint32 {ipv6-privacy-autoconf}?
     +--ro interfaces-state
        +--ro interface* [name]
           +--ro name               string
@@ -2298,98 +2292,19 @@ module: openconfig-vlan
           |     +--ro ip:link-layer-address?   yang:phys-address
           |     +--ro ip:origin?               neighbor-origin
           +--ro ip:ipv6!
-          |  +--ro ip:forwarding?   boolean
-          |  +--ro ip:mtu?          uint32
-          |  +--ro ip:address* [ip]
-          |  |  +--ro ip:ip               inet:ipv6-address-no-zone
-          |  |  +--ro ip:prefix-length    uint8
-          |  |  +--ro ip:origin?          ip-address-origin
-          |  |  +--ro ip:status?          enumeration
-          |  +--ro ip:neighbor* [ip]
-          |     +--ro ip:ip                    inet:ipv6-address-no-zone
-          |     +--ro ip:link-layer-address?   yang:phys-address
-          |     +--ro ip:origin?               neighbor-origin
-          |     +--ro ip:is-router?            empty
-          |     +--ro ip:state?                enumeration
-          +--ro eth-if:ethernet
-             +--ro eth-if:auto-negotiation
-             |  +--ro eth-if:enable?               boolean
-             |  +--ro eth-if:negotiation-status?   enumeration
-             +--ro eth-if:duplex?                      duplex-type
-             +--ro eth-if:speed?                       eth-if-speed-type
-             +--ro eth-if:flow-control
-             |  +--ro eth-if:pause
-             |  |  +--ro eth-if:direction?    pause-fc-direction-type
-             |  |  +--ro eth-if:statistics
-             |  |     +--ro eth-if:in-pkts-pause?    yang:counter64
-             |  |     +--ro eth-if:out-pkts-pause?   yang:counter64
-             |  +--ro eth-if:pfc {ethernet-pfc}?
-             |  |  +--ro eth-if:enable?       boolean
-             |  |  +--ro eth-if:statistics
-             |  |     +--ro eth-if:in-pkts-pfc?    yang:counter64
-             |  |     +--ro eth-if:out-pkts-pfc?   yang:counter64
-             |  +--ro eth-if:force-flow-control?   boolean
-             +--ro eth-if:max-frame-length?            uint16
-             +--ro eth-if:macc-extension-control?      boolean
-             +--ro eth-if:frame-limit-slow-protocol?   uint32
-             +--ro eth-if:capabilities
-             |  +--ro eth-if:auto-negotiation?   boolean
-             +--ro eth-if:statistics
-             |  +--ro eth-if:frame
-             |  |  +--ro eth-if:in-total-pkts?                 yang:counter64
-             |  |  +--ro eth-if:in-total-octets?               yang:counter64
-             |  |  +--ro eth-if:in-pkts?                       yang:counter64
-             |  |  +--ro eth-if:in-multicast-pkts?             yang:counter64
-             |  |  +--ro eth-if:in-broadcast-pkts?             yang:counter64
-             |  |  +--ro eth-if:in-error-fcs-pkts?             yang:counter64
-             |  |  +--ro eth-if:in-error-undersize-pkts?       yang:counter64
-             |  |  +--ro eth-if:in-error-oversize-pkts?        yang:counter64
-             |  |  +--ro eth-if:in-error-mac-internal-pkts?    yang:counter64
-             |  |  +--ro eth-if:out-pkts?                      yang:counter64
-             |  |  +--ro eth-if:out-multicast-pkts?            yang:counter64
-             |  |  +--ro eth-if:out-broadcast-pkts?            yang:counter64
-             |  |  +--ro eth-if:out-error-mac-internal-pkts?   yang:counter64
-             |  +--ro eth-if:phy
-             |  |  +--ro eth-if:in-error-symbol?   yang:counter64
-             |  |  +--ro eth-if:lpi
-             |  |     +--ro eth-if:in-lpi-transitions?    yang:counter64
-             |  |     +--ro eth-if:in-lpi-time?           decimal64
-             |  |     +--ro eth-if:out-lpi-transitions?   yang:counter64
-             |  |     +--ro eth-if:out-lpi-time?          decimal64
-             |  +--ro eth-if:mac-control
-             |     +--ro eth-if:in-pkts-macc-unknown?      yang:counter64
-             |     +--ro eth-if:in-pkts-macc-extension?    yang:counter64
-             |     +--ro eth-if:out-pkts-macc-extension?   yang:counter64
-             +--ro pse:poe-pse
-                +--ro pse:pse-pair-mode?   identityref
-                +--ro pse:multi-pair
-                |  +--ro pse:pairs-control-ability?   boolean
-                |  +--ro pse:detection-status?        pse-detection-state
-                |  +--ro pse:classifications?         power-class
-                |  +--ro pse:poe-statistics
-                |  |  +--ro pse:power-denied?        uint32
-                |  |  +--ro pse:invalid-signature?   uint32
-                |  |  +--ro pse:mps-absent?          uint32
-                |  |  +--ro pse:overload?            uint32
-                |  |  +--ro pse:short?               uint32
-                |  |  +--ro pse:cumulative-energy?   uint32
-                |  +--ro pse:actual-power?            decimal64
-                |  +--ro pse:power-accuracy?          uint32
-                +--ro pse:single-pair
-                   +--ro pse:detection-status?    podl-detection-state
-                   +--ro pse:pse-type?            enumeration
-                   +--ro pse:detected-pd-type?    enumeration
-                   +--ro pse:pd-power-class?      power-class
-                   +--ro pse:poe-statistics
-                   |  +--ro pse:power-denied?        uint32
-                   |  +--ro pse:invalid-signature?   uint32
-                   |  +--ro pse:invalid-class?       uint32
-                   |  +--ro pse:overload?            uint32
-                   |  +--ro pse:fvs-absence?         uint32
-                   |  +--ro pse:cumulative-energy?   uint32
-                   +--ro pse:actual-power?        decimal64
-                   +--ro pse:power-accuracy?      uint32
-                   +--ro pse:cumulative-energy?   uint32
+             +--ro ip:forwarding?   boolean
+             +--ro ip:mtu?          uint32
+             +--ro ip:address* [ip]
+             |  +--ro ip:ip               inet:ipv6-address-no-zone
+             |  +--ro ip:prefix-length    uint8
+             |  +--ro ip:origin?          ip-address-origin
+             |  +--ro ip:status?          enumeration
+             +--ro ip:neighbor* [ip]
+                +--ro ip:ip                    inet:ipv6-address-no-zone
+                +--ro ip:link-layer-address?   yang:phys-address
+                +--ro ip:origin?               neighbor-origin
+                +--ro ip:is-router?            empty
+                +--ro ip:state?                enumeration
 module: ietf-ipfix-psamp
     +--rw ipfix
        +--rw collectingProcess* [name] {collector}?
@@ -2959,6 +2874,27 @@ module: ietf-system
     |     +---w current-datetime    yang:date-and-time
     +---x system-restart
     +---x system-shutdown
+module: ietf-yang-library
+    +--ro modules-state
+       +--ro module-set-id    string
+       +--ro module* [name revision]
+          +--ro name                yang:yang-identifier
+          +--ro revision            union
+          +--ro schema?             inet:uri
+          +--ro namespace           inet:uri
+          +--ro feature*            yang:yang-identifier
+          +--ro deviation* [name revision]
+          |  +--ro name        yang:yang-identifier
+          |  +--ro revision    union
+          +--ro conformance-type    enumeration
+          +--ro submodule* [name revision]
+             +--ro name        yang:yang-identifier
+             +--ro revision    union
+             +--ro schema?     inet:uri
+
+  notifications:
+    +---n yang-library-change
+       +--ro module-set-id    -&gt; /modules-state/module-set-id
 module: vxlan
     +--rw vxlan
        +--rw instance* [vni]
@@ -3367,6 +3303,18 @@ module: vxlan
                 +--ro assignments-expired?        yang:counter32
                 +--ro assignments-deleted?        yang:counter32
                 +--ro assignments-auth-failed?    yang:counter32
+module: extreme-widgets
+    +--rw widget-config
+    |  +--rw widgets
+    |     +--rw a* [a-index]
+    |        +--rw a-index    uint32
+    |        +--rw a-name?    string
+    +--ro widget-state
+       +--ro widgets
+          +--ro a* [a-index]
+             +--ro a-index    uint32
+             +--ro a-name?    string
+             +--ro a-count?   yang:counter32
 </pre></div>
 </div>
 </div>
@@ -4085,305 +4033,44 @@ module: vxlan
 </div>
 </div>
 </div>
-<div class="section" id="ietf-interfaces">
-<h2>ietf_interfaces<a class="headerlink" href="#ietf-interfaces" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="ietf-interfaces-urls">
-<h3>ietf_interfaces URLs<a class="headerlink" href="#ietf-interfaces-urls" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="ietf-yang-library">
+<h2>ietf_yang_library<a class="headerlink" href="#ietf-yang-library" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ietf-yang-library-urls">
+<h3>ietf_yang_library URLs<a class="headerlink" href="#ietf-yang-library-urls" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ietf</span><span class="o">-</span><span class="n">ip</span><span class="p">:</span><span class="n">ipv4</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ietf</span><span class="o">-</span><span class="n">ip</span><span class="p">:</span><span class="n">ipv4</span><span class="o">/</span><span class="n">neighbor</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ietf</span><span class="o">-</span><span class="n">ip</span><span class="p">:</span><span class="n">ipv4</span><span class="o">/</span><span class="n">address</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ietf</span><span class="o">-</span><span class="n">ip</span><span class="p">:</span><span class="n">ipv6</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ietf</span><span class="o">-</span><span class="n">ip</span><span class="p">:</span><span class="n">ipv6</span><span class="o">/</span><span class="n">neighbor</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ietf</span><span class="o">-</span><span class="n">ip</span><span class="p">:</span><span class="n">ipv6</span><span class="o">/</span><span class="n">address</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ietf</span><span class="o">-</span><span class="n">ip</span><span class="p">:</span><span class="n">ipv6</span><span class="o">/</span><span class="n">autoconf</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">flow</span><span class="o">-</span><span class="n">control</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">flow</span><span class="o">-</span><span class="n">control</span><span class="o">/</span><span class="n">pfc</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">flow</span><span class="o">-</span><span class="n">control</span><span class="o">/</span><span class="n">pause</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">pse</span><span class="p">:</span><span class="n">poe</span><span class="o">-</span><span class="n">pse</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">pse</span><span class="p">:</span><span class="n">poe</span><span class="o">-</span><span class="n">pse</span><span class="o">/</span><span class="n">single</span><span class="o">-</span><span class="n">pair</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">pse</span><span class="p">:</span><span class="n">poe</span><span class="o">-</span><span class="n">pse</span><span class="o">/</span><span class="n">multi</span><span class="o">-</span><span class="n">pair</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">auto</span><span class="o">-</span><span class="n">negotiation</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">statistics</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ietf</span><span class="o">-</span><span class="n">ip</span><span class="p">:</span><span class="n">ipv6</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ietf</span><span class="o">-</span><span class="n">ip</span><span class="p">:</span><span class="n">ipv6</span><span class="o">/</span><span class="n">neighbor</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ietf</span><span class="o">-</span><span class="n">ip</span><span class="p">:</span><span class="n">ipv6</span><span class="o">/</span><span class="n">address</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">statistics</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">statistics</span><span class="o">/</span><span class="n">frame</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">statistics</span><span class="o">/</span><span class="n">phy</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">statistics</span><span class="o">/</span><span class="n">phy</span><span class="o">/</span><span class="n">lpi</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">statistics</span><span class="o">/</span><span class="n">mac</span><span class="o">-</span><span class="n">control</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">capabilities</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">pse</span><span class="p">:</span><span class="n">poe</span><span class="o">-</span><span class="n">pse</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">pse</span><span class="p">:</span><span class="n">poe</span><span class="o">-</span><span class="n">pse</span><span class="o">/</span><span class="n">single</span><span class="o">-</span><span class="n">pair</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">pse</span><span class="p">:</span><span class="n">poe</span><span class="o">-</span><span class="n">pse</span><span class="o">/</span><span class="n">single</span><span class="o">-</span><span class="n">pair</span><span class="o">/</span><span class="n">poe</span><span class="o">-</span><span class="n">statistics</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">pse</span><span class="p">:</span><span class="n">poe</span><span class="o">-</span><span class="n">pse</span><span class="o">/</span><span class="n">multi</span><span class="o">-</span><span class="n">pair</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">pse</span><span class="p">:</span><span class="n">poe</span><span class="o">-</span><span class="n">pse</span><span class="o">/</span><span class="n">multi</span><span class="o">-</span><span class="n">pair</span><span class="o">/</span><span class="n">poe</span><span class="o">-</span><span class="n">statistics</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">auto</span><span class="o">-</span><span class="n">negotiation</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">flow</span><span class="o">-</span><span class="n">control</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">flow</span><span class="o">-</span><span class="n">control</span><span class="o">/</span><span class="n">pfc</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">flow</span><span class="o">-</span><span class="n">control</span><span class="o">/</span><span class="n">pfc</span><span class="o">/</span><span class="n">statistics</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">flow</span><span class="o">-</span><span class="n">control</span><span class="o">/</span><span class="n">pause</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ieee802</span><span class="o">-</span><span class="n">ethernet</span><span class="o">-</span><span class="n">interface</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">flow</span><span class="o">-</span><span class="n">control</span><span class="o">/</span><span class="n">pause</span><span class="o">/</span><span class="n">statistics</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ietf</span><span class="o">-</span><span class="n">ip</span><span class="p">:</span><span class="n">ipv4</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ietf</span><span class="o">-</span><span class="n">ip</span><span class="p">:</span><span class="n">ipv4</span><span class="o">/</span><span class="n">neighbor</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">ietf</span><span class="o">-</span><span class="n">ip</span><span class="p">:</span><span class="n">ipv4</span><span class="o">/</span><span class="n">address</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">yang</span><span class="o">-</span><span class="n">library</span><span class="p">:</span><span class="n">modules</span><span class="o">-</span><span class="n">state</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">yang</span><span class="o">-</span><span class="n">library</span><span class="p">:</span><span class="n">modules</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">module</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">yang</span><span class="o">-</span><span class="n">library</span><span class="p">:</span><span class="n">modules</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">module</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">deviation</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">ietf</span><span class="o">-</span><span class="n">yang</span><span class="o">-</span><span class="n">library</span><span class="p">:</span><span class="n">modules</span><span class="o">-</span><span class="n">state</span><span class="o">/</span><span class="n">module</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">submodule</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="ietf-interfaces-complete-json">
-<h3>ietf_interfaces Complete JSON<a class="headerlink" href="#ietf-interfaces-complete-json" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="ietf-yang-library-complete-json">
+<h3>ietf_yang_library Complete JSON<a class="headerlink" href="#ietf-yang-library-complete-json" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="nt">&quot;ietf-interfaces:interfaces&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;interface&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="nt">&quot;ietf-yang-library:modules-state&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;module-set-id&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+        <span class="nt">&quot;module&quot;</span><span class="p">:</span> <span class="p">[</span>
             <span class="p">{</span>
-                <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                <span class="nt">&quot;ietf-ip:ipv6&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="nt">&quot;autoconf&quot;</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="nt">&quot;temporary-valid-lifetime&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                        <span class="nt">&quot;create-temporary-addresses&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
-                        <span class="nt">&quot;create-global-addresses&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
-                        <span class="nt">&quot;temporary-preferred-lifetime&quot;</span><span class="p">:</span> <span class="mi">0</span>
-                    <span class="p">},</span> 
-                    <span class="nt">&quot;dup-addr-detect-transmits&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                    <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
-                    <span class="nt">&quot;mtu&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                    <span class="nt">&quot;neighbor&quot;</span><span class="p">:</span> <span class="p">[</span>
-                        <span class="p">{</span>
-                            <span class="nt">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;FE80:0000&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;link-layer-address&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
-                        <span class="p">}</span>
-                    <span class="p">],</span> 
-                    <span class="nt">&quot;address&quot;</span><span class="p">:</span> <span class="p">[</span>
-                        <span class="p">{</span>
-                            <span class="nt">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;FE80:0000&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;prefix-length&quot;</span><span class="p">:</span> <span class="mi">0</span>
-                        <span class="p">}</span>
-                    <span class="p">],</span> 
-                    <span class="nt">&quot;forwarding&quot;</span><span class="p">:</span> <span class="kc">false</span>
-                <span class="p">},</span> 
-                <span class="nt">&quot;link-up-down-trap-enable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
-                <span class="nt">&quot;ieee802-ethernet-interface:ethernet&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="nt">&quot;duplex&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                    <span class="nt">&quot;speed&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                    <span class="nt">&quot;ieee802-pse:poe-pse&quot;</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="nt">&quot;single-pair&quot;</span><span class="p">:</span> <span class="p">{</span>
-                            <span class="nt">&quot;pse-enable&quot;</span><span class="p">:</span> <span class="kc">false</span>
-                        <span class="p">},</span> 
-                        <span class="nt">&quot;multi-pair&quot;</span><span class="p">:</span> <span class="p">{</span>
-                            <span class="nt">&quot;powering-pairs&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;pse-enable&quot;</span><span class="p">:</span> <span class="kc">false</span>
-                        <span class="p">}</span>
-                    <span class="p">},</span> 
-                    <span class="nt">&quot;flow-control&quot;</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="nt">&quot;pfc&quot;</span><span class="p">:</span> <span class="p">{</span>
-                            <span class="nt">&quot;enable&quot;</span><span class="p">:</span> <span class="kc">false</span>
-                        <span class="p">},</span> 
-                        <span class="nt">&quot;pause&quot;</span><span class="p">:</span> <span class="p">{</span>
-                            <span class="nt">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
-                        <span class="p">},</span> 
-                        <span class="nt">&quot;force-flow-control&quot;</span><span class="p">:</span> <span class="kc">false</span>
-                    <span class="p">},</span> 
-                    <span class="nt">&quot;auto-negotiation&quot;</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="nt">&quot;enable&quot;</span><span class="p">:</span> <span class="kc">false</span>
+                <span class="nt">&quot;deviation&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span>
+                        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> 
+                        <span class="nt">&quot;revision&quot;</span><span class="p">:</span> <span class="s2">&quot;0000-00-00&quot;</span>
                     <span class="p">}</span>
-                <span class="p">},</span> 
-                <span class="nt">&quot;ietf-ip:ipv4&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="nt">&quot;address&quot;</span><span class="p">:</span> <span class="p">[</span>
-                        <span class="p">{</span>
-                            <span class="nt">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;netmask&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;prefix-length&quot;</span><span class="p">:</span> <span class="mi">0</span>
-                        <span class="p">}</span>
-                    <span class="p">],</span> 
-                    <span class="nt">&quot;forwarding&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
-                    <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
-                    <span class="nt">&quot;neighbor&quot;</span><span class="p">:</span> <span class="p">[</span>
-                        <span class="p">{</span>
-                            <span class="nt">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;link-layer-address&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
-                        <span class="p">}</span>
-                    <span class="p">],</span> 
-                    <span class="nt">&quot;mtu&quot;</span><span class="p">:</span> <span class="mi">0</span>
-                <span class="p">},</span> 
-                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;key&gt;&quot;</span>
-            <span class="p">}</span>
-        <span class="p">]</span>
-    <span class="p">},</span> 
-    <span class="nt">&quot;ietf-interfaces:interfaces-state&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;interface&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="nt">&quot;statistics&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="nt">&quot;out-octets&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                    <span class="nt">&quot;discontinuity-time&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                    <span class="nt">&quot;in-multicast-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                    <span class="nt">&quot;out-broadcast-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                    <span class="nt">&quot;in-errors&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                    <span class="nt">&quot;in-unknown-protos&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                    <span class="nt">&quot;out-multicast-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                    <span class="nt">&quot;in-discards&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                    <span class="nt">&quot;in-unicast-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                    <span class="nt">&quot;out-unicast-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                    <span class="nt">&quot;out-discards&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                    <span class="nt">&quot;in-broadcast-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                    <span class="nt">&quot;out-errors&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                    <span class="nt">&quot;in-octets&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span>
-                <span class="p">},</span> 
-                <span class="nt">&quot;higher-layer-if&quot;</span><span class="p">:</span> <span class="p">[],</span> 
-                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;key&gt;&quot;</span><span class="p">,</span> 
-                <span class="nt">&quot;ietf-ip:ipv6&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="nt">&quot;address&quot;</span><span class="p">:</span> <span class="p">[</span>
-                        <span class="p">{</span>
-                            <span class="nt">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;FE80:0000&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;prefix-length&quot;</span><span class="p">:</span> <span class="mi">0</span>
-                        <span class="p">}</span>
-                    <span class="p">],</span> 
-                    <span class="nt">&quot;forwarding&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
-                    <span class="nt">&quot;neighbor&quot;</span><span class="p">:</span> <span class="p">[</span>
-                        <span class="p">{</span>
-                            <span class="nt">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;FE80:0000&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;state&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;link-layer-address&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;is-router&quot;</span><span class="p">:</span> <span class="kc">false</span>
-                        <span class="p">}</span>
-                    <span class="p">],</span> 
-                    <span class="nt">&quot;mtu&quot;</span><span class="p">:</span> <span class="mi">0</span>
-                <span class="p">},</span> 
-                <span class="nt">&quot;oper-status&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                <span class="nt">&quot;phys-address&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                <span class="nt">&quot;admin-status&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                <span class="nt">&quot;ieee802-ethernet-interface:ethernet&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="nt">&quot;statistics&quot;</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="nt">&quot;frame&quot;</span><span class="p">:</span> <span class="p">{</span>
-                            <span class="nt">&quot;in-error-undersize-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;in-multicast-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;in-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;in-total-octets&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;out-error-mac-internal-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;in-total-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;in-broadcast-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;out-multicast-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;in-error-mac-internal-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;out-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;out-broadcast-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;in-error-fcs-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;in-error-oversize-pkts&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span>
-                        <span class="p">},</span> 
-                        <span class="nt">&quot;phy&quot;</span><span class="p">:</span> <span class="p">{</span>
-                            <span class="nt">&quot;in-error-symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;lpi&quot;</span><span class="p">:</span> <span class="p">{</span>
-                                <span class="nt">&quot;out-lpi-time&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                                <span class="nt">&quot;out-lpi-transitions&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                                <span class="nt">&quot;in-lpi-time&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                                <span class="nt">&quot;in-lpi-transitions&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span>
-                            <span class="p">}</span>
-                        <span class="p">},</span> 
-                        <span class="nt">&quot;mac-control&quot;</span><span class="p">:</span> <span class="p">{</span>
-                            <span class="nt">&quot;in-pkts-macc-extension&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;in-pkts-macc-unknown&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;out-pkts-macc-extension&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span>
-                        <span class="p">}</span>
-                    <span class="p">},</span> 
-                    <span class="nt">&quot;duplex&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                    <span class="nt">&quot;flow-control&quot;</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="nt">&quot;pfc&quot;</span><span class="p">:</span> <span class="p">{</span>
-                            <span class="nt">&quot;statistics&quot;</span><span class="p">:</span> <span class="p">{</span>
-                                <span class="nt">&quot;in-pkts-pfc&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                                <span class="nt">&quot;out-pkts-pfc&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span>
-                            <span class="p">},</span> 
-                            <span class="nt">&quot;enable&quot;</span><span class="p">:</span> <span class="kc">false</span>
-                        <span class="p">},</span> 
-                        <span class="nt">&quot;pause&quot;</span><span class="p">:</span> <span class="p">{</span>
-                            <span class="nt">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;statistics&quot;</span><span class="p">:</span> <span class="p">{</span>
-                                <span class="nt">&quot;in-pkts-pause&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                                <span class="nt">&quot;out-pkts-pause&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span>
-                            <span class="p">}</span>
-                        <span class="p">},</span> 
-                        <span class="nt">&quot;force-flow-control&quot;</span><span class="p">:</span> <span class="kc">false</span>
-                    <span class="p">},</span> 
-                    <span class="nt">&quot;capabilities&quot;</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="nt">&quot;auto-negotiation&quot;</span><span class="p">:</span> <span class="kc">false</span>
-                    <span class="p">},</span> 
-                    <span class="nt">&quot;ieee802-pse:poe-pse&quot;</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="nt">&quot;single-pair&quot;</span><span class="p">:</span> <span class="p">{</span>
-                            <span class="nt">&quot;pd-power-class&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;cumulative-energy&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                            <span class="nt">&quot;detected-pd-type&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;pse-type&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;power-accuracy&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                            <span class="nt">&quot;detection-status&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;actual-power&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;poe-statistics&quot;</span><span class="p">:</span> <span class="p">{</span>
-                                <span class="nt">&quot;power-denied&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                                <span class="nt">&quot;cumulative-energy&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                                <span class="nt">&quot;overload&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                                <span class="nt">&quot;fvs-absence&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                                <span class="nt">&quot;invalid-signature&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                                <span class="nt">&quot;invalid-class&quot;</span><span class="p">:</span> <span class="mi">0</span>
-                            <span class="p">}</span>
-                        <span class="p">},</span> 
-                        <span class="nt">&quot;multi-pair&quot;</span><span class="p">:</span> <span class="p">{</span>
-                            <span class="nt">&quot;classifications&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;detection-status&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;pairs-control-ability&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
-                            <span class="nt">&quot;poe-statistics&quot;</span><span class="p">:</span> <span class="p">{</span>
-                                <span class="nt">&quot;power-denied&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                                <span class="nt">&quot;short&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                                <span class="nt">&quot;cumulative-energy&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                                <span class="nt">&quot;mps-absent&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                                <span class="nt">&quot;overload&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                                <span class="nt">&quot;invalid-signature&quot;</span><span class="p">:</span> <span class="mi">0</span>
-                            <span class="p">},</span> 
-                            <span class="nt">&quot;actual-power&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;power-accuracy&quot;</span><span class="p">:</span> <span class="mi">0</span>
-                        <span class="p">},</span> 
-                        <span class="nt">&quot;pse-pair-mode&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
-                    <span class="p">},</span> 
-                    <span class="nt">&quot;auto-negotiation&quot;</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="nt">&quot;negotiation-status&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                        <span class="nt">&quot;enable&quot;</span><span class="p">:</span> <span class="kc">false</span>
-                    <span class="p">},</span> 
-                    <span class="nt">&quot;max-frame-length&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                    <span class="nt">&quot;speed&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                    <span class="nt">&quot;macc-extension-control&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
-                    <span class="nt">&quot;frame-limit-slow-protocol&quot;</span><span class="p">:</span> <span class="mi">0</span>
-                <span class="p">},</span> 
-                <span class="nt">&quot;lower-layer-if&quot;</span><span class="p">:</span> <span class="p">[],</span> 
-                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                <span class="nt">&quot;last-change&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                <span class="nt">&quot;speed&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
-                <span class="nt">&quot;if-index&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
-                <span class="nt">&quot;ietf-ip:ipv4&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="nt">&quot;address&quot;</span><span class="p">:</span> <span class="p">[</span>
-                        <span class="p">{</span>
-                            <span class="nt">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;netmask&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;prefix-length&quot;</span><span class="p">:</span> <span class="mi">0</span>
-                        <span class="p">}</span>
-                    <span class="p">],</span> 
-                    <span class="nt">&quot;forwarding&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
-                    <span class="nt">&quot;neighbor&quot;</span><span class="p">:</span> <span class="p">[</span>
-                        <span class="p">{</span>
-                            <span class="nt">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> 
-                            <span class="nt">&quot;link-layer-address&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
-                        <span class="p">}</span>
-                    <span class="p">],</span> 
-                    <span class="nt">&quot;mtu&quot;</span><span class="p">:</span> <span class="mi">0</span>
-                <span class="p">}</span>
+                <span class="p">],</span> 
+                <span class="nt">&quot;conformance-type&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                <span class="nt">&quot;submodule&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span>
+                        <span class="nt">&quot;schema&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> 
+                        <span class="nt">&quot;revision&quot;</span><span class="p">:</span> <span class="s2">&quot;0000-00-00&quot;</span>
+                    <span class="p">}</span>
+                <span class="p">],</span> 
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> 
+                <span class="nt">&quot;namespace&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                <span class="nt">&quot;feature&quot;</span><span class="p">:</span> <span class="p">[],</span> 
+                <span class="nt">&quot;schema&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                <span class="nt">&quot;revision&quot;</span><span class="p">:</span> <span class="s2">&quot;0000-00-00&quot;</span>
             <span class="p">}</span>
         <span class="p">]</span>
     <span class="p">}</span>
@@ -4527,6 +4214,9 @@ module: vxlan
 <span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">openconfig</span><span class="o">-</span><span class="k">if</span><span class="o">-</span><span class="n">ethernet</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">vlan</span><span class="p">:</span><span class="n">switched</span><span class="o">-</span><span class="n">vlan</span>
 <span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">openconfig</span><span class="o">-</span><span class="k">if</span><span class="o">-</span><span class="n">ethernet</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">vlan</span><span class="p">:</span><span class="n">switched</span><span class="o">-</span><span class="n">vlan</span><span class="o">/</span><span class="n">state</span>
 <span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">openconfig</span><span class="o">-</span><span class="k">if</span><span class="o">-</span><span class="n">ethernet</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">vlan</span><span class="p">:</span><span class="n">switched</span><span class="o">-</span><span class="n">vlan</span><span class="o">/</span><span class="n">config</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">openconfig</span><span class="o">-</span><span class="k">if</span><span class="o">-</span><span class="n">ethernet</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="k">if</span><span class="o">-</span><span class="n">poe</span><span class="p">:</span><span class="n">poe</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">openconfig</span><span class="o">-</span><span class="k">if</span><span class="o">-</span><span class="n">ethernet</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="k">if</span><span class="o">-</span><span class="n">poe</span><span class="p">:</span><span class="n">poe</span><span class="o">/</span><span class="n">state</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">openconfig</span><span class="o">-</span><span class="k">if</span><span class="o">-</span><span class="n">ethernet</span><span class="p">:</span><span class="n">ethernet</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="k">if</span><span class="o">-</span><span class="n">poe</span><span class="p">:</span><span class="n">poe</span><span class="o">/</span><span class="n">config</span>
 <span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">interfaces</span><span class="p">:</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">config</span>
 </pre></div>
 </div>
@@ -5116,6 +4806,16 @@ module: vxlan
                         <span class="nt">&quot;auto-negotiate&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
                         <span class="nt">&quot;duplex-mode&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
                         <span class="nt">&quot;port-speed&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+                    <span class="p">},</span> 
+                    <span class="nt">&quot;openconfig-if-poe:poe&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="nt">&quot;state&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="nt">&quot;power-used&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                            <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
+                            <span class="nt">&quot;power-class&quot;</span><span class="p">:</span> <span class="mi">0</span>
+                        <span class="p">},</span> 
+                        <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span>
+                        <span class="p">}</span>
                     <span class="p">}</span>
                 <span class="p">},</span> 
                 <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -5127,6 +4827,143 @@ module: vxlan
                 <span class="p">}</span>
             <span class="p">}</span>
         <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="openconfig-lldp">
+<h2>openconfig_lldp<a class="headerlink" href="#openconfig-lldp" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="openconfig-lldp-urls">
+<h3>openconfig_lldp URLs<a class="headerlink" href="#openconfig-lldp-urls" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">state</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">state</span><span class="o">/</span><span class="n">counters</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">config</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">interfaces</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">neighbors</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">neighbors</span><span class="o">/</span><span class="n">neighbor</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">neighbors</span><span class="o">/</span><span class="n">neighbor</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">state</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">neighbors</span><span class="o">/</span><span class="n">neighbor</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">custom</span><span class="o">-</span><span class="n">tlvs</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">neighbors</span><span class="o">/</span><span class="n">neighbor</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">custom</span><span class="o">-</span><span class="n">tlvs</span><span class="o">/</span><span class="n">tlv</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">neighbors</span><span class="o">/</span><span class="n">neighbor</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">custom</span><span class="o">-</span><span class="n">tlvs</span><span class="o">/</span><span class="n">tlv</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">state</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">neighbors</span><span class="o">/</span><span class="n">neighbor</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">capabilities</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">neighbors</span><span class="o">/</span><span class="n">neighbor</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">capabilities</span><span class="o">/</span><span class="n">capability</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">neighbors</span><span class="o">/</span><span class="n">neighbor</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">capabilities</span><span class="o">/</span><span class="n">capability</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">state</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">state</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">state</span><span class="o">/</span><span class="n">counters</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">ip</span><span class="o">&gt;/</span><span class="n">rest</span><span class="o">/</span><span class="n">restconf</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">openconfig</span><span class="o">-</span><span class="n">lldp</span><span class="p">:</span><span class="n">lldp</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">interface</span><span class="o">=&lt;</span><span class="n">key</span><span class="o">&gt;/</span><span class="n">config</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="openconfig-lldp-complete-json">
+<h3>openconfig_lldp Complete JSON<a class="headerlink" href="#openconfig-lldp-complete-json" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;openconfig-lldp:lldp&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;state&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;chassis-id&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+            <span class="nt">&quot;suppress-tlv-advertisement&quot;</span><span class="p">:</span> <span class="p">[],</span> 
+            <span class="nt">&quot;hello-timer&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+            <span class="nt">&quot;system-description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+            <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
+            <span class="nt">&quot;chassis-id-type&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+            <span class="nt">&quot;system-name&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+            <span class="nt">&quot;counters&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;tlv-accepted&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                <span class="nt">&quot;tlv-discard&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                <span class="nt">&quot;tlv-unknown&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                <span class="nt">&quot;entries-aged-out&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                <span class="nt">&quot;last-clear&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                <span class="nt">&quot;frame-discard&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                <span class="nt">&quot;frame-out&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                <span class="nt">&quot;frame-in&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                <span class="nt">&quot;frame-error-in&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span>
+            <span class="p">}</span>
+        <span class="p">},</span> 
+        <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;chassis-id&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+            <span class="nt">&quot;suppress-tlv-advertisement&quot;</span><span class="p">:</span> <span class="p">[],</span> 
+            <span class="nt">&quot;hello-timer&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+            <span class="nt">&quot;system-description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+            <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
+            <span class="nt">&quot;chassis-id-type&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+            <span class="nt">&quot;system-name&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+        <span class="p">},</span> 
+        <span class="nt">&quot;interfaces&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;interface&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="nt">&quot;neighbors&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="nt">&quot;neighbor&quot;</span><span class="p">:</span> <span class="p">[</span>
+                            <span class="p">{</span>
+                                <span class="nt">&quot;state&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                    <span class="nt">&quot;chassis-id&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                                    <span class="nt">&quot;system-description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                                    <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                                    <span class="nt">&quot;management-address&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                                    <span class="nt">&quot;port-id-type&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                                    <span class="nt">&quot;port-id&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                                    <span class="nt">&quot;chassis-id-type&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                                    <span class="nt">&quot;management-address-type&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                                    <span class="nt">&quot;last-update&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                                    <span class="nt">&quot;port-description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                                    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                                    <span class="nt">&quot;system-name&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+                                <span class="p">},</span> 
+                                <span class="nt">&quot;custom-tlvs&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                    <span class="nt">&quot;tlv&quot;</span><span class="p">:</span> <span class="p">[</span>
+                                        <span class="p">{</span>
+                                            <span class="nt">&quot;oui&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                                            <span class="nt">&quot;oui-subtype&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                                            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                                            <span class="nt">&quot;state&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                                <span class="nt">&quot;oui&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                                                <span class="nt">&quot;oui-subtype&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                                                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
+                                                <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+                                            <span class="p">}</span>
+                                        <span class="p">}</span>
+                                    <span class="p">]</span>
+                                <span class="p">},</span> 
+                                <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;key&gt;&quot;</span><span class="p">,</span> 
+                                <span class="nt">&quot;capabilities&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                    <span class="nt">&quot;capability&quot;</span><span class="p">:</span> <span class="p">[</span>
+                                        <span class="p">{</span>
+                                            <span class="nt">&quot;state&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                                <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
+                                                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+                                            <span class="p">},</span> 
+                                            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;key&gt;&quot;</span>
+                                        <span class="p">}</span>
+                                    <span class="p">]</span>
+                                <span class="p">}</span>
+                            <span class="p">}</span>
+                        <span class="p">]</span>
+                    <span class="p">},</span> 
+                    <span class="nt">&quot;state&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
+                        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                        <span class="nt">&quot;counters&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="nt">&quot;tlv-discard&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                            <span class="nt">&quot;tlv-unknown&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                            <span class="nt">&quot;frame-error-in&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                            <span class="nt">&quot;last-clear&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                            <span class="nt">&quot;frame-discard&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                            <span class="nt">&quot;frame-out&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                            <span class="nt">&quot;frame-error-out&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> 
+                            <span class="nt">&quot;frame-in&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span>
+                        <span class="p">}</span>
+                    <span class="p">},</span> 
+                    <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
+                        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+                    <span class="p">},</span> 
+                    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;key&gt;&quot;</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -6395,7 +6232,7 @@ module: vxlan
 </div>
 </div>
 <div class="section" id="id1">
-<h2>Version 1.0.1.18<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>Version 1.0.1.30<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -6411,7 +6248,7 @@ module: vxlan
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">RESTCONF Reference Documentation</a><ul>
-<li><a class="reference internal" href="#version-1-0-1-18">Version 1.0.1.18</a></li>
+<li><a class="reference internal" href="#version-1-0-1-30">Version 1.0.1.30</a></li>
 <li><a class="reference internal" href="#exos-compatibility">EXOS Compatibility</a></li>
 <li><a class="reference internal" href="#external-links">External Links</a></li>
 </ul>
@@ -6428,14 +6265,19 @@ module: vxlan
 <li><a class="reference internal" href="#extreme-fabric-complete-json">extreme_fabric Complete JSON</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#ietf-interfaces">ietf_interfaces</a><ul>
-<li><a class="reference internal" href="#ietf-interfaces-urls">ietf_interfaces URLs</a></li>
-<li><a class="reference internal" href="#ietf-interfaces-complete-json">ietf_interfaces Complete JSON</a></li>
+<li><a class="reference internal" href="#ietf-yang-library">ietf_yang_library</a><ul>
+<li><a class="reference internal" href="#ietf-yang-library-urls">ietf_yang_library URLs</a></li>
+<li><a class="reference internal" href="#ietf-yang-library-complete-json">ietf_yang_library Complete JSON</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#openconfig-interfaces">openconfig_interfaces</a><ul>
 <li><a class="reference internal" href="#openconfig-interfaces-urls">openconfig_interfaces URLs</a></li>
 <li><a class="reference internal" href="#openconfig-interfaces-complete-json">openconfig_interfaces Complete JSON</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#openconfig-lldp">openconfig_lldp</a><ul>
+<li><a class="reference internal" href="#openconfig-lldp-urls">openconfig_lldp URLs</a></li>
+<li><a class="reference internal" href="#openconfig-lldp-complete-json">openconfig_lldp Complete JSON</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#openconfig-module-catalog">openconfig_module_catalog</a><ul>
@@ -6468,18 +6310,11 @@ module: vxlan
 <li><a class="reference internal" href="#openconfig-vlan-complete-json">openconfig_vlan Complete JSON</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id1">Version 1.0.1.18</a></li>
+<li><a class="reference internal" href="#id1">Version 1.0.1.30</a></li>
 </ul>
 </li>
 </ul>
 
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/RESTCONF.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
@@ -6497,15 +6332,11 @@ module: vxlan
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
         <li class="nav-item nav-item-0"><a href="#">RESTCONF  documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Extreme Networks.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
     </div>
   </body>
 </html>
