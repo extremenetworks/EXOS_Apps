@@ -1,0 +1,485 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Cable Diagnostic On-Switch Application &#8212; cablediag  documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">cablediag  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <img alt="_images/ExtremeSwitchingLogo.png" src="_images/ExtremeSwitchingLogo.png" />
+<img alt="_images/XosLogo.png" src="_images/XosLogo.png" />
+<div class="section" id="cable-diagnostic-on-switch-application">
+<h1>Cable Diagnostic On-Switch Application<a class="headerlink" href="#cable-diagnostic-on-switch-application" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-1-1-0-3">
+<h2>Version 1.1.0.3<a class="headerlink" href="#version-1-1-0-3" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>added support for -p PORTLIST command line option</li>
+</ul>
+</div>
+<div class="section" id="minimum-extremexos-required">
+<h2>Minimum ExtremeXOS Required<a class="headerlink" href="#minimum-extremexos-required" title="Permalink to this headline">¶</a></h2>
+<p>EXOS 21.1.2</p>
+<dl class="docutils">
+<dt>EXOS 22.5</dt>
+<dd>An EXOS command which invokes the cablediag.py applicaiton has been added to EXOS 22.5.</dd>
+</dl>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run diagnostics cable ports <span class="o">[</span> &lt;port_list&gt; <span class="p">|</span> all <span class="o">]</span>
+</pre></div>
+</div>
+<div class="section" id="files">
+<h3>Files<a class="headerlink" href="#files" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils" id="id1">
+<caption><span class="caption-text">Cable Diagnostic Application Download</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">File</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference external" href="https://github.com/extremenetworks/EXOS_Apps/blob/master/Cablediags/summitX-cablediag-1.1.0.3.xmod">summitX-cablediag-1.1.0.3.xmod</a></td>
+<td>Summit Cable Diagnostic Application</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="https://github.com/extremenetworks/EXOS_Apps/blob/master/Cablediags/onie-cablediag-1.1.0.3.xmod">onie-cablediag-1.1.0.3.xmod</a></td>
+<td>ONIE Cable Diagnostic Application</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
+<p>The cablediag.py application performs a Time Domain Reflectometry (TDR) diagnostic on copper switch interfaces.</p>
+</div>
+<div class="section" id="download">
+<h3>Download<a class="headerlink" href="#download" title="Permalink to this headline">¶</a></h3>
+<p>To update your Extreme EXOS switch with this version of cablediag.py:</p>
+<ol class="arabic simple">
+<li>Using the right mouse button, copy the link of the desired .xmod above</li>
+<li>On an EXOS Command line enter: <code class="docutils literal"><span class="pre">download</span> <span class="pre">url</span></code> <em>&lt;paste the link from above&gt;</em></li>
+</ol>
+<div class="section" id="exos-command-line">
+<h4>EXOS Command Line<a class="headerlink" href="#exos-command-line" title="Permalink to this headline">¶</a></h4>
+<p>cablediag.py is managed using the <code class="docutils literal"><span class="pre">run</span> <span class="pre">script</span></code> CLI command.</p>
+</div>
+</div>
+<div class="section" id="help">
+<h3>Help<a class="headerlink" href="#help" title="Permalink to this headline">¶</a></h3>
+<p>To see the cablediag options, enter</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script cablediag.py -h
+</pre></div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>usage: cablediag <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-p PORTLIST <span class="o">[</span>PORTLIST ...<span class="o">]]</span> <span class="o">[</span>-d<span class="o">]</span>
+
+optional arguments:
+  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
+  -p PORTLIST <span class="o">[</span>PORTLIST ...<span class="o">]</span>, --portList PORTLIST <span class="o">[</span>PORTLIST ...<span class="o">]</span>
+                        Port list separated by a <span class="s2">&quot;,&quot;</span> or <span class="s2">&quot;-&quot;</span>
+  -d, --debug           Enable debug
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Default behavior</dt>
+<dd>Perform a diagnostic on all copper interfaces carrying user data. Copper interfaces used for stacking are not included in the diagnostic.</dd>
+<dt><code class="docutils literal"><span class="pre">--p</span></code> or <code class="docutils literal"><span class="pre">--portList</span></code></dt>
+<dd><p class="first">Specify individual port or ports.</p>
+<p>Individual ports may be:</p>
+<ul class="last simple">
+<li>a single port</li>
+<li>multiple ports separated by a comma ‘,’</li>
+<li>A range of ports specified by a dash ‘-‘ between a beginning and ending port.</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="running-cablediag-py">
+<h3>Running cablediag.py<a class="headerlink" href="#running-cablediag-py" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script cablediag.py
+</pre></div>
+</div>
+<p>Or EXOS 22.5 and later</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run diagnostics cable ports all
+</pre></div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cablediag: <span class="m">1</span>.1.0.3
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                             C A U T I O N                             +
++   cablediag will momentarily interfere with traffic on active ports   +
++-----------------------------------------------------------------------+
++   Ports: All Ports                                                    +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Do you want to <span class="k">continue</span> cable diagnostics? <span class="o">[</span>y/N<span class="o">]</span>: y
+</pre></div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Collecting port cable diagnostic information may take a moment...
+port <span class="m">1</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+port <span class="m">2</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+port <span class="m">3</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+port <span class="m">4</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+.
+.
+.
+port <span class="m">24</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+CABLEdiag: ERROR: port <span class="m">25</span>: Feature unavailable
+
+CABLEdiag: ERROR: port <span class="m">26</span>: Feature unavailable
+
+CABLEdiag: ERROR: port <span class="m">27</span>: Feature unavailable
+
+CABLEdiag: ERROR: port <span class="m">28</span>: Feature unavailable
+</pre></div>
+</div>
+<p><em>In the example above, ports 25-28 are not copper ports used for user data.</em></p>
+</div>
+<div class="section" id="running-cablediag-py-with-ports">
+<h3>Running cablediag.py with Ports<a class="headerlink" href="#running-cablediag-py-with-ports" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script cablediag.py -p <span class="m">1</span>-4,9-15,40,41
+</pre></div>
+</div>
+<p>Or EXOS 22.5 and later</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run diagnostics cable ports <span class="m">1</span>-4, <span class="m">9</span>-15, <span class="m">40</span>,41
+</pre></div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cablediag: <span class="m">1</span>.1.0.3
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                             C A U T I O N                             +
++   cablediag will momentarily interfere with traffic on active ports   +
++-----------------------------------------------------------------------+
++   Ports: <span class="m">1</span>,2,3,4,9,10,11,12,13,14,15,40,41                            +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Do you want to <span class="k">continue</span> cable diagnostics? <span class="o">[</span>y/N<span class="o">]</span>: y
+</pre></div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Collecting port cable diagnostic information may take a moment...
+port <span class="m">1</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Ok, length <span class="m">4</span> meters
+        pair B Ok, length <span class="m">0</span> meters
+        pair C Ok, length <span class="m">0</span> meters
+        pair D Ok, length <span class="m">0</span> meters
+
+port <span class="m">2</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+port <span class="m">3</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+port <span class="m">4</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+port <span class="m">9</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Ok, length <span class="m">5</span> meters
+        pair B Crosstalk, length <span class="m">1</span> meters
+        pair C Ok, length <span class="m">0</span> meters
+        pair D Crosstalk, length <span class="m">1</span> meters
+
+port <span class="m">10</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+port <span class="m">11</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Ok, length <span class="m">4</span> meters
+        pair B Ok, length <span class="m">0</span> meters
+        pair C Ok, length <span class="m">0</span> meters
+        pair D Ok, length <span class="m">5</span> meters
+
+port <span class="m">12</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+port <span class="m">13</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Ok, length <span class="m">191</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+port <span class="m">14</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Ok, length <span class="m">10</span> meters
+        pair B Ok, length <span class="m">5</span> meters
+        pair C Ok, length <span class="m">9</span> meters
+        pair D Ok, length <span class="m">10</span> meters
+
+port <span class="m">15</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+port <span class="m">40</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Ok, length <span class="m">0</span> meters
+        pair B Ok, length <span class="m">0</span> meters
+        pair C Ok, length <span class="m">0</span> meters
+        pair D Ok, length <span class="m">0</span> meters
+
+port <span class="m">41</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Ok, length <span class="m">0</span> meters
+        pair B Ok, length <span class="m">0</span> meters
+        pair C Ok, length <span class="m">0</span> meters
+        pair D Ok, length <span class="m">0</span> meters
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-cablediag-py-on-a-stack">
+<h3>Running cablediag.py on a Stack<a class="headerlink" href="#running-cablediag-py-on-a-stack" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run script cablediag.py <span class="m">1</span>:1,1:3,1:9-16,2:1-5,2:13
+</pre></div>
+</div>
+<p>Or EXOS 22.5 and later</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>run diagnostics cable ports <span class="m">1</span>:1,1:3, <span class="m">1</span>:9-16, <span class="m">2</span>:1-5,2:13
+</pre></div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cablediag: <span class="m">1</span>.1.0.3
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                             C A U T I O N                             +
++   cablediag will momentarily interfere with traffic on active ports   +
++-----------------------------------------------------------------------+
++   Slot <span class="m">1</span>: Ports: <span class="m">1</span>,3,9,10,11,12,13,14,15,16                           +
++   Slot <span class="m">2</span>: Ports: <span class="m">1</span>,2,3,4,5,13                                         +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Do you want to <span class="k">continue</span> cable diagnostics? <span class="o">[</span>y/N<span class="o">]</span>: y
+</pre></div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Collecting port cable diagnostic information may take a moment...
+Slot <span class="m">1</span>
+port <span class="m">1</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Ok, length <span class="m">5</span> meters
+        pair B Ok, length <span class="m">0</span> meters
+        pair C Ok, length <span class="m">0</span> meters
+        pair D Ok, length <span class="m">0</span> meters
+
+port <span class="m">3</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+port <span class="m">9</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Ok, length <span class="m">5</span> meters
+        pair B Crosstalk, length <span class="m">1</span> meters
+        pair C Ok, length <span class="m">0</span> meters
+        pair D Crosstalk, length <span class="m">1</span> meters
+
+port <span class="m">10</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+port <span class="m">11</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Ok, length <span class="m">4</span> meters
+        pair B Ok, length <span class="m">5</span> meters
+        pair C Ok, length <span class="m">4</span> meters
+        pair D Ok, length <span class="m">4</span> meters
+
+port <span class="m">12</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+port <span class="m">13</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Ok, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+port <span class="m">14</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Ok, length <span class="m">5</span> meters
+        pair B Ok, length <span class="m">7</span> meters
+        pair C Ok, length <span class="m">5</span> meters
+        pair D Ok, length <span class="m">5</span> meters
+
+port <span class="m">15</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+port <span class="m">16</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+
+Slot <span class="m">2</span>
+port <span class="m">1</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Ok, length <span class="m">0</span> meters
+        pair B Ok, length <span class="m">0</span> meters
+        pair C Ok, length <span class="m">0</span> meters
+        pair D Ok, length <span class="m">0</span> meters
+port <span class="m">2</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Ok, length <span class="m">5</span> meters
+        pair B Ok, length <span class="m">4</span> meters
+        pair C Ok, length <span class="m">4</span> meters
+        pair D Ok, length <span class="m">2</span> meters
+port <span class="m">3</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+port <span class="m">4</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+port <span class="m">5</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Open, length <span class="m">0</span> meters
+        pair B Open, length <span class="m">0</span> meters
+        pair C Open, length <span class="m">0</span> meters
+        pair D Open, length <span class="m">0</span> meters
+port <span class="m">13</span>: cable <span class="o">(</span><span class="m">4</span> pairs, length +/- <span class="m">10</span> meters<span class="o">)</span>
+        pair A Ok, length <span class="m">4</span> meters
+        pair B Ok, length <span class="m">0</span> meters
+        pair C Ok, length <span class="m">2</span> meters
+        pair D Ok, length <span class="m">0</span> meters
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/Extreme-Networks-RGB.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Cable Diagnostic On-Switch Application</a><ul>
+<li><a class="reference internal" href="#version-1-1-0-3">Version 1.1.0.3</a></li>
+<li><a class="reference internal" href="#minimum-extremexos-required">Minimum ExtremeXOS Required</a><ul>
+<li><a class="reference internal" href="#files">Files</a></li>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#download">Download</a><ul>
+<li><a class="reference internal" href="#exos-command-line">EXOS Command Line</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#help">Help</a></li>
+<li><a class="reference internal" href="#running-cablediag-py">Running cablediag.py</a></li>
+<li><a class="reference internal" href="#running-cablediag-py-with-ports">Running cablediag.py with Ports</a></li>
+<li><a class="reference internal" href="#running-cablediag-py-on-a-stack">Running cablediag.py on a Stack</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">cablediag  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Extreme Networks.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+  </body>
+</html>
