@@ -12,7 +12,7 @@ TRANSACTION = 'transaction'
 COOKIE = 'session'
 X_AUTH_TOKEN = 'X-Auth-Token'
 X_AUTH_TOKEN_LOWER = X_AUTH_TOKEN.lower()
-_version_ = JSONRPC_VERSION + '.0.3'
+_version_ = JSONRPC_VERSION + '.0.4'
 
 
 #
@@ -68,16 +68,11 @@ class JsonRPC(object):
         # a default switch if communication with multiple switches is not necessary.
         #
 
-        cmd_string = ''
-        if isinstance(cmds, list):
-            for c in cmds:
-                cmd_string += '{};'.format(c.strip())
-        else:
-            cmd_string = cmds
+        params = ';'.join(cmds) if isinstance(cmds, list) else cmds
 
         # params[0] = CLI command(s) string separated by ';'
         jsonrpc_response = self._send_to_remote_device('cli',
-                                                       [cmd_string],
+                                                       [params],
                                                        ipaddress,
                                                        username,
                                                        password

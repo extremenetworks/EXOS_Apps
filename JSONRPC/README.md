@@ -1,4 +1,6 @@
 # JSONRPC EXOS Interface
+## Version 2.0.0.4
+ - corrects extra error message after successful CLI response
 ## Version 2.0.0.3
  - Corrects support for https
  - Add re-authentication if session token becomes invalid
