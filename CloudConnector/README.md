@@ -6,15 +6,15 @@ __This firmware should be loaded to the ExtremeManagement server via the Network
 Let Extreme Management do that for you by marking it as the Reference Image on the Firmware page.
 _See the list of CloudConnector versions to match the EXOS version running on your ExtremeSwitching hardware._
 
-### EXOS CloudConnector v3.0.29.39 for use with Extreme Management Center 8.x
-The EXOS CloudConnector v3.0.29.39 application is used together with Extreme Management Center 8.x.
+### EXOS CloudConnector v3.0.34.54 for use with Extreme Management Center 8.x
+The EXOS CloudConnector v3.0.34.54 application is used together with Extreme Management Center 8.x.
 
 For Extreme Management Center 8.x, the firmware page is shown below:
 ![](EMC8_0.png "ExtremeManagement Reference image")
 
-Separate Cloud Connector versions are no longer necessary with EXOS CloudConnector v3.0.29.39. The EXOS CloudConnector v3.0.29.39 is compatible with all EXOS releases from EXOS 21.x and later. 
-- [summitX-cloud_connector-3.0.29.39.xmod](summitX-cloud_connector-3.0.29.39.xmod?raw=true)
-- [onie-cloud_connector-3.0.29.39.xmod](onie-cloud_connector-3.0.29.39.xmod?raw=true)
+Separate Cloud Connector versions are no longer necessary with EXOS CloudConnector v3.0.34.54. The EXOS CloudConnector v3.0.34.54 is compatible with all EXOS releases from EXOS 21.x and later. 
+- [summitX-cloud_connector-3.0.34.54.xmod](summitX-cloud_connector-3.0.34.54.xmod?raw=true)
+- [onie-cloud_connector-3.0.34.54.xmod](onie-cloud_connector-3.0.34.54.xmod?raw=true)
 
 For a complete description of installation instructions and ExtremeManagement ZTP+ capabilities, see the ExtremeManagement 8.x documentation.
 
