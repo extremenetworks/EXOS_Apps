@@ -1,6 +1,6 @@
 # EXOS ezspantree.py Application
 ## User Documentation
-[ezspantree.py 2.1.0.2](http://api.extremenetworks.com/EXOS/Applications/EzSpanningTree/]
+[ezspantree.py 2.1.0.2](http://api.extremenetworks.com/EXOS/Applications/EzSpanningTree/)
 
 ## License
 Copyright© 2016, Extreme Networks
