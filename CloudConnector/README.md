@@ -18,19 +18,6 @@ Separate Cloud Connector versions are no longer necessary with EXOS CloudConnect
 
 For a complete description of installation instructions and ExtremeManagement ZTP+ capabilities, see the ExtremeManagement 8.x documentation.
 
-### EXOS CloudConnector v1.1.14.35 for use with Extreme Management Center 7.x
-The EXOS CloudConnector v1.1.14.35 application is used together with Extreme Management Center 7.x.
-
-For Extreme Management Center 7.x, the firmware page is shown below:
-![](EmgmtRefImage.png "ExtremeManagement Reference image")
-
-Select CloudConnector the version(s) that match the EXOS release running on your ExtremeSwitching devices and install them on the Extreme Management server. 
-- [summitX-21.1-cloud_connector-1.1.14.35.xmod](summitX-21.1-cloud_connector-1.1.14.35.xmod?raw=true)
-- [summitX-22.1-cloud_connector-1.1.14.35.xmod](summitX-22.1-cloud_connector-1.1.14.35.xmod?raw=true)
-- [summitX-22.2-cloud_connector-1.1.14.35.xmod](summitX-22.2-cloud_connector-1.1.14.35.xmod?raw=true)
- 
-For a complete description of installation instructions and ExtremeManagement ZTP+ capabilities, see the ExtremeManagement 7.x documentation.
-
 
 ## License
 Copyright© 2016, Extreme Networks
