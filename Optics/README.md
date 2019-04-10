@@ -1,53 +1,47 @@
-# EXOS ezvxlan.py Application
+# EXOS Optics XMOD Application
 ## User Documentation
-[EZ_VXLAN](https://rawgit.com/extremenetworks/EXOS_Apps/master/EZ_VXLAN/docs/ezvxlan.html)
 
-## ezvxlan.py 2.0.0.3
-
-Already included with EXOS 22.3
-
-For Extreme customers deploying a virutal network using VXLAN, this application provides an automatic mapping of certain VLANS into VXLAN VNIs when used with the EXOS virtual-network capability available on:
-- X670-G2
-- X770
-- X690
-- X870
+This XMOD application is intended for use by Extreme customers to provide support for transceivers
+on EXOS products without need to upgrade EXOS image.  Support for those transceivers will be added
+via the Optics XMOD without having to wait for a future EXOS release.
 
 This application works best when combined with Extreme Management Center. http://www.extremenetworks.com/product/management-center/
 
 
 ## Requirements
-- ExtremeXOS 21.1.1.4 or later
-- ExtremeSwitch X670-G2
-- ExtremeSwitch X770
-- ExtremeSwitch X690
-
-## Updates in 2.0.0.3
-- Interoperates with Extreme Fabric
-    - start --fabric
-- Automatic L2 VXLAN for all VLANS
-    - start --allvlans
-
-## Application Highlights:
-- See User Documentation for details
+- ExtremeXOS 30.2 or later, on any of following platforms:
+- ExtremeSwitch X465-24MU 
+- ExtremeSwitch X465-24MU-24W  
+- ExtremeSwitch X465-24W 
+- ExtremeSwitch X465-48P
+- ExtremeSwitch X465-48T 
+- ExtremeSwitch X465-48W  
+- ExtremeSwitch X590-24t-1q-2c 
+- ExtremeSwitch X590-24x-1q-2c 
+- ExtremeSwitch X690-48t-2q-4c 
+- ExtremeSwitch X690-48x-2q-4c 
+- ExtremeSwitch X870-32c 
+- ExtremeSwitch X870-96x-8c
+ 
 
 ## Download
 EXOS offers a variety of download methods. All of the methods below assume the EXOS switch has been configured with an IP address either on the `mgmt` VLAN (for the management port) or `default` VLAN (for the front panel ports).
 ### Download over tftp
-To download summitX-ezvxlan-1.0.0.6.xmod to an EXOS switch running ExtremeXOS 21.1 or later, place the file in a server tftp directory.
+To download onie-30.2.0.X-optics.xmod to an EXOS switch running ExtremeXOS 32.2 or later, place the file in a server tftp directory.
 
 #### Download tftp over management port
 Enter the EXOS CLI command:
-- download image _serverIP_ summitX-ezvxlan-2.0.0.3.xmod
+- download image _serverIP_onie-30.2.0.X-optics.xmod 
 
 E.g.
-`download image 10.10.10.1 summitX-ezvxlan-2.0.0.3.xmod`
+`download image 10.10.10.1 onie-30.2.0.X-optics.xmod`
 
 #### Download tftp over front panel port
 Enter the EXOS CLI command:
-- download image _serverIP_ summitX-ezvxlan-2.0.0.3.xmod vr VR-Default
+- download image _serverIP_ onie-30.2.0.X-optics.xmod vr VR-Default
 
 E.g.
-`download image 10.10.10.1 summitX-ezvxlan-2.0.0.3.xmod vr VR-Default`
+`download image 10.10.10.1 onie-30.2.0.X-optics.xmod vr VR-Default`
 
 ### Download over http
 EXOS can download files from a web site using http. 
@@ -58,18 +52,18 @@ Example starting a simple python web server on port 8000
 cd <directory>
 python -m SimpleHTTPServer 8000
 ```
-Copy summitX-ezvxlan-2.0.0.3.xmod to _directory_ used in the example above.
+Copy onie-30.2.0.X-optics.xmod to _directory_ used in the example above.
 #### Download http over management port
 Enter the EXOS CLI command:
-- download url http://_serverIP_/summitX-ezvxlan-2.0.0.3.xmod
+- download url http://_serverIP_/onie-30.2.0.X-optics.xmod
 
-E.g. `download url http://10.10.10.1/summitX-ezvxlan-2.0.0.3.xmod`
+E.g. `download url http://10.10.10.1/onie-30.2.0.X-optics.xmod`
 
 #### Download http over front panel port
 Enter the EXOS CLI command:
-- download url http://_serverIP_/summitX-ezvxlan-2.0.0.3.xmod vr VR-Default
+- download url http://_serverIP_/onie-30.2.0.X-optics.xmod vr VR-Default
 
-E.g. `download url http://10.10.10.1/summitX-ezvxlan-2.0.0.3.xmod vr VR-Default`
+E.g. `download url http://10.10.10.1/onie-30.2.0.X-optics.xmod vr VR-Default`
 
 ### Download using EXOS web (Chalet)
 - Using your browser, download summitX-ezvxlan-2.0.0.3.xmod from github to your PC. 
