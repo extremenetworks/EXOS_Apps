@@ -16,6 +16,11 @@ The EXOS CloudConnector v3.2.5.12 is the default version included in EXOS 22.7, 
 - [summitX-cloud_connector-3.2.5.12.xmod](summitX-cloud_connector-3.2.5.12.xmod?raw=true)
 - [onie-cloud_connector-3.2.5.12.xmod](onie-cloud_connector-3.2.5.12.xmod?raw=true)
 
+#### EXOS CloudConnector v3.2.5.16 for use with Extreme Management Center 8.x
+The EXOS CloudConnector v3.2.5.16 fixes a couple of issues with the default v3.2.5.12 version.  The EXOS CloudConnector v3.2.5.16 is the recommended version.
+- [summitX-cloud_connector-3.2.5.16.xmod](summitX-cloud_connector-3.2.5.16.xmod?raw=true)
+- [onie-cloud_connector-3.2.5.16.xmod](onie-cloud_connector-3.2.5.16.xmod?raw=true)
+
 ### EXOS CloudConnector v3.0.34.65 for use with Extreme Management Center 8.x
 The EXOS CloudConnector v3.0.34.65 is compatible with all EXOS releases from EXOS 21.x to 22.6.
 - [summitX-cloud_connector-3.0.34.65.xmod](summitX-cloud_connector-3.0.34.65.xmod?raw=true)
