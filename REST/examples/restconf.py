@@ -17,7 +17,7 @@ import requests
 import xml.etree.ElementTree as ET
 
 RESTCONF = 'restconf'
-_version_ = '1.1.1.0'
+_version_ = '1.1.1.1'
 
 #
 # This class contains the specifics of constructing a REST message and
@@ -126,7 +126,7 @@ class Restconf(object):
 
             # collect the HTTP headers
             headers = {}
-            headers['Content-Type'] = 'text/html,application/xhtml+xml,application/xml'
+            headers['Content-Type'] = 'application/json'
             if self.token:
                 headers['X-Auth-Token'] = self.token
 
