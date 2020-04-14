@@ -3,6 +3,7 @@ These directories contain information about the EXOS REST API.
 
 ## User Documentation
 [EXOS RESTCONF Developer Guide](https://documentation.extremenetworks.com/exos_restconf_30.6/EXOS_RESTCONF_Developer_Guide_30_6.pdf)
+
 [EXOS REST API Reference Documentation](http://api.extremenetworks.com/EXOS/ProgramInterfaces/RESTCONF/RESTCONF.html)
 
 
