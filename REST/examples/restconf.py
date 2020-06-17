@@ -15,9 +15,12 @@
 
 import requests
 import xml.etree.ElementTree as ET
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
 
 RESTCONF = 'restconf'
-_version_ = '1.1.1.1'
+_version_ = '1.2.0.0'
 
 #
 # This class contains the specifics of constructing a REST message and
@@ -150,31 +153,44 @@ class Restconf(object):
     def auth(self):
         if self.token:
             return
-        try:
-            response = requests.post('http://{0}/auth/token/'.format(self.ipaddress),
-                headers={'Content-Type': 'application/json'},
-                json={'username':self.username, 'password':self.password})
-            self.token =  response.json().get('token')
-        except Exception as e:
-            print e
+
+        for protocol in ['https', 'http']:
+            try:
+                response = requests.post('{protocol}://{ipaddress}/auth/token/'.format(protocol=protocol, ipaddress=self.ipaddress),
+                    headers={'Content-Type': 'application/json'},
+                    json={'username':self.username, 'password':self.password},
+                    verify=False)
+                self.token =  response.json().get('token')
+                break
+            except Exception as e:
+                continue
+        else:
             raise
+
         if self.token is None:
             raise IOError('Login username/password is incorrect')
 
     def get_top_url(self):
         if self.top_url:
             return
-        try:
-            response = requests.get('http://{0}/.well-known/host-meta/'.format(self.ipaddress),
-                headers={'Content-Type': 'application/xrd+xml'})
-        except Exception as e:
-            print e
+
+        for protocol in ['https', 'http']:
+            try:
+                response = requests.get('{protocol}://{ipaddress}/.well-known/host-meta/'.format(protocol=protocol, ipaddress=self.ipaddress),
+                    headers={'Content-Type': 'application/xrd+xml'},
+                    verify=False)
+                break
+            except Exception as e:
+                continue
+        else:
             raise
+
         root = ET.fromstring(response.text)
         for child in root:
             if child.attrib.get('rel') == RESTCONF:
                 self.top_url = child.attrib.get('href')
                 break
+
         if self.token is None:
             self.top_url = ''
             raise IOError('Unknown /.well-known/host-meta/ for restconf')
